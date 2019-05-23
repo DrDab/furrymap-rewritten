@@ -5,5 +5,6 @@ CREATE TABLE locationdatabase (
   `description` VARCHAR(255) NULL,
   `profileurl` VARCHAR(255),
   `latitude` DOUBLE,
-  `longitude` DOUBLE
+  `longitude` DOUBLE,
+  `opacity` INT NULL
   );
