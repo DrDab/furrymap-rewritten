@@ -7,4 +7,4 @@ CREATE TABLE userdatabase (
   `gender` TINYINT NULL,
   `language` VARCHAR(255) NULL,
   `countryflag` VARCHAR(255) NULL,
-  `profilepicid` VARCHAR(255) NULL) CHARACTER SET = utf8;;
+  `profilepicid` VARCHAR(255) NULL) CHARACTER SET utf8 COLLATE utf8_general_ci;

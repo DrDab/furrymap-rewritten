@@ -7,4 +7,4 @@ CREATE TABLE locationdatabase (
   `latitude` DOUBLE,
   `longitude` DOUBLE,
   `opacity` INT NULL
-  ) CHARACTER SET = utf8;;
+  ) CHARACTER SET utf8 COLLATE utf8_general_ci;

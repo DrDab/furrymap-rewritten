@@ -16,7 +16,7 @@ public class OwOUwUOwO
 {
 	public static Connection sqlConnection = null;
 	
-	public static final String CONNECTION_ADDRESS = "jdbc:mysql://localhost/FurryMapSchema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	public static final String CONNECTION_ADDRESS = "jdbc:mysql://localhost/FurryMapSchema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=UTF-8";
 	public static final String USER_TABLE_NAME = "userdatabase";
 	public static final String LOCATION_TABLE_NAME = "locationdatabase";
 	public static final String SQL_LOGIN = "root";
@@ -28,9 +28,13 @@ public class OwOUwUOwO
 		
 		String jsonData = getJSONDataFromFile("combined.json");
 		ArrayList<Furry> owo = getFurryList(jsonData);
+		PreparedStatement setter = sqlConnection.prepareStatement("SET NAMES utf8");
+		setter.execute();
+		int i = 0;
 		for (Furry furry : owo)
 		{
-			String query = "SET NAMES utf8; INSERT INTO " + LOCATION_TABLE_NAME + " (locationid, accountid, username, description, profileurl, latitude, longitude, opacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			System.out.println(i + "/"  + owo.size());
+			String query = "INSERT INTO " + LOCATION_TABLE_NAME + " (locationid, accountid, username, description, profileurl, latitude, longitude, opacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
 			stmt.setLong(1, Long.parseLong(furry.getID().substring(1)));
 			stmt.setLong(2, furry.getAccountId());
@@ -41,6 +45,7 @@ public class OwOUwUOwO
 			stmt.setDouble(7, furry.getLongitude());
 			stmt.setInt(8, furry.getOpacityFactor());
 			stmt.execute();
+			i++;
 		}	
 	}
 	
