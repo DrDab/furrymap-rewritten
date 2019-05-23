@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<link rel="alternate" type="application/rss+xml" title="FurryMap.net RSS Feed" href="https://furrymap.net/ru/marker/rss" />
+<script type="text/javascript">
+if(screen.width>640) {	
+	if(top.location.pathname == self.location.pathname) {
+		location.replace(self.location.protocol+"//"+self.location.host+"/?goto="+self.location.pathname);
+	}
+}
+var FurryMap = {};
+var FML = {
+	go: function(fu) {
+		var args = [];
+		var f = fu;
+		if (parent.FurryMap) {
+			FurryMap = parent.FurryMap;
+			f.apply(document, args);
+		} else {
+			parent.onload = function() {
+				if (parent.FurryMap) {
+					FurryMap = parent.FurryMap;
+					f.apply(document, args);
+}}}}};
+FML.go(function(){
+	FurryMap.setClickHandler(false);
+	FurryMap.clearTempLayers();
+});
+var $ = function(name) {
+	return document.getElementById(name);
+}
+var Minimizer = function() {
+	var minimizer = $('bottom_minimizer');
+	if (minimizer) {
+		minimizer.onclick = function () {
+			if($('bottom_innercontent').style.display != 'none') {
+				$('bottom_innercontent').style.display = 'none';
+			} else {
+				$('bottom_innercontent').style.display = 'block';
+			}
+			if($('bottom_minimizer').className == 'minimizer_button') {
+				$('bottom_minimizer').className = 'maximizer_button';
+			} else {
+				$('bottom_minimizer').className = 'minimizer_button';
+			}
+			if ($('middle_scroller') && $('bottom_content')) {
+				$('middle_scroller').style.bottom = ($('bottom_content').offsetHeight+25)+"px";
+			}
+		};
+	}
+}
+</script>
+<style type="text/css"> 
+body {
+	background: url('/images/background.png') 320px 0px repeat-y;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="title" content="FurryMap.net" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="furrymap" />
+<meta name="keywords" content="furrymap" />
+<meta name="language" content="en" />
+
+<title>FurryMap.net</title>
+
+<link rel="shortcut icon" href="/favicon.ico" />
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<link rel="stylesheet" type="text/css" media="screen" href="/css/css.php?files=main.css" />
+</head>
+<body>
+
+<div id="fullcontent_topmiddle">
+	<div id="middle_scroller">
+		<div id="middle_content">
+			<div style="line-height: 15px; padding:9px;">
+				Furrymap.net - новый сервис для регистрации пушистиков со всего мира. Зарегистрируйтесь и найдите других пушистиков, живущих около вас или на другом конце света! <br/>
+				<br/>
+								<b>Список</b><br/>
+				Здесь можно найти всех пушистиков и их точки, размещенные на карте. Можно сортировать в алфавитном порядке, по дате или измерить их расстояние от точки на карте.<br/>
+				<br/>
+				<b>Поиск</b><br/>
+				Мощный поиск поможет вам найти все: других пушистиков, маркеры, названия городов и дорог. Поиск подскажет вам, где их найти.<br/>
+				<br/>
+				<b>Ваш профиль</b><br/>
+				Создайте свой профиль и добавьте контактную информацию, чтобы вас могли найти. Выберите, какие данные будут доступны всем, какие - зарегистрированным пользователям, а какие - только друзьям.<br/>
+				<br/>
+				<b>Ваши точки</b><br/>
+				Вы можете добавить сколько угодно точек. Вы можете указать, где вы живете, или отметить место следующей встречи фуррей. Как и в случае с данными профиля, вы можете выбрать видимость каждой точки в отдельности. Если вы не хотите показывать точное расположение, просто отдалите карту и только потом разместите точку - тогда она будет исчезать при приближении карты.<br/>
+				<br/>
+								<b>Другие карты</b><br/>
+				Стоит упомянуть предшественников этой фуррёвой карты. Вы можете посмотреть на карты фуррей <a href="http://www.furry.de/eisfuchs/mapview.html" target="_blank">Германии</a>, <a href="http://furmap.ath.cx/?lang=en" target="_blank">Франции</a> и <a href="http://www.furry.dk/" target="_blank">Дании</a>.<br/>
+			</div>
+		</div>
+	</div>
+	<div id="fullcontent_top">
+	<div id="topbar">
+	<div id="top_button1" class="button green">
+		<a id="top_button1_link" href="/ru/main/list">Список</a>
+	</div>
+	<div id="top_button2" class="button gray">
+		<a id="top_button2_link" href="/ru/main/info">Информация</a>
+	</div>
+	<div id="top_button3" class="button green">
+		<a id="top_button3_link" href="/ru/search/">Поиск</a>
+	</div>
+</div>
+		<div id="top_content" style="font-weight:normal">
+			<b><a href="/ru/main/info">Что это?</a></b> |
+			<a href="/ru/main/blog">Блог</a> |
+			<a href="/ru/main/faq">ЧаВо</a> <br/>
+			<a href="/ru/main/thanks">Благодарим</a>		</div>
+	</div>
+</div>
+<div id="fullcontent_bottom">
+	<div id="bottom_content">
+	<div id="bottom_minimizer" class="minimizer_button">
+	</div>
+	<script type="text/javascript">
+		Minimizer();		
+	</script>
+	<div id="bottom_innercontent" style="padding:9px;left:0px;right:0px">
+		Furrymap.net содержит <br/> 16825 Фурри и 14958 маркеров.<br/>
+				<a href="/ru/useragreement" id="register_link" target="_top">Присоединяйся!</a>
+			</div>
+</div>
+<div id="bottombar">
+	<div id="bottom_button1" class="button green">
+				<a href="/ru/login" id="bottom_button1_link">Логин</a>
+			</div>
+	<div id="bottom_button2" class="button green">
+		<a href="/ru/myprofile" id="bottom_button2_link">Профиль</a>
+	</div>
+	<div id="bottom_button3" class="button green">
+		<a href="/ru/marker/mylist" id="bottom_button3_link">Точки</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+window.onload = function() {
+	window.setTimeout(function() {
+		$('middle_scroller').style.bottom = ($('bottom_content').offsetHeight+25)+"px";
+		var links = document.getElementsByTagName("a");
+		var r13 = function (text)
+		{
+			var keycode	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			var textrot	= new String();
+			for(var i = 0; i < text.length; i++)
+			{
+				var codechar = text.substring(i, i + 1);
+				var pos = keycode.indexOf(codechar.toUpperCase());
+
+				if(pos >= 0)
+				{
+					pos = (pos + keycode.length / 2) % keycode.length;
+					codechar = (codechar == codechar.toUpperCase()) ? keycode.substring(pos, pos + 1) : keycode.substring(pos, pos + 1).toLowerCase();
+				}
+				textrot	= textrot + codechar;
+			}
+			return textrot;
+		}
+		for (var link in links) {
+			if (links[link].href && links[link].href.match(/\/profile\/-/)) {
+				var text = links[link].href.match(/\/profile\/-([a-zA-Z0-9_-]+)\/?/)
+				if (text.length != 2) continue;
+				var orig = r13(text[1]);
+				links[link].href = links[link].href.replace("-"+text[1],orig);
+				links[link].style.display = 'inline';
+				//alert(links[link].href);
+			}
+		}
+	}, 0);
+};
+</script></div>
+
+</body>
+</html>

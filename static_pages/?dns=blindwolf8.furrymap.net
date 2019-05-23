@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<link rel="alternate" type="application/rss+xml" title="FurryMap.net RSS Feed" href="https://furrymap.net/en/marker/rss" />
+<script type="text/javascript">
+	location.href=decodeURIComponent("https$3A$2F$2Ffurrymap.net$2Fprofile$2FBlindWolf8$2F".replace(/\$/g,"%"));
+</script>
+<meta name="ICBM" content="39.8847,-75.01" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="title" content="FurryMap.net" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="furrymap" />
+<meta name="keywords" content="furrymap" />
+<meta name="language" content="en" />
+
+<title>FurryMap.net</title>
+
+<link rel="shortcut icon" href="/favicon.ico" />
+
+<link rel="stylesheet" type="text/css" media="screen" href="/css/css.php?files=main.css" />
+</head>
+<body>
+
+If you are not redirected, click <a href="https://furrymap.net/profile/BlindWolf8">here</a>
+</body>
+</html>

@@ -29,6 +29,8 @@ public class JsonAPIServlet extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		// TODO Auto-generated method stub
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		
 		String requestURI = request.getRequestURI();
 		String requestURIParts = request.getRequestURI()
 				.substring(requestURI.indexOf("FurryMapRewritten/en/marker/list/type"));

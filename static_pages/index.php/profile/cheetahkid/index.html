@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<link rel="alternate" type="application/rss+xml" title="FurryMap.net RSS Feed" href="https://furrymap.net/en/marker/rss" />
+<meta http-equiv="X-XRDS-Location" content="https://furrymap.net/openid/userxrds/user/cheetahkid" />
+<link rel="openid2.local_id" href="http://cheetahkid.furrymap.net/" />
+<link rel="openid.delegate" href="http://cheetahkid.furrymap.net/" />
+<meta name="ICBM" content="53.7938,-1.72196" />
+<script type="text/javascript">
+if(screen.width>640) {	
+	if(top.location.pathname == self.location.pathname) {
+		location.replace(self.location.protocol+"//"+self.location.host+"/?goto="+self.location.pathname);
+	}
+}
+var FurryMap = {};
+var FML = {
+	go: function(fu) {
+		var args = [];
+		var f = fu;
+		if (parent.FurryMap) {
+			FurryMap = parent.FurryMap;
+			f.apply(document, args);
+		} else {
+			parent.onload = function() {
+				if (parent.FurryMap) {
+					FurryMap = parent.FurryMap;
+					f.apply(document, args);
+}}}}};
+FML.go(function(){
+	FurryMap.setClickHandler(false);
+	FurryMap.clearTempLayers();
+});
+var $ = function(name) {
+	return document.getElementById(name);
+}
+var Minimizer = function() {
+	var minimizer = $('bottom_minimizer');
+	if (minimizer) {
+		minimizer.onclick = function () {
+			if($('bottom_innercontent').style.display != 'none') {
+				$('bottom_innercontent').style.display = 'none';
+			} else {
+				$('bottom_innercontent').style.display = 'block';
+			}
+			if($('bottom_minimizer').className == 'minimizer_button') {
+				$('bottom_minimizer').className = 'maximizer_button';
+			} else {
+				$('bottom_minimizer').className = 'minimizer_button';
+			}
+			if ($('middle_scroller') && $('bottom_content')) {
+				$('middle_scroller').style.bottom = ($('bottom_content').offsetHeight+25)+"px";
+			}
+		};
+	}
+}
+</script>
+<style type="text/css"> 
+body {
+	background: url('/images/background.png') 320px 0px repeat-y;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="title" content="FurryMap.net" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="furrymap" />
+<meta name="keywords" content="furrymap" />
+<meta name="language" content="en" />
+
+<title>FurryMap.net</title>
+
+<link rel="shortcut icon" href="/favicon.ico" />
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script type="text/javascript" src="/js/js.php?files=OpenLayersMini.js,OSMMini.js,furrymapMin.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="/css/css.php?files=main.css" />
+</head>
+<body>
+
+<div id="fullcontent_topmiddle">
+	<div id="middle_scroller">
+		<div id="middle_content">
+			<h3 style="padding: 9px 9px 0px 9px;">
+	About me</h3>
+<div style="line-height: 19px; padding-top:5px; padding-bottom:5px">
+</div>
+<hr/>
+			<h3 style="padding: 9px 9px 0px 9px;">
+	Reallife</h3>
+<div style="line-height: 19px; padding-top:5px; padding-bottom:5px">
+	<div style="padding: 2px 9px 2px 9px; line-height: 14px; ">
+		United Kingdom	</div>
+</div>
+<hr/>
+			
+						<h3 style="padding: 9px 9px 0px 9px;">Markers</h3>
+			<div id="markersitems">
+		<div style="line-height: 20px; cursor:pointer" id="marker_366">
+			<div style="margin: 0px 2px; padding: 8px 7px; ">
+				<small style="float: right; line-height: 12px">
+																		<img src="/images/home.png" />
+															</small>
+								<a href="/profile/-purrgnuxvq" id="useravatar_of_366" style="display: none">
+													<img src="/images/avatar/311.png?1219583124" style="border: 1px solid #ffffff; float: left; margin-right:9px;" width="40" height="40"/>
+				</a>
+									<b><a href="/profile/-purrgnuxvq" id="user_of_366" style="display: none">cheetahkid</a>: 
+								Cheetah Kid</b><br />
+				<small style="float: right;">
+					<a href="http://maps.google.com/maps?f=d&hl=en&mra=ls&daddr=53.7938,-1.72196&z=16" target="_blank"><img src="/images/car.png" alt="Get route with Google Maps" title="Get route with Google Maps"></a>
+									</small>
+				<small>53° 47′ 37.6″ N -1° 43′ 19″ E 									</small>
+			</div>
+			<script type="text/javascript">
+				$('marker_366').onclick = function() {
+					FML.go(function() {
+						FurryMap.center(-1.72196,53.7938,16);
+					});
+				}
+							</script>
+			<hr style="clear: both"/>
+		</div>
+</div>
+			<h3 style="padding: 9px 9px 0px 9px;">Friends</h3>
+								<div style="padding:9px;">No Friends were found.</div>
+			</div>
+	</div>
+	<div id="fullcontent_top">
+	<div id="topbar">
+	<div id="top_button1" class="button green">
+		<a id="top_button1_link" href="/en/main/list">List</a>
+	</div>
+	<div id="top_button2" class="button green">
+		<a id="top_button2_link" href="/en/main/info">Info</a>
+	</div>
+	<div id="top_button3" class="button green">
+		<a id="top_button3_link" href="/en/search/">Search</a>
+	</div>
+</div>
+		<div id="top_content">
+			<span style="float: right; margin-right: 9px">&nbsp;			<img src="/images/flags/gb.png" alt="United Kingdom" title="United Kingdom"/> 			<img src="/images/male.png" alt="male"/> </span>
+						Profile of cheetahkid:
+		</div>
+	</div>
+</div>
+<div id="fullcontent_bottom">
+	<div id="bottom_content">
+		<div id="bottom_minimizer" class="minimizer_button">
+		</div>
+		<script type="text/javascript">
+			Minimizer();
+		</script>
+		<div id="bottom_innercontent" style="padding:9px;left:0px;right:0px">
+						Link to this profile:			<a href="http://cheetahkid.furrymap.net/">http://cheetahkid.furrymap.net/</a>
+		</div>
+	</div>
+	<div id="bottombar">
+	<div id="bottom_button1" class="button green">
+				<a href="/en/login" id="bottom_button1_link">Login</a>
+			</div>
+	<div id="bottom_button2" class="button green">
+		<a href="/en/myprofile" id="bottom_button2_link">Profile</a>
+	</div>
+	<div id="bottom_button3" class="button green">
+		<a href="/en/marker/mylist" id="bottom_button3_link">Markers</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+window.onload = function() {
+	window.setTimeout(function() {
+		$('middle_scroller').style.bottom = ($('bottom_content').offsetHeight+25)+"px";
+		var links = document.getElementsByTagName("a");
+		var r13 = function (text)
+		{
+			var keycode	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			var textrot	= new String();
+			for(var i = 0; i < text.length; i++)
+			{
+				var codechar = text.substring(i, i + 1);
+				var pos = keycode.indexOf(codechar.toUpperCase());
+
+				if(pos >= 0)
+				{
+					pos = (pos + keycode.length / 2) % keycode.length;
+					codechar = (codechar == codechar.toUpperCase()) ? keycode.substring(pos, pos + 1) : keycode.substring(pos, pos + 1).toLowerCase();
+				}
+				textrot	= textrot + codechar;
+			}
+			return textrot;
+		}
+		for (var link in links) {
+			if (links[link].href && links[link].href.match(/\/profile\/-/)) {
+				var text = links[link].href.match(/\/profile\/-([a-zA-Z0-9_-]+)\/?/)
+				if (text.length != 2) continue;
+				var orig = r13(text[1]);
+				links[link].href = links[link].href.replace("-"+text[1],orig);
+				links[link].style.display = 'inline';
+				//alert(links[link].href);
+			}
+		}
+	}, 0);
+};
+</script></div>
+
+</body>
+</html>
