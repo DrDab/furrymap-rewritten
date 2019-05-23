@@ -30,7 +30,7 @@ public class OwOUwUOwO
 		ArrayList<Furry> owo = getFurryList(jsonData);
 		for (Furry furry : owo)
 		{
-			String query = "INSERT INTO " + LOCATION_TABLE_NAME + " (locationid, accountid, username, description, profileurl, latitude, longitude, opacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			String query = "SET NAMES utf8; INSERT INTO " + LOCATION_TABLE_NAME + " (locationid, accountid, username, description, profileurl, latitude, longitude, opacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
 			stmt.setLong(1, Long.parseLong(furry.getID().substring(1)));
 			stmt.setLong(2, furry.getAccountId());
