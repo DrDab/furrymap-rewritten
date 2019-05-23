@@ -1,6 +1,8 @@
 package com.openhorizonsolutions;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -55,9 +57,21 @@ public class JsonAPIServlet extends HttpServlet
 			JSONObject geojson = new JSONObject();
 			geojson.put("type", "FeatureCollection");
 
-			JSONArray features = new JSONArray();
+			//JSONArray features = new JSONArray();
 
 			// collect furry data and put into an array.
+			JSONArray features;
+			try 
+			{
+				features = IOUtils.getJSONArrayOfCombinedFurryLocations();
+			}
+			catch (SQLException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				features = new JSONArray();
+			}
+			/*
 			String archivedata = IOUtils.getJSONDataFromFile(getServletContext().getRealPath("") + "/combined.json");
 			JSONObject archiveJsonObject = new JSONObject(archivedata);
 			JSONObject combined2 = (JSONObject) archiveJsonObject.get("combined");
@@ -69,6 +83,7 @@ public class JsonAPIServlet extends HttpServlet
 				JSONArray furryProfile = furryList2.getJSONArray(i);
 				features.put(furryProfile);
 			}
+			*/
 
 			// end algorithmic shit, fuck yeah bitches!
 
