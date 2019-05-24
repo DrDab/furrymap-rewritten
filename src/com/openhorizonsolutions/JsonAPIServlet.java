@@ -30,6 +30,7 @@ public class JsonAPIServlet extends HttpServlet
 	{
 		// TODO Auto-generated method stub
 		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.setCharacterEncoding("UTF-8");
 		
 		String requestURI = request.getRequestURI();
 		String requestURIParts = request.getRequestURI()

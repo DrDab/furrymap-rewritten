@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,26 +17,24 @@ public class OwOUwUOwO
 {
 	public static Connection sqlConnection = null;
 	
-	public static final String CONNECTION_ADDRESS = "jdbc:mysql://localhost/FurryMapSchema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=UTF-8";
+	public static final String CONNECTION_ADDRESS = "jdbc:mysql://localhost/FurryMapSchema?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=UTF-8";
 	public static final String USER_TABLE_NAME = "userdatabase";
 	public static final String LOCATION_TABLE_NAME = "locationdatabase";
 	public static final String SQL_LOGIN = "root";
 	public static final String SQL_PASSWORD = "";
 	
-	public static void main(String[] args) throws SQLException
+	public static void main(String[] args) throws SQLException, UnsupportedEncodingException
 	{
 		initConnection();
 		
 		String jsonData = getJSONDataFromFile("combined.json");
 		ArrayList<Furry> owo = getFurryList(jsonData);
-		PreparedStatement setter = sqlConnection.prepareStatement("SET NAMES utf8");
-		setter.execute();
+		String query = "INSERT INTO " + LOCATION_TABLE_NAME + " (locationid, accountid, username, description, profileurl, latitude, longitude, opacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement stmt = sqlConnection.prepareStatement(query);
+		stmt.executeQuery("SET NAMES utf8mb4");
 		int i = 0;
 		for (Furry furry : owo)
 		{
-			System.out.println(i + "/"  + owo.size());
-			String query = "INSERT INTO " + LOCATION_TABLE_NAME + " (locationid, accountid, username, description, profileurl, latitude, longitude, opacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement stmt = sqlConnection.prepareStatement(query);
 			stmt.setLong(1, Long.parseLong(furry.getID().substring(1)));
 			stmt.setLong(2, furry.getAccountId());
 			stmt.setString(3, furry.getUserName());
@@ -46,6 +45,7 @@ public class OwOUwUOwO
 			stmt.setInt(8, furry.getOpacityFactor());
 			stmt.execute();
 			i++;
+			System.out.printf("%d of %d\n", i, owo.size());
 		}	
 	}
 	
@@ -79,32 +79,32 @@ public class OwOUwUOwO
 		}
 	}
 	
-	public static String getJSONDataFromFile(String location) 
-	{
-		try 
-		{
-			BufferedReader br = new BufferedReader(new FileReader(location));
-			String s = "";
-			String tmp = "";
-			try 
-			{
-				while ((tmp = br.readLine()) != null)
-				{
-					s += tmp;
-				}
-			} 
-			catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
-			return s;
-		} 
-		catch (FileNotFoundException e) 
-		{
-			e.printStackTrace();
-			return null;
-		}
-	}
+	public static String getJSONDataFromFile(String location)
+    {
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader(location));
+            String s = "";
+            String tmp = "";
+            try
+            {
+                while((tmp = br.readLine()) != null)
+                {
+                    s += tmp;
+                }
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            return s;
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 	
 	@SuppressWarnings("unused")
@@ -139,6 +139,5 @@ public class OwOUwUOwO
             return null;
         }
     }
-
 
 }

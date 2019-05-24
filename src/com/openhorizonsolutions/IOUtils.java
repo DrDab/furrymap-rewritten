@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 
 public class IOUtils 
@@ -23,7 +24,7 @@ public class IOUtils
 
 	private static HashMap<String, Long> apiKeyList;
 
-	public static final String CONNECTION_ADDRESS = "jdbc:mysql://localhost/FurryMapSchema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	public static final String CONNECTION_ADDRESS = "jdbc:mysql://localhost/FurryMapSchema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=UTF-8";
 	public static final String USER_TABLE_NAME = "userdatabase";
 	public static final String LOCATION_TABLE_NAME = "locationdatabase";
 	public static final String SQL_LOGIN = "root";
@@ -225,6 +226,7 @@ public class IOUtils
 		initConnection();
 		String query = "SELECT * FROM " + LOCATION_TABLE_NAME;
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
+		stmt.executeQuery("SET NAMES utf8mb4");
 		ResultSet rs = stmt.executeQuery();
 		JSONArray toReturn = new JSONArray();
 		int id = 0;
@@ -233,8 +235,9 @@ public class IOUtils
 			JSONArray tmpLoc = new JSONArray();
 			long locationId = rs.getLong("locationid");
 			long accountId = rs.getLong("accountid");
+			@SuppressWarnings("deprecation")
 			String username = rs.getString("username");
-			String description = rs.getString("description");
+			String description = (rs.getString("description"));
 			String profileUrl = rs.getString("profileurl");
 			double latitude = rs.getDouble("latitude");
 			double longitude = rs.getDouble("longitude");
