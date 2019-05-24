@@ -58,7 +58,7 @@ label.fixedwidth2 {
 }
 
 .openIDlogin input {
-	background: #FFFFFF url('/web/20190311014620im_/https://www.furrymap.net/images/openid-icon-small.gif') no-repeat scroll 0pt 50%;
+	background: #FFFFFF url('/images/openid-icon-small.gif') no-repeat scroll 0pt 50%;
 	padding-left: 18px;
 	width: 140px;
 }
@@ -106,7 +106,7 @@ body
 	top: 40px;
 	bottom: 0px;
 	width: 200px;
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/background.png') -80px 0px repeat-y;
+	background: url('/images/background.png') -80px 0px repeat-y;
 	margin: 0px;
 	padding-left: 22px;
 }
@@ -133,7 +133,7 @@ body
 .leftbox_infobox {
 	float: right;
 	width: 200px;
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/background.png') 0px 0px repeat-y;
+	background: url('/images/background.png') 0px 0px repeat-y;
 	padding: 5px;
 }
 
@@ -153,7 +153,7 @@ body
 	width: 336px;
 	right: 0px;
 	bottom: 19px;
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/background.png') 320px 0px repeat-y;
+	background: url('/images/background.png') 320px 0px repeat-y;
 }
 
 #titleimage {
@@ -162,7 +162,7 @@ body
 	left: 0px;
 	width: 240px;
 	height: 95px;
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/title.gif') 0px 0px no-repeat #fff;
+	background: url('/images/title.gif') 0px 0px no-repeat #fff;
 }
 
 #indicator {
@@ -171,11 +171,11 @@ body
 	left: 240px;
 	width: 80px;
 	height: 95px;
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/animation_still.gif') 0px 0px no-repeat #fff;
+	background: url('/images/animation_still.gif') 0px 0px no-repeat #fff;
 }
 
 #indicator.animation {
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/animation.gif') 0px 0px no-repeat #fff;
+	background: url('/images/animation.gif') 0px 0px no-repeat #fff;
 }
 
 #flags {
@@ -238,7 +238,7 @@ body
 }
 
 #topbar .gray {
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/buttons.png') 0px -25px no-repeat;
+	background: url('/images/buttons.png') 0px -25px no-repeat;
 }
 
 #topbar .gray a, #bottombar .gray a  {
@@ -246,7 +246,7 @@ body
 }
 
 #topbar .green {
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/buttons.png') 0px 0px  no-repeat;
+	background: url('/images/buttons.png') 0px 0px  no-repeat;
 }
 
 #topbar .green a, #bottombar .green a {
@@ -254,7 +254,7 @@ body
 }
 
 #top_content {
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/box_parts.png') 0px 0px no-repeat;
+	background: url('/images/box_parts.png') 0px 0px no-repeat;
 	top: 25px;
 	left: 0px;
 	width: 280px;
@@ -278,7 +278,7 @@ body
 	right: 0px;
 	width: 100%;
 	overflow: auto;
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/background.png') repeat-y;
+	background: url('/images/background.png') repeat-y;
 }
 
 #middle_content {
@@ -308,17 +308,17 @@ body
 }
 
 #bottombar .gray {
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/buttons.png') 0px -75px no-repeat;
+	background: url('/images/buttons.png') 0px -75px no-repeat;
 }
 
 #bottombar .green {
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/buttons.png') 0px -50px no-repeat;
+	background: url('/images/buttons.png') 0px -50px no-repeat;
 }
 
 #bottom_content {
 	text-align: left;
 	position: absolute;
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/box_parts.png') 0px -40px no-repeat #bfbfbf;
+	background: url('/images/box_parts.png') 0px -40px no-repeat #bfbfbf;
 	bottom: 25px;
 	left: 0px;
 	width: 280px;
@@ -339,11 +339,11 @@ body
 }
 
 .minimizer_button {
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/minimize.png') 262px 0px no-repeat;
+	background: url('/images/minimize.png') 262px 0px no-repeat;
 }
 
 .maximizer_button {
-	background: url('/web/20190311014620im_/https://www.furrymap.net/images/maximize.png') 262px 0px no-repeat;
+	background: url('/images/maximize.png') 262px 0px no-repeat;
 }
 
 #bottombox {
@@ -375,7 +375,7 @@ body
 	background-color:#000000;  
 }
 .olPopupCloseBox {
-  background: url("/web/20190311014620im_/https://www.furrymap.net/images/cross.png") no-repeat;
+  background: url("/images/cross.png") no-repeat;
   cursor: pointer;
 }
 
@@ -385,7 +385,7 @@ body
 	top: 3px;
 	width: 16px;
 	height: 16px;
-	background: url("/web/20190311014620im_/https://www.furrymap.net/images/cross.png") no-repeat;
+	background: url("/images/cross.png") no-repeat;
 }
 
 .olControlOverviewMapContainer {

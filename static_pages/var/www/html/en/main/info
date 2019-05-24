@@ -1,0 +1,179 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+<link rel="alternate" type="application/rss+xml" title="FurryMap.net RSS Feed" href="http://web.archive.orgen/marker/rss"/>
+<script type="text/javascript">
+if(screen.width>640) {	
+	if(top.location.pathname == self.location.pathname) {
+		location.replace(self.location.protocol+"//"+self.location.host+"/?goto="+self.location.pathname);
+	}
+}
+var FurryMap = {};
+var FML = {
+	go: function(fu) {
+		var args = [];
+		var f = fu;
+		if (parent.FurryMap) {
+			FurryMap = parent.FurryMap;
+			f.apply(document, args);
+		} else {
+			parent.onload = function() {
+				if (parent.FurryMap) {
+					FurryMap = parent.FurryMap;
+					f.apply(document, args);
+}}}}};
+FML.go(function(){
+	FurryMap.setClickHandler(false);
+	FurryMap.clearTempLayers();
+});
+var $ = function(name) {
+	return document.getElementById(name);
+}
+var Minimizer = function() {
+	var minimizer = $('bottom_minimizer');
+	if (minimizer) {
+		minimizer.onclick = function () {
+			if($('bottom_innercontent').style.display != 'none') {
+				$('bottom_innercontent').style.display = 'none';
+			} else {
+				$('bottom_innercontent').style.display = 'block';
+			}
+			if($('bottom_minimizer').className == 'minimizer_button') {
+				$('bottom_minimizer').className = 'maximizer_button';
+			} else {
+				$('bottom_minimizer').className = 'minimizer_button';
+			}
+			if ($('middle_scroller') && $('bottom_content')) {
+				$('middle_scroller').style.bottom = ($('bottom_content').offsetHeight+25)+"px";
+			}
+		};
+	}
+}
+</script>
+<style type="text/css"> 
+body {
+	background: url('/images/background.png') 320px 0px repeat-y;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="title" content="FurryMap.net"/>
+<meta name="robots" content="noindex, nofollow"/>
+<meta name="description" content="furrymap"/>
+<meta name="keywords" content="furrymap"/>
+<meta name="language" content="en"/>
+
+<title>FurryMap.net</title>
+
+<link rel="shortcut icon" href="/web/20190418040314im_/https://furrymap.net/favicon.ico"/>
+<script src="http://web.archive.org/web/20190418040314js_/https://www.google.com/recaptcha/api.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css"/>
+</head>
+<body>
+
+<div id="fullcontent_topmiddle">
+	<div id="middle_scroller">
+		<div id="middle_content">
+			<div style="line-height: 15px; padding:9px;">
+				Furrymap.net is the new map and registration service for furries from all over the world.  Sign yourself up and find other furries nearby or on the other side of the world!<br/>
+				<br/>
+								<b>List</b><br/>
+				Here you find all furries and their markers, that are placed on the map. Sort them in alphabetical order or by date or measure their distance from a point on the map.<br/>
+				<br/>
+				<b>Search</b><br/>
+				A powerful search helps you to find everything: other furries, markers, towns and roads. The search tells you, where to find them.<br/>
+				<br/>
+				<b>Your profile</b><br/>
+				Create your own profile, so that everyone can find you and add contact information. Choose whether to let your data be viewed by everyone, just registered users, or just friends.<br/>
+				<br/>
+				<b>Your markers</b><br/>
+				You can add as many markers to this map as you want. Show where you live or where the next furmeet will be happen. Like your profile information, you can separately decide who can view you markers seperately. If you do not want to show the exact position, just zoom out and set your marker, it will vanish if people zoom in.<br/>
+				<br/>
+								<b>Other Maps</b><br/>
+				The predecessors of this furry map are worth a glance.  Take a look at the furry maps of <a href="http://web.archive.org/web/20190418040314/http://www.furry.de/eisfuchs/mapview.html" target="_blank">Germany</a>, <a href="http://web.archive.org/web/20190418040314/http://furmap.ath.cx/?lang=en" target="_blank">France</a> and <a href="http://web.archive.org/web/20190418040314/http://www.furry.dk/" target="_blank">Denmark</a>.<br/>
+			</div>
+		</div>
+	</div>
+	<div id="fullcontent_top">
+	<div id="topbar">
+	<div id="top_button1" class="button green">
+		<a id="top_button1_link" href="en/main/list">List</a>
+	</div>
+	<div id="top_button2" class="button gray">
+		<a id="top_button2_link" href="en/main/info">Info</a>
+	</div>
+	<div id="top_button3" class="button green">
+		<a id="top_button3_link" href="en/search/">Search</a>
+	</div>
+</div>
+		<div id="top_content" style="font-weight:normal">
+			<b><a href="en/main/info">What's this?</a></b> |
+			<a href="en/main/blog">Blog</a> |
+			<a href="en/main/faq">FAQ</a> <br/>
+			<a href="en/main/thanks">Thanks</a>		</div>
+	</div>
+</div>
+<div id="fullcontent_bottom">
+	<div id="bottom_content">
+	<div id="bottom_minimizer" class="minimizer_button">
+	</div>
+	<script type="text/javascript">
+		Minimizer();		
+	</script>
+	<div id="bottom_innercontent" style="padding:9px;left:0px;right:0px">
+		Furrymap.net contains <br/>[PLACEHOLDER] Furries with [PLACEHOLDER] markers. (XXXX archived, XXXX live)<br/>
+				<a href="en/useragreement" id="register_link" target="_top">Join today!</a>
+			</div>
+</div>
+<div id="bottombar">
+	<div id="bottom_button1" class="button green">
+				<a href="en/login" id="bottom_button1_link">Login</a>
+			</div>
+	<div id="bottom_button2" class="button green">
+		<a href="en/myprofile" id="bottom_button2_link">Profile</a>
+	</div>
+	<div id="bottom_button3" class="button green">
+		<a href="en/marker/mylist" id="bottom_button3_link">Markers</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+window.onload = function() {
+	window.setTimeout(function() {
+		$('middle_scroller').style.bottom = ($('bottom_content').offsetHeight+25)+"px";
+		var links = document.getElementsByTagName("a");
+		var r13 = function (text)
+		{
+			var keycode	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			var textrot	= new String();
+			for(var i = 0; i < text.length; i++)
+			{
+				var codechar = text.substring(i, i + 1);
+				var pos = keycode.indexOf(codechar.toUpperCase());
+
+				if(pos >= 0)
+				{
+					pos = (pos + keycode.length / 2) % keycode.length;
+					codechar = (codechar == codechar.toUpperCase()) ? keycode.substring(pos, pos + 1) : keycode.substring(pos, pos + 1).toLowerCase();
+				}
+				textrot	= textrot + codechar;
+			}
+			return textrot;
+		}
+		for (var link in links) {
+			if (links[link].href && links[link].href.match(/\/profile\/-/)) {
+				var text = links[link].href.match(/\/profile\/-([a-zA-Z0-9_-]+)\/?/)
+				if (text.length != 2) continue;
+				var orig = r13(text[1]);
+				links[link].href = links[link].href.replace("-"+text[1],orig);
+				links[link].style.display = 'inline';
+				//alert(links[link].href);
+			}
+		}
+	}, 0);
+};
+</script></div>
+
+</body>
+</html>
