@@ -12,11 +12,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class IOUtils 
 {
@@ -235,7 +237,6 @@ public class IOUtils
 			JSONArray tmpLoc = new JSONArray();
 			long locationId = rs.getLong("locationid");
 			long accountId = rs.getLong("accountid");
-			@SuppressWarnings("deprecation")
 			String username = rs.getString("username");
 			String description = (rs.getString("description"));
 			String profileUrl = rs.getString("profileurl");
@@ -254,5 +255,113 @@ public class IOUtils
 			id++;
 		}
 		return toReturn;
+	}
+	
+	public static JSONArray getJSONArrayOfSpecifiedFurryLocations(String listSelection, String listOrder, JSONObject otherParams) throws SQLException, NullPointerException
+	{
+		initConnection();
+		
+		String query = "SELECT * FROM " + LOCATION_TABLE_NAME;
+		
+		if (listSelection.equals("marker_alpha"))
+		{
+			// alphabetical ordered markers
+			query += " ORDER BY description " + (listOrder.equals("asc") ? "ASC" : "DESC");
+			query += ", username " + (listOrder.equals("asc") ? "ASC" : "DESC");
+			PreparedStatement stmt = sqlConnection.prepareStatement(query);
+			stmt.executeQuery("SET NAMES utf8mb4");
+			ResultSet rs = stmt.executeQuery();
+			JSONArray toReturn = new JSONArray();
+			int id = 0;
+			while (rs.next())
+			{
+				JSONArray tmpLoc = new JSONArray();
+				long locationId = rs.getLong("locationid");
+				long accountId = rs.getLong("accountid");
+				String username = rs.getString("username");
+				String description = (rs.getString("description"));
+				String profileUrl = rs.getString("profileurl");
+				double latitude = rs.getDouble("latitude");
+				double longitude = rs.getDouble("longitude");
+				int opacity = rs.getInt("opacity");
+				tmpLoc.put(0, longitude);
+				tmpLoc.put(1, latitude);
+				tmpLoc.put(2, "m" + locationId);
+				tmpLoc.put(3, description);
+				tmpLoc.put(4, opacity);
+				tmpLoc.put(5, username);
+				tmpLoc.put(6, profileUrl);
+				tmpLoc.put(7, accountId);
+				toReturn.put(id, tmpLoc);
+				id++;
+			}
+			return toReturn;
+		}
+		/*
+		 * remove ability to sort by date (for now)
+		else if (listSelection.equals("marker_date"))
+		{
+			// date ordered markers
+			query += " ORDER BY description " + (listOrder.equals("asc") ? "ASC" : "DESC");
+		}
+		*/
+		else if (listSelection.equals("marker_measure"))
+		{
+			// radius ordered markers
+			PreparedStatement stmt = sqlConnection.prepareStatement(query);
+			stmt.executeQuery("SET NAMES utf8mb4");
+			ResultSet rs = stmt.executeQuery();
+			JSONArray toReturn = new JSONArray();
+			ArrayList<FurryMarkerDistanceHandler> al = new ArrayList<FurryMarkerDistanceHandler>();
+			while (rs.next())
+			{
+				long locationId = rs.getLong("locationid");
+				long accountId = rs.getLong("accountid");
+				String username = rs.getString("username");
+				String description = (rs.getString("description"));
+				String profileUrl = rs.getString("profileurl");
+				double latitude = rs.getDouble("latitude");
+				double longitude = rs.getDouble("longitude");
+				int opacity = rs.getInt("opacity");
+				FurryMarker furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity);
+				
+				double searchLat = 0.0;
+				double searchLng = 0.0;
+				
+				if (otherParams != null)
+				{
+					searchLat = otherParams.getDouble("latitude");
+					searchLng = otherParams.getDouble("longitude");
+				}
+				else
+				al.add(new FurryMarkerDistanceHandler(furre, furre.distanceFromCoords(searchLat, searchLng)));
+			}
+			
+			Collections.sort(al);
+			if (!listOrder.equals("asc"))
+			{
+				Collections.reverse(al);
+			}
+			
+			int id = 0;
+			for (FurryMarkerDistanceHandler handler : al)
+			{
+				JSONArray tmpLoc = new JSONArray();
+				FurryMarker furre = handler.getFurry();
+				tmpLoc.put(0, furre.getLongitude());
+				tmpLoc.put(1, furre.getLatitude());
+				tmpLoc.put(2, "m" + furre.getLocationID());
+				tmpLoc.put(3, furre.getDescription());
+				tmpLoc.put(4, furre.getOpacityFactor());
+				tmpLoc.put(5, furre.getUserName());
+				tmpLoc.put(6, furre.getProfile());
+				tmpLoc.put(7, furre.getAccountId());
+				toReturn.put(id, tmpLoc);
+				id++;
+			}
+			return toReturn;
+		}
+		
+		return new JSONArray();
 	}
 }

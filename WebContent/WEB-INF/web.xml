@@ -14,7 +14,7 @@
     <servlet-class>com.openhorizonsolutions.JsonAPIServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-        <servlet-name>JsonAPIServlet</servlet-name>
-        <url-pattern>/en/marker/list/type/*</url-pattern>
+    <servlet-name>JsonAPIServlet</servlet-name>
+    <url-pattern>/en/marker/list/type/*</url-pattern>
   </servlet-mapping>
 </web-app>

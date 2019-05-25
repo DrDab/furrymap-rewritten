@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -42,7 +43,7 @@ public class JsonAPIServlet extends HttpServlet
 
 		JSONObject headNode = new JSONObject();
 
-		if (type.equals("combined")) 
+		if (type.equals("combined") || type.equals("all")) 
 		{
 			JSONObject combined = new JSONObject();
 			combined.put("id", "combined");
@@ -60,9 +61,6 @@ public class JsonAPIServlet extends HttpServlet
 			JSONObject geojson = new JSONObject();
 			geojson.put("type", "FeatureCollection");
 
-			//JSONArray features = new JSONArray();
-
-			// collect furry data and put into an array.
 			JSONArray features;
 			try 
 			{
@@ -74,22 +72,7 @@ public class JsonAPIServlet extends HttpServlet
 				e.printStackTrace();
 				features = new JSONArray();
 			}
-			/*
-			String archivedata = IOUtils.getJSONDataFromFile(getServletContext().getRealPath("") + "/combined.json");
-			JSONObject archiveJsonObject = new JSONObject(archivedata);
-			JSONObject combined2 = (JSONObject) archiveJsonObject.get("combined");
-			JSONObject geoJSONData2 = combined2.getJSONObject("geojson");
-			JSONArray furryList2 = geoJSONData2.getJSONArray("features");
 			
-			for (int i = 0; i < furryList2.length(); i++)
-			{
-				JSONArray furryProfile = furryList2.getJSONArray(i);
-				features.put(furryProfile);
-			}
-			*/
-
-			// end algorithmic shit, fuck yeah bitches!
-
 			geojson.put("features", features);
 			combined.put("geojson", geojson);
 
@@ -97,6 +80,92 @@ public class JsonAPIServlet extends HttpServlet
 
 			responseJSONString += headNode;
 		} 
+		else if (type.equals("getcount"))
+		{
+			responseJSONString += headNode;
+		}
+		else if (type.equals("list_users"))
+		{
+			String listSelection = request.getParameter("list_selection");
+			String listOrder = request.getParameter("list_order");
+			
+			if (listSelection.equals("user_alpha"))
+			{
+				// alphabetical ordered users
+				if (listOrder.equals("asc"))
+				{
+					
+				}
+				else
+				{
+					
+				}
+			}
+			else if (listSelection.equals("user_date"))
+			{
+				// date ordered users
+				if (listOrder.equals("asc"))
+				{
+					
+				}
+				else
+				{
+					
+				}
+			}
+		}
+		else if (type.equals("list_markers"))
+		{
+			String listSelection = request.getParameter("list_selection");
+			String listOrder = request.getParameter("list_order");
+			
+			JSONObject searchResult = new JSONObject();
+			searchResult.put("id", "search_result");
+
+			JSONObject info = new JSONObject();
+			info.put("isLayer", "true");
+			info.put("addToSearch", "true");
+			info.put("addToDistance", "true");
+			info.put("layerindex", "10");
+			info.put("iconcolor", "blue");
+			info.put("updateUrl", "/en/marker/list/type/list_markers");
+			info.put("layername", "Furries (blue)");
+			searchResult.put("info", info);
+
+			JSONObject geojson = new JSONObject();
+			geojson.put("type", "FeatureCollection");
+
+			JSONArray features;
+			try 
+			{
+				String otherParams = request.getParameter("other_params");
+				JSONObject toPlug = null;
+				if (otherParams != null)
+				{
+					toPlug = new JSONObject(otherParams);
+				}
+				features = IOUtils.getJSONArrayOfSpecifiedFurryLocations(listSelection, listOrder, toPlug);
+			}
+			catch (SQLException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				features = new JSONArray();
+			}
+			catch (NullPointerException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				features = new JSONArray();
+			}
+
+			geojson.put("features", features);
+			searchResult.put("geojson", geojson);
+
+			headNode.put("search_result", searchResult);
+
+			responseJSONString += headNode;
+		}
 		else 
 		{
 			responseJSONString += "What the fuck?";
