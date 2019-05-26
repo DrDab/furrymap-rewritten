@@ -223,7 +223,7 @@ public class IOUtils
 		return i;
 	}
 	
-	public static JSONArray getJSONArrayOfCombinedFurryLocations() throws SQLException
+	public static JSONArray getJSONArrayOfArchivedFurryLocations() throws SQLException
 	{
 		initConnection();
 		String query = "SELECT * FROM " + LOCATION_TABLE_NAME;
@@ -254,6 +254,13 @@ public class IOUtils
 			toReturn.put(id, tmpLoc);
 			id++;
 		}
+		return toReturn;
+	}
+	
+	public static JSONArray getJSONArrayOfDynamicFurryLocations() throws SQLException
+	{
+		initConnection();
+		JSONArray toReturn = new JSONArray();
 		return toReturn;
 	}
 	

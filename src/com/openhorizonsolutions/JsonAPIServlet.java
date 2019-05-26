@@ -45,38 +45,76 @@ public class JsonAPIServlet extends HttpServlet
 
 		if (type.equals("combined") || type.equals("all")) 
 		{
-			JSONObject combined = new JSONObject();
-			combined.put("id", "combined");
+			// first add in the existing archived markers.
+			JSONObject archived = new JSONObject();
+			archived.put("id", "archived");
 
-			JSONObject info = new JSONObject();
-			info.put("isLayer", "true");
-			info.put("addToSearch", "true");
-			info.put("addToDistance", "true");
-			info.put("layerindex", "10");
-			info.put("iconcolor", "blue");
-			info.put("updateUrl", "/en/marker/list/type/combined");
-			info.put("layername", "Furries (blue)");
-			combined.put("info", info);
+			JSONObject archived_info = new JSONObject();
+			archived_info.put("isLayer", "true");
+			archived_info.put("addToSearch", "true");
+			archived_info.put("addToDistance", "true");
+			archived_info.put("layerindex", "10");
+			archived_info.put("iconcolor", "blue");
+			archived_info.put("updateUrl", "/en/marker/list/type/combined");
+			archived_info.put("layername", "Archived Furries (blue)");
+			archived.put("info", archived_info);
 
-			JSONObject geojson = new JSONObject();
-			geojson.put("type", "FeatureCollection");
+			JSONObject archived_geojson = new JSONObject();
+			archived_geojson.put("type", "FeatureCollection");
 
-			JSONArray features;
+			JSONArray archived_features;
 			try 
 			{
-				features = IOUtils.getJSONArrayOfCombinedFurryLocations();
+				archived_features = IOUtils.getJSONArrayOfArchivedFurryLocations();
 			}
 			catch (SQLException e) 
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				features = new JSONArray();
+				archived_features = new JSONArray();
 			}
 			
-			geojson.put("features", features);
-			combined.put("geojson", geojson);
+			archived_geojson.put("features", archived_features);
+			archived.put("geojson", archived_geojson);
 
-			headNode.put("combined", combined);
+			headNode.put("archived", archived);
+			
+			// now, add in the new furries.
+			
+			JSONObject dynamic = new JSONObject();
+			dynamic.put("id", "dynamic");
+
+			JSONObject dynamic_info = new JSONObject();
+			dynamic_info.put("isLayer", "true");
+			dynamic_info.put("addToSearch", "true");
+			dynamic_info.put("addToDistance", "true");
+			dynamic_info.put("layerindex", "10");
+			dynamic_info.put("iconcolor", "blue");
+			dynamic_info.put("updateUrl", "/en/marker/list/type/combined");
+			dynamic_info.put("layername", "Dynamic Furries (blue)");
+			dynamic.put("info", dynamic_info);
+
+			JSONObject dynamic_geojson = new JSONObject();
+			dynamic_geojson.put("type", "FeatureCollection");
+
+			JSONArray dynamic_features;
+			try 
+			{
+				dynamic_features = IOUtils.getJSONArrayOfDynamicFurryLocations();
+			}
+			catch (SQLException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				dynamic_features = new JSONArray();
+			}
+			
+			dynamic_geojson.put("features", dynamic_features);
+			dynamic.put("geojson", dynamic_geojson);
+
+			headNode.put("dynamic", dynamic);
+			
+			// done.
 
 			responseJSONString += headNode;
 		} 
