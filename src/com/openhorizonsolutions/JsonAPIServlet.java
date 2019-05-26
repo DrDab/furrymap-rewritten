@@ -2,9 +2,9 @@ package com.openhorizonsolutions;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -113,6 +113,54 @@ public class JsonAPIServlet extends HttpServlet
 			dynamic.put("geojson", dynamic_geojson);
 
 			headNode.put("dynamic", dynamic);
+			
+			// add the user's own markers.
+			// get the id of the user from UUID access token (to be implemented later)
+			
+			JSONObject own = new JSONObject();
+			own.put("id", "own");
+
+			JSONObject own_info = new JSONObject();
+			own_info.put("isLayer", "true");
+			own_info.put("addToSearch", "true");
+			own_info.put("addToDistance", "true");
+			own_info.put("layerindex", "10");
+			own_info.put("iconcolor", "red");
+			own_info.put("updateUrl", "/en/marker/list/type/combined");
+			own_info.put("layername", "My Marker(s) (red)");
+			own.put("info", own_info);
+
+			JSONObject own_geojson = new JSONObject();
+			own_geojson.put("type", "FeatureCollection");
+
+			JSONArray own_features;			
+			
+			String token = request.getParameter("token");
+			if (token == null)
+			{
+				// show nothing.
+				own_features = new JSONArray();
+			}
+			else
+			{
+				long userid = IOUtils.getIDFromAPIKey(token);
+				try 
+				{
+					// get user's own markers from userid (resolved from access token)
+					own_features = IOUtils.getUsersOwnMarkers(userid);
+				} 
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					own_features = new JSONArray();
+				}
+			}
+			
+			own_geojson.put("features", own_features);
+			own.put("geojson", own_geojson);
+
+			headNode.put("own", own);
 			
 			// done.
 

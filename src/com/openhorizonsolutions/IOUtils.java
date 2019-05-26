@@ -264,6 +264,27 @@ public class IOUtils
 		return toReturn;
 	}
 	
+	public static JSONArray getUsersOwnMarkers(long uid) throws SQLException
+	{
+		initConnection();
+		JSONArray toReturn = new JSONArray();
+		
+		// BEGIN PLACEHOLDER CODE
+		JSONArray tmpLoc = new JSONArray();
+		tmpLoc.put(0, 0.0);
+		tmpLoc.put(1, 0.0);
+		tmpLoc.put(2, "m" + 14312512);
+		tmpLoc.put(3, "TestDescription");
+		tmpLoc.put(4, 15);
+		tmpLoc.put(5, "TestUsername");
+		tmpLoc.put(6, "/");
+		tmpLoc.put(7, 44444444);
+		toReturn.put(0, tmpLoc);
+		// END PLACEHOLDER CODE
+		
+		return toReturn;
+	}
+	
 	public static JSONArray getJSONArrayOfSpecifiedFurryLocations(String listSelection, String listOrder, JSONObject otherParams) throws SQLException, NullPointerException
 	{
 		initConnection();

@@ -2070,8 +2070,8 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			  {layername: "openaerialmap-900913", type: "jpg", buffer: 0});
 		jpl_wms.setVisibility(false);*/
 		
-		var mymarker = this.lang["My Marker"];
-		this.layers[mymarker] = new OpenLayers.Layer.Markers(mymarker + '<img src="'+ OpenLayers.Util.getImagesLocation() + "marker_red.png" + '"/>');
+		//var mymarker = this.lang["My Marker"];
+		//this.layers[mymarker] = new OpenLayers.Layer.Markers(mymarker + '<img src="'+ OpenLayers.Util.getImagesLocation() + "marker_red.png" + '"/>');
 		var size = new OpenLayers.Size(24, 24);
 		var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
 		var size16 = new OpenLayers.Size(16, 16);
@@ -2112,8 +2112,8 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 		
 		//var lonLat = new OpenLayers.LonLat(this.lon, this.lat).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 		//this.map.setCenter(lonLat, this.zoom);
-		this.map.addLayer(this.layers[mymarker]);
-		this.setLayerIndex(mymarker, 50);
+		//this.map.addLayer(this.layers[mymarker]);
+		//this.setLayerIndex(mymarker, 50);
 	},
 	
 	clearLayer: function (layername) {
@@ -2270,13 +2270,13 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 	},
 	
 	setMarker: function (lonlat, vanish) {
-		var mymarker = this.lang["My Marker"];
-		if (this.cmarker) {
-			this.layers[mymarker].removeMarker(this.cmarker);
-		}
+		//var mymarker = this.lang["My Marker"];
+		//if (this.cmarker) {
+		//	this.layers[mymarker].removeMarker(this.cmarker);
+		//}
 		if (this.clickHandlerActivated) {
 			this.cmarker = new OpenLayers.Marker(lonlat, this.icons.red.clone());
-			this.layers[mymarker].addMarker(this.cmarker);
+			//this.layers[mymarker].addMarker(this.cmarker);
 			var lonlat2 = lonlat.clone().transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
 			if (window.subwindow) {
 				with (window.subwindow) {
@@ -2308,9 +2308,9 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 							this.cmarker.setOpacity(op.a);
 						}, this),
 						done: OpenLayers.Function.bind(function(op) {
-							if (this.cmarker) {
-								this.layers[mymarker].removeMarker(this.cmarker);
-							}
+							//if (this.cmarker) {
+							//	this.layers[mymarker].removeMarker(this.cmarker);
+							//}
 						}, this)
 					}
 				});
@@ -2412,12 +2412,12 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 	
 	setClickHandler: function (bool) {
 		this.clickHandlerActivated = bool;
-		if (!bool) {
-			var mymarker = this.lang["My Marker"];
-			if (this.cmarker) {
-				this.layers[mymarker].removeMarker(this.cmarker);
-			}
-		}
+		//if (!bool) {
+			//var mymarker = this.lang["My Marker"];
+			//if (this.cmarker) {
+			//	this.layers[mymarker].removeMarker(this.cmarker);
+			//}
+		//}
 	},
 	
 	clearTempLayers: function () {
