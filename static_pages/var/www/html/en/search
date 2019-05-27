@@ -2,7 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-
 <script type="text/javascript">
 if(screen.width>640) {
 	if(top.location.pathname == self.location.pathname) {
@@ -65,33 +64,20 @@ body {
 
 <title>FurryMap.net</title>
 
-<link rel="shortcut icon" href="https://furrymap.net/favicon.ico"/>
+<link rel="shortcut icon" href="/favicon.ico"/>
 <script src="https://www.google.com/recaptcha/api.js"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css"/>
 </head>
 <body>
 
+<script type="text/javascript">
+	FML.go(function(){FurryMap.clearLayer("places");});
+</script>
 <div id="fullcontent_topmiddle">
 	<div id="middle_scroller">
 		<div id="middle_content">
-			<div style="line-height: 15px; padding:9px;">
-				Furrymap.net Rewritten is the unofficial revival of FurryMap.net, a map and registration service for furries from all over the world.  Sign yourself up and find other furries nearby or on the other side of the world!<br/>
-				<br/>
-								<b>List</b><br/>
-				Here you find all furries and their markers, new and archived from FurryMap.net, that are placed on the map. Sort them in alphabetical order, by date, or measure their distance from a point on the map.<br/>
-				<br/>
-				<b>Search</b><br/>
-				A powerful search helps you to find everything: other furries, markers, towns and roads. The search tells you, where to find them.<br/>
-				<br/>
-				<b>Your profile</b><br/>
-				Create your own profile, so that everyone can find you and add contact information. Choose whether to let your data be viewed by everyone, just registered users, or just friends.<br/>
-				<br/>
-				<b>Your markers</b><br/>
-				You can add as many markers to this map as you want. Show where you live or where the next furmeet will be happen. Like your profile information, you can separately decide who can view you markers seperately. If you do not want to show the exact position, just zoom out and set your marker, it will vanish if people zoom in.<br/>
-				<br/>
-								<b>Other Maps</b><br/>
-				The predecessors of this furry map are worth a glance.  Take a look at the furry maps of <a href="http://www.furry.de/eisfuchs/mapview.html" target="_blank">Germany</a>, <a href="http://furmap.ath.cx/?lang=en" target="_blank">France</a> and <a href="http://www.furry.dk/" target="_blank">Denmark</a>.<br/>
-			</div>
+			<div id="namefinder_result">
+							</div>
 		</div>
 	</div>
 	<div id="fullcontent_top">
@@ -99,33 +85,44 @@ body {
 	<div id="top_button1" class="button green">
 		<a id="top_button1_link" href="/en/main/list">List</a>
 	</div>
-	<div id="top_button2" class="button gray">
+	<div id="top_button2" class="button green">
 		<a id="top_button2_link" href="/en/main/info">Info</a>
 	</div>
-	<div id="top_button3" class="button green">
+	<div id="top_button3" class="button gray">
 		<a id="top_button3_link" href="/en/search">Search</a>
 	</div>
 </div>
-		<div id="top_content" style="font-weight:normal">
-			<b><a href="/en/main/info">What's this?</a></b> |
-			<!--<a href="/en/main/blog">Blog</a> |-->
-			<a href="/en/main/faq">FAQ</a> <br/>
-			<!--<a href="/en/main/thanks">Thanks</a>-->		</div>
+		<div id="top_content">
+			<form action="/en/search/" id="namefinder_form" method="post">
+								<input type="text" name="namefinder[search]" id="namefinder_search"/><input type="hidden" name="namefinder[showhidden]" id="namefinder_showhidden"/><input type="hidden" name="namefinder[_csrf_token]" value="0d74806fc3dd871f0f7c9330a27e4c1e" id="namefinder__csrf_token"/>				<input type="submit" value="Search"/>
+			</form>
+		</div>
 	</div>
 </div>
 <div id="fullcontent_bottom">
 	<div id="bottom_content">
-	<div id="bottom_minimizer" class="minimizer_button">
+		<div id="bottom_minimizer" class="minimizer_button">
+		</div>
+		<script type="text/javascript">
+			Minimizer();
+		</script>
+		<div style="padding:9px;left:0px;right:0px">
+			<select id="namefinder_show">
+				<option value="" selected="selected">Show all</option>
+				<option value="furries">Show only furries</option>
+				<option value="markers">Show only markers</option>
+				<!--option value="placemarks" >Show only placemarks</option-->
+			</select>
+			<script type="text/javascript">
+				$('namefinder_show').onchange = function() {
+					$('namefinder_showhidden').value = $('namefinder_show').value;
+					$('namefinder_form').submit();
+				}
+			</script>
+		</div>
 	</div>
-	<script type="text/javascript">
-		Minimizer();
-	</script>
-	<div id="bottom_innercontent" style="padding:9px;left:0px;right:0px">
-		Furrymap.net contains <br/>[PLACEHOLDER] Furries with [PLACEHOLDER] markers. (XXXX archived, XXXX live)<br/>
-				<a href="/en/useragreement" id="register_link" target="_top">Join today!</a>
-			</div>
-</div>
-<div id="bottombar">
+
+	<div id="bottombar">
 	<div id="bottom_button1" class="button green">
 				<a href="/en/login" id="bottom_button1_link">Login</a>
 			</div>
@@ -176,3 +173,24 @@ window.onload = function() {
 
 </body>
 </html>
+<!--
+     FILE ARCHIVED ON 01:47:06 Mar 11, 2019 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 23:17:47 May 27, 2019.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  LoadShardBlock: 120.272 (3)
+  esindex: 0.008
+  captures_list: 138.05
+  CDXLines.iter: 10.984 (3)
+  PetaboxLoader3.datanode: 107.285 (4)
+  exclusion.robots: 0.297
+  exclusion.robots.policy: 0.286
+  RedisCDXSource: 4.002
+  PetaboxLoader3.resolve: 55.981
+  load_resource: 80.176
+-->

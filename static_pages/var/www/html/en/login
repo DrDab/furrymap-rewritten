@@ -88,7 +88,7 @@ body {
 		<a id="top_button2_link" href="/en/main/info">Info</a>
 	</div>
 	<div id="top_button3" class="button green">
-		<a id="top_button3_link" href="/en/search/">Search</a>
+		<a id="top_button3_link" href="/en/search">Search</a>
 	</div>
 </div>
 		<div id="top_content">

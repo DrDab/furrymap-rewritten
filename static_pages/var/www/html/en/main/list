@@ -113,7 +113,7 @@ body {
 		<a id="top_button2_link" href="/en/main/info">Info</a>
 	</div>
 	<div id="top_button3" class="button green">
-		<a id="top_button3_link" href="/en/search/">Search</a>
+		<a id="top_button3_link" href="/en/search">Search</a>
 	</div>
 </div>
 		<div id="top_content">
@@ -160,7 +160,7 @@ body {
 		Minimizer();
 	</script>
 	<div id="bottom_innercontent" style="padding:9px;left:0px;right:0px">
-		Furrymap.net contains <br/>17520 Furries with 15720 markers.<br/>
+	Furrymap.net contains <br/>[PLACEHOLDER] Furries with [PLACEHOLDER] markers. (XXXX archived, XXXX live)<br/>
 				<a href="/en/useragreement" id="register_link" target="_top">Join today!</a>
 			</div>
 </div>
