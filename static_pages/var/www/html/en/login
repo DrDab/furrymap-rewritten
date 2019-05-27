@@ -1,0 +1,202 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<script type="text/javascript">
+if(screen.width>640) {
+	if(top.location.pathname == self.location.pathname) {
+		location.replace(self.location.protocol+"//"+self.location.host+"/?goto="+self.location.pathname);
+	}
+}
+var FurryMap = {};
+var FML = {
+	go: function(fu) {
+		var args = [];
+		var f = fu;
+		if (parent.FurryMap) {
+			FurryMap = parent.FurryMap;
+			f.apply(document, args);
+		} else {
+			parent.onload = function() {
+				if (parent.FurryMap) {
+					FurryMap = parent.FurryMap;
+					f.apply(document, args);
+}}}}};
+FML.go(function(){
+	FurryMap.setClickHandler(false);
+	FurryMap.clearTempLayers();
+});
+var $ = function(name) {
+	return document.getElementById(name);
+}
+var Minimizer = function() {
+	var minimizer = $('bottom_minimizer');
+	if (minimizer) {
+		minimizer.onclick = function () {
+			if($('bottom_innercontent').style.display != 'none') {
+				$('bottom_innercontent').style.display = 'none';
+			} else {
+				$('bottom_innercontent').style.display = 'block';
+			}
+			if($('bottom_minimizer').className == 'minimizer_button') {
+				$('bottom_minimizer').className = 'maximizer_button';
+			} else {
+				$('bottom_minimizer').className = 'minimizer_button';
+			}
+			if ($('middle_scroller') && $('bottom_content')) {
+				$('middle_scroller').style.bottom = ($('bottom_content').offsetHeight+25)+"px";
+			}
+		};
+	}
+}
+</script>
+<style type="text/css">
+body {
+	background: url('/web/20190311014702im_/https://www.furrymap.net/images/background.png') 320px 0px repeat-y;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="title" content="FurryMap.net"/>
+<meta name="robots" content="noindex, nofollow"/>
+<meta name="description" content="furrymap"/>
+<meta name="keywords" content="furrymap"/>
+<meta name="language" content="en"/>
+
+<title>FurryMap.net</title>
+
+<link rel="shortcut icon" href="/favicon.ico"/>
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script type="text/javascript" src="/js/js.php?files=OpenLayersMini.js,OSMMini.js,furrymapMin.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css"/>
+</head>
+<body>
+<div id="fullcontent_topmiddle">
+		<div id="middle_scroller">
+		<div id="middle_content">
+			<div style="line-height: 15px; padding:9px;">
+				When you log in, you accept the current <a href="/en/useragreement" target="_blank">User Agreement</a>.				<br/><br/>
+				If you don't have an account here, please <a href="/en/useragreement" target="_blank">create one</a>.<br/>
+			</div>
+		</div>
+	</div>
+	<div id="fullcontent_top">
+	<div id="topbar">
+	<div id="top_button1" class="button green">
+		<a id="top_button1_link" href="/en/main/list">List</a>
+	</div>
+	<div id="top_button2" class="button green">
+		<a id="top_button2_link" href="/en/main/info">Info</a>
+	</div>
+	<div id="top_button3" class="button green">
+		<a id="top_button3_link" href="/en/search/">Search</a>
+	</div>
+</div>
+		<div id="top_content">
+			Login		</div>
+	</div>
+</div>
+<div id="fullcontent_bottom">
+	<div id="bottom_content">
+	<div id="bottom_minimizer" class="minimizer_button">
+	</div>
+	<script type="text/javascript">
+		Minimizer();
+	</script>
+	<div id="bottom_innercontent" style="padding:9px;left:0px;right:0px">
+		<form id="login_form" action="/en/login" method="post">
+						<label for="login_username" class="fixedwidth2">Loginname</label>
+			<input type="text" name="signin[username]" id="signin_username"/><br style="clear: left"/>
+						<label for="login_password" class="fixedwidth2">Password</label>
+			<input type="password" name="signin[password]" id="signin_password"/><br style="clear: left"/>
+			<div style="float: right"><input type="submit" value="Login"/>
+			</div>
+						<input type="checkbox" name="signin[remember]" checked="checked" id="signin_remember"/>			<label for="login_remember">Remember me</label>
+			<br style="clear: left"/>
+			<input type="hidden" name="signin[_csrf_token]" value="529ef79bc660ece38b0e74e1ee3dc902" id="signin__csrf_token"/>		</form>
+			<br/>
+			<a href="/en/requestpassword" id="password_link" target="_top">Forgot your password?</a> | <a href="/en/useragreement" id="register_link" target="_top">Register new account?</a>
+			<br/>
+			<br/>
+
+			</div>
+</div>
+<div id="bottombar">
+	<div id="bottom_button1" class="button gray">
+				<a href="/en/login" id="bottom_button1_link">Login</a>
+			</div>
+	<div id="bottom_button2" class="button green">
+		<a href="/en/myprofile" id="bottom_button2_link">Profile</a>
+	</div>
+	<div id="bottom_button3" class="button green">
+		<a href="/en/marker/mylist" id="bottom_button3_link">Markers</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+window.onload = function() {
+	window.setTimeout(function() {
+		$('middle_scroller').style.bottom = ($('bottom_content').offsetHeight+25)+"px";
+		var links = document.getElementsByTagName("a");
+		var r13 = function (text)
+		{
+			var keycode	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			var textrot	= new String();
+			for(var i = 0; i < text.length; i++)
+			{
+				var codechar = text.substring(i, i + 1);
+				var pos = keycode.indexOf(codechar.toUpperCase());
+
+				if(pos >= 0)
+				{
+					pos = (pos + keycode.length / 2) % keycode.length;
+					codechar = (codechar == codechar.toUpperCase()) ? keycode.substring(pos, pos + 1) : keycode.substring(pos, pos + 1).toLowerCase();
+				}
+				textrot	= textrot + codechar;
+			}
+			return textrot;
+		}
+		for (var link in links) {
+			if (links[link].href && links[link].href.match(/\/profile\/-/)) {
+				var text = links[link].href.match(/\/profile\/-([a-zA-Z0-9_-]+)\/?/)
+				if (text.length != 2) continue;
+				var orig = r13(text[1]);
+				links[link].href = links[link].href.replace("-"+text[1],orig);
+				links[link].style.display = 'inline';
+				//alert(links[link].href);
+			}
+		}
+	}, 0);
+};
+</script>
+
+<script type="text/javascript">
+	FML.go(function() {
+		//FurryMap.reloadMarkers("Furries");
+		//FurryMap.reloadMarkers("Friends");
+	});
+</script>
+</div>
+
+</body>
+</html>
+<!--
+     FILE ARCHIVED ON 01:47:02 Mar 11, 2019 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 05:58:15 May 27, 2019.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  LoadShardBlock: 140.754 (3)
+  esindex: 0.011
+  captures_list: 158.473
+  CDXLines.iter: 11.84 (3)
+  PetaboxLoader3.datanode: 186.9 (4)
+  exclusion.robots: 0.296
+  exclusion.robots.policy: 0.285
+  RedisCDXSource: 3.032
+  PetaboxLoader3.resolve: 47.281
+  load_resource: 103.287
+-->
