@@ -25,23 +25,23 @@
  *
  *--------------------------------------------------------------------------*/
 
-/**  
-*  
+/**
+*
 *  Contains portions of Rico <http://openrico.org/>
-* 
-*  Copyright 2005 Sabre Airline Solutions  
-*  
+*
+*  Copyright 2005 Sabre Airline Solutions
+*
 *  Licensed under the Apache License, Version 2.0 (the "License"); you
 *  may not use this file except in compliance with the License. You
 *  may obtain a copy of the License at
-*  
-*         http://www.apache.org/licenses/LICENSE-2.0  
-*  
+*
+*         http://www.apache.org/licenses/LICENSE-2.0
+*
 *  Unless required by applicable law or agreed to in writing, software
 *  distributed under the License is distributed on an "AS IS" BASIS,
 *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
 *  implied. See the License for the specific language governing
-*  permissions and limitations under the License. 
+*  permissions and limitations under the License.
 *
 **/
 
@@ -1105,14 +1105,14 @@ FurryMap.LightIcon = OpenLayers.Class(OpenLayers.Icon, {
         this.calculateOffset = calculateOffset;
 
         var id = OpenLayers.Util.createUniqueID("FM_LightIcon_");
-        this.imageDiv = OpenLayers.Util.createImage(id, null, size, url, "absolute", null, 
+        this.imageDiv = OpenLayers.Util.createImage(id, null, size, url, "absolute", null,
 	                                          null, false);
     },
 
 	clone: function() {
-        return new FurryMap.LightIcon(this.url, 
-                                   this.size, 
-                                   this.offset, 
+        return new FurryMap.LightIcon(this.url,
+                                   this.size,
+                                   this.offset,
                                    this.calculateOffset);
     },
 
@@ -1123,7 +1123,7 @@ FurryMap.LightIcon = OpenLayers.Class(OpenLayers.Icon, {
     draw: function(px) {
         this.moveTo(px);
         return this.imageDiv;
-    }, 
+    },
 
     setOpacity: function(opacity) {
 		if (parseFloat(opacity) <= 0.0) {
@@ -1150,7 +1150,7 @@ FurryMap.LightIcon = OpenLayers.Class(OpenLayers.Icon, {
                 this.display(false);
             } else {
                 if (this.calculateOffset) {
-                    this.offset = this.calculateOffset(this.size);  
+                    this.offset = this.calculateOffset(this.size);
                 }
                 var offsetPx = this.px.offset(this.offset);
 			 	if (offsetPx) {
@@ -1166,12 +1166,12 @@ FurryMap.LightIcon = OpenLayers.Class(OpenLayers.Icon, {
 
 FurryMap.ZoomMarker = OpenLayers.Class(OpenLayers.Marker, {
 	zoom: 0,
-	
+
 	initialize: function (lonlat, icon, zoom) {
 		this.zoom = zoom;
 		OpenLayers.Marker.prototype.initialize.apply(this, arguments);
 	},
-	
+
 	draw: function (px) {
 		var mapzoom = this.map.getZoom();
 		if (mapzoom > this.zoom) {
@@ -1185,7 +1185,7 @@ FurryMap.ZoomMarker = OpenLayers.Class(OpenLayers.Marker, {
 		}
 		return this.icon.draw(px);
 	},
-	
+
 	CLASS_NAME: "FurryMap.ZoomMarker"
 });
 
@@ -1197,13 +1197,13 @@ FurryMap.ZoomFeature = OpenLayers.Class(OpenLayers.Feature, {
 		}
 		return this.marker;
 	},
-	
+
 	createPopup: function (closeBox) {
 		if (this.lonlat !== null) {
 			var id = this.id + "_popup";
 			var anchor = this.marker ? this.marker.icon : null;
 			if (!this.popup) {
-				this.popup = new this.popupClass(id, 
+				this.popup = new this.popupClass(id,
 					this.lonlat,
 					this.data.popupSize.clone(),
 					this.data.popupContentHTML,
@@ -1218,16 +1218,16 @@ FurryMap.ZoomFeature = OpenLayers.Class(OpenLayers.Feature, {
 		}
 		return this.popup;
 	},
-	
+
 	destroyPopup: function () {
 		if (this.popup) {
 			this.popup.feature = null;
 			this.popup.destroy();
 			this.popup = null;
 			if (this.layer) this.layer.selectedFeature = null;
-		}    
+		}
 	},
-	
+
 	CLASS_NAME: "FurryMap.ZoomFeature"
 });
 
@@ -1235,39 +1235,39 @@ FurryMap.Layer = OpenLayers.Class();
 
 FurryMap.Layer.GeoJSON = OpenLayers.Class(OpenLayers.Layer.Text, {
 	icon: null,
-	
+
 	moveTo: function (bounds, zoomChanged, minor) {
 		OpenLayers.Layer.Markers.prototype.moveTo.apply(this, arguments);
 		if (this.visibility && !this.loaded) {
 			this.loadText();
 		}
 	},
-	
+
 	markerClick: function (evt) {
 		var sameMarkerClicked = (this == this.layer.selectedFeature);
 		this.layer.selectedFeature = (!sameMarkerClicked) ? this : null;
-		
+
 		for (var i = 0; i < this.layer.map.popups.length; i++) {
 			this.layer.map.removePopup(this.layer.map.popups[i]);
 		}
 		if (!sameMarkerClicked) {
-			this.layer.map.addPopup(this.createPopup(true)); 
+			this.layer.map.addPopup(this.createPopup(true));
 		}
 		OpenLayers.Event.stop(evt);
 	},
-	
+
 	parseData: function (ajaxRequest) {
 		var text = ajaxRequest.responseText;
-		
+
 		var options = {};
-		
+
 		OpenLayers.Util.extend(options, this.formatOptions);
-		
+
 		if (this.map && !this.projection.equals(this.map.getProjectionObject())) {
 			options.externalProjection = this.projection;
 			options.internalProjection = this.map.getProjectionObject();
 		}
-		
+
 		var parser = new OpenLayers.Format.GeoJSON(options);
 		var features = parser.read(text);
 		if (features) {
@@ -1276,17 +1276,17 @@ FurryMap.Layer.GeoJSON = OpenLayers.Class(OpenLayers.Layer.Text, {
 				var data = {};
 				var feature = features[i];
 				var location;
-				
+
 				if (!this.icon) {
 					var iconSize = new OpenLayers.Size(24, 24);
 					var iconOffset = new OpenLayers.Pixel(-(iconSize.w / 2), -iconSize.h);
 					this.icon = new FurryMap.LightIcon(OpenLayers.Util.getImagesLocation() + "marker_2.png", iconSize, iconOffset);
 				}
 				data.icon = this.icon.clone();
-				
+
 				location = new OpenLayers.LonLat(feature[0], feature[1]); //.geometry.x, feature.geometry.y);
 				location = location.transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-				
+
 				if (feature.length == 8 /*(feature.attributes.v !== null) && (feature.attributes.m !== null)*/) {
 					data.popupContentHTML = '<div style="padding: 4px 9px; line-height:14px; font-size:12px">';
 					if (feature[7] != 0 /*feature.attributes.h*/) {
@@ -1305,7 +1305,7 @@ FurryMap.Layer.GeoJSON = OpenLayers.Class(OpenLayers.Layer.Text, {
 					}*/
 					data.popupContentHTML += '<b><a href="' + feature[6] + '"'+(feature[6].charAt(0)!='/'?' target="_blank"':' target="subwindow"')+'>' + feature[5] + '</a>: <br/>' + feature[3] + '</b><br/>';
 					//data.popupContentHTML += '<small><span style="float: right">&nbsp;';
-					
+
 					/*if (feature.attributes.Country !== null && feature.attributes.Country !== "") {
 						data.popupContentHTML += '<img src="' + OpenLayers.Util.getImagesLocation() + '../flags/' + feature.attributes.Country + '.png"/>';
 					}*/
@@ -1316,18 +1316,18 @@ FurryMap.Layer.GeoJSON = OpenLayers.Class(OpenLayers.Layer.Text, {
 					if (feature.attributes.Furryspecies !== null && feature.attributes.Furryspecies !== "") {
 						data.popupContentHTML += feature.attributes.Furryspecies + ', ';
 					}*/
-					
+
 					//data.popupContentHTML += /*feature.attributes.NumberofMarkers +*/ '</small>';
-				
+
 					/*var lonlat = new OpenLayers.LonLat(feature.geometry.x, feature.geometry.y);
 					lonlat = lonlat.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326"));
 					data.popupContentHTML += '<br/> <a href="' + feature.attributes.MarkerUrl + '" style="float: right"><img src="' + OpenLayers.Util.getImagesLocation() + '../link.png" alt="Link" title="Link"/></a><small>' + FurryMap.LatPrinter(lonlat.lat) + " " + FurryMap.LonPrinter(lonlat.lon) + '</small><br/>';*/
 					data.popupContentHTML += '</div>';
 				}
-				
+
 				data.popupSize = new OpenLayers.Size(200, 52);
 				//data.overflow = feature.attributes.overflow || "auto";
-				
+
 				var markerFeature = new FurryMap.ZoomFeature(this, location, data);
 				this.features.push(markerFeature);
 				var marker = markerFeature.createMarker(feature[4]/*.attributes.z*/);
@@ -1339,7 +1339,7 @@ FurryMap.Layer.GeoJSON = OpenLayers.Class(OpenLayers.Layer.Text, {
 		}
 		this.events.triggerEvent("loadend");
 	},
-	
+
 	CLASS_NAME: "FurryMap.Layer.GeoJSON"
 });
 
@@ -1356,9 +1356,9 @@ FurryMap.Layer.DataPool = OpenLayers.Class(OpenLayers.Layer.Markers, {
 	/**
 	 * Constructor: OpenLayers.Layer.Text
 	 * Create a text layer.
-	 * 
+	 *
 	 * Parameters:
-	 * name - {String} 
+	 * name - {String}
 	 * options - {Object} Object with properties to be set on the layer.
 	 *     Must include <location> property.
 	 */
@@ -1382,13 +1382,13 @@ FurryMap.Layer.DataPool = OpenLayers.Class(OpenLayers.Layer.Markers, {
 		if (!this.datapool) {
 			return;
 		}
-		
+
 		if (!this.datapool.data[this.datakey]) {
 			return;
 		}
-		
+
 		this.prefeatures = this.datapool.data[this.datakey].features;
-		
+
 		if (this.prefeatures) {
 			this.clearMarkers();
 			this.clearFeatures();
@@ -1396,7 +1396,7 @@ FurryMap.Layer.DataPool = OpenLayers.Class(OpenLayers.Layer.Markers, {
 			window.setTimeout(this.createMarkers.bind(this), 10);
 		}
 	},
-	
+
 	createMarkers: function () {
 		var features = this.prefeatures;
 			for (var i = this.position; i < Math.min(this.position+100,features.length); i++) {
@@ -1495,23 +1495,23 @@ FurryMap.Layer.DataPool = OpenLayers.Class(OpenLayers.Layer.Markers, {
 
 	/**
 	 * Property: markerClick
-	 * 
+	 *
 	 * Parameters:
-	 * evt - {Event} 
+	 * evt - {Event}
 	 */
 	markerClick: function (evt) {
 		var sameMarkerClicked = (this == this.layer.selectedFeature);
 		this.layer.selectedFeature = (!sameMarkerClicked) ? this : null;
-		
+
 		for (var i = 0; i < this.layer.map.popups.length; i++) {
 			this.layer.map.removePopup(this.layer.map.popups[i]);
 		}
 		if (!sameMarkerClicked) {
-			this.layer.map.addPopup(this.createPopup(true)); 
+			this.layer.map.addPopup(this.createPopup(true));
 		}
 		OpenLayers.Event.stop(evt);
 	},
-	
+
 	addMarker: function(marker) {
         this.markers.push(marker);
 
@@ -1548,7 +1548,7 @@ FurryMap.Layer.OpenAerialMap = OpenLayers.Class(OpenLayers.Layer.TMS, {
 		var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
 		var z = this.map.getZoom();
 		var limit = Math.pow(2, z);
-		
+
 		if (y < 0 || y >= limit)
 		{
 			return OpenLayers.Util.OSM.MISSING_TILE_URL;
@@ -1556,12 +1556,12 @@ FurryMap.Layer.OpenAerialMap = OpenLayers.Class(OpenLayers.Layer.TMS, {
 		else
 		{
 			x = ((x % limit) + limit) % limit;
-			var path = this.serviceVersion + "/" + this.layername + "/" + z + "/" + x + "/" + y + "." + this.type; 
+			var path = this.serviceVersion + "/" + this.layername + "/" + z + "/" + x + "/" + y + "." + this.type;
 			var url = this.url;
 			if (url instanceof Array) {
 				url = this.selectUrl(path, url);
 			}
-			
+
 			return url + path;
 		}
 	}
@@ -1572,17 +1572,17 @@ FurryMap.Permalink = OpenLayers.Class(OpenLayers.Control.Permalink, {
 		center = center || this.map.getCenter();
 		zoom = zoom || this.map.getZoom();
 		layers = layers || this.map.layers;
-		
+
 		var params = OpenLayers.Util.getParameters(this.base);
-		
-		// If there's still no center, map is not initialized yet. 
+
+		// If there's still no center, map is not initialized yet.
 		// Break out of this function, and simply return the params from the
 		// base link.
-		if (center && this.map.getProjectionObject()) { 
-			params.zoom = this.map.getZoom(); 
+		if (center && this.map.getProjectionObject()) {
+			params.zoom = this.map.getZoom();
 			var lat = center.lat;
 			var lon = center.lon;
-			
+
 			if (this.displayProjection) {
 				var mapPosition = OpenLayers.Projection.transform(
 					{ x: lon, y: lat },
@@ -1594,7 +1594,7 @@ FurryMap.Permalink = OpenLayers.Class(OpenLayers.Control.Permalink, {
 			params.lat = Math.round(lat * 100000) / 100000;
 			params.lon = Math.round(lon * 100000) / 100000;
 		}
-		
+
 		return params;
 	}
 });
@@ -1602,7 +1602,7 @@ FurryMap.Permalink = OpenLayers.Class(OpenLayers.Control.Permalink, {
 OpenLayers.Control.JumpBox = OpenLayers.Class(OpenLayers.Control, {
 
 	element: null,
-	
+
 	datapool: null,
 	addlink: "",
 
@@ -1618,8 +1618,8 @@ OpenLayers.Control.JumpBox = OpenLayers.Class(OpenLayers.Control, {
 			this.div.removeChild(this.element);
 		}
 		this.element = null;
-		
-		OpenLayers.Control.prototype.destroy.apply(this, arguments); 
+
+		OpenLayers.Control.prototype.destroy.apply(this, arguments);
 	},
 
 	initvalue: "Jump to...",
@@ -1628,7 +1628,7 @@ OpenLayers.Control.JumpBox = OpenLayers.Class(OpenLayers.Control, {
 		OpenLayers.Control.prototype.draw.apply(this, arguments);
 
 		if (!this.element) {
-			this.div.style.color = "white";   
+			this.div.style.color = "white";
 			this.div.style.backgroundColor = "transparent";
 			this.div.style.width = "370px";
 			this.element = document.createElement("div");
@@ -1670,11 +1670,11 @@ OpenLayers.Control.JumpBox = OpenLayers.Class(OpenLayers.Control, {
 				if (!center) {
 					return;
 				}
-				
+
 				var zoom = this.map.getZoom();
 				var lat = center.lat;
 				var lon = center.lon;
-				
+
 				var mapPosition = OpenLayers.Projection.transform(
 					{ x: lon, y: lat },
 					this.map.getProjectionObject(),
@@ -1704,7 +1704,7 @@ OpenLayers.Control.JumpBox = OpenLayers.Class(OpenLayers.Control, {
 				this.onInputboxKeyup(e);
 				OpenLayers.Event.stop(e);
 			}, this));
-			OpenLayers.Event.observe(this.inputbox, "keyup", 
+			OpenLayers.Event.observe(this.inputbox, "keyup",
 				OpenLayers.Function.bindAsEventListener(this.onInputboxKeyup, this));
 			OpenLayers.Rico.Corner.round(this.div, {
 				corners: "tr",
@@ -1713,13 +1713,13 @@ OpenLayers.Control.JumpBox = OpenLayers.Class(OpenLayers.Control, {
 				blend: false
 			});
 			OpenLayers.Rico.Corner.changeOpacity(this.element, 0.75);
-			
+
 			this.lastvalue = this.initvalue;
 		}
-		
+
 		return this.div;
 	},
-	
+
 	currentitem: 0,
 	onInputboxKeyup: function (e) {
 		var lis;
@@ -1796,7 +1796,7 @@ OpenLayers.Control.JumpBox = OpenLayers.Class(OpenLayers.Control, {
 					ul.appendChild(li);
 				}
 			}
-			
+
 			this.list.innerHTML = "";
 			this.list.appendChild(ul);
 			lis = this.list.getElementsByTagName('li');
@@ -1821,10 +1821,10 @@ OpenLayers.Util.extend(FurryMap.DataPool.prototype, {
 	dataUrl: null,
 	hasData: false,
 	parent: null,
-	
+
 	externalProjection: "EPSG:4326",
 	internalProjection: "EPSG:4326",
-	
+
 	initialize: function (dataUrl, internalProjection, externalProjection) {
 		this.internalProjection = new OpenLayers.Projection(internalProjection);
 		this.externalProjection = new OpenLayers.Projection(externalProjection);
@@ -1836,18 +1836,18 @@ OpenLayers.Util.extend(FurryMap.DataPool.prototype, {
 			var pe = new PeriodicalExecuter(this.forceUpdate.bind(this), 5 * 60);
 		}
 	},
-	
+
 	loadData: function (url) {
 		if (typeof url != "string") {
 			return;
 		}
 		OpenLayers.loadURL(
-			url, null, this, 
+			url, null, this,
 			function (ajaxRequest) {
 				var json = ajaxRequest.responseText;
-				
+
 				var options = {};
-				
+
 				var parser = new OpenLayers.Format.JSON(options);
 				var predata = parser.read(json);
 				this.parseData(predata);
@@ -1855,7 +1855,7 @@ OpenLayers.Util.extend(FurryMap.DataPool.prototype, {
 			}, function () {}
 		);
 	},
-	
+
 	parseData: function (predata) {
 		var layers = [];
 		if (predata) {
@@ -1868,12 +1868,12 @@ OpenLayers.Util.extend(FurryMap.DataPool.prototype, {
 		}
 		return layers;
 	},
-	
+
 	addDataTo: function (key, predata) {
 		if (!this.data[key]) {
 			this.data[key] = {id: predata.id, features: {}, info: {}};
 		}
-		
+
 		if (predata.geojson) {
 			var options = {};
 			if (!this.externalProjection.equals(this.internalProjection)) {
@@ -1887,7 +1887,7 @@ OpenLayers.Util.extend(FurryMap.DataPool.prototype, {
 				this.data[key].features = features;
 			}
 		}
-		
+
 		if (predata.info) {
 			this.data[key].info = predata.info;
 		}
@@ -1902,7 +1902,7 @@ OpenLayers.Util.extend(FurryMap.DataPool.prototype, {
 		}
 
 	},
-	
+
 	syncFeaturesWith: function (key, datakey) {
 		if (!this.data[datakey].features) {
 			return;
@@ -1917,7 +1917,7 @@ OpenLayers.Util.extend(FurryMap.DataPool.prototype, {
 			this.data[key].features[feature[2]] = feature;
 		}
 	},
-	
+
 	forceUpdate: function (category) {
 		if (typeof category == "string" && this.data[category] && this.data[category].info.updateUrl) {
 			this.loadData(this.data[category].info.updateUrl);
@@ -1948,49 +1948,49 @@ OpenLayers.Util.extend(FurryMap, {
 			});
 		}
 	},
-	
+
 	clearLayer: function () {
 		FurryMap.delayCall('clearLayer', arguments);
 	},
-	
+
 	addMarkers: function () {
 		FurryMap.delayCall('addMarkers', arguments);
 	},
-	
+
 	reloadMarkers: function () {
 		FurryMap.delayCall('reloadMarkers', arguments);
 	},
-	
+
 	updateLayer: function () {
 		FurryMap.delayCall('updateLayer', arguments);
 	},
-	
+
 	addToDataPool: function () {
-		FurryMap.delayCall('addToDataPool', arguments);	
+		FurryMap.delayCall('addToDataPool', arguments);
 	},
-	
+
 	addMarkerTo: function () {
-		FurryMap.delayCall('addMarkerTo', arguments);	
+		FurryMap.delayCall('addMarkerTo', arguments);
 	},
-	
+
 	center: function () {
-		FurryMap.delayCall('center', arguments);	
+		FurryMap.delayCall('center', arguments);
 	},
-	
+
 	setMarker: function () {
-		FurryMap.delayCall('setMarker', arguments);	
+		FurryMap.delayCall('setMarker', arguments);
 	},
-	
+
 	setDistanceUrl: function () {
-		FurryMap.delayCall('setDistanceUrl', arguments);	
+		FurryMap.delayCall('setDistanceUrl', arguments);
 	},
-	
+
 	setClickHandler: function () {
-		FurryMap.delayCall('setClickHandler', arguments);	
+		FurryMap.delayCall('setClickHandler', arguments);
 	},
-	
+
 	clearTempLayers: function () {
-		FurryMap.delayCall('clearTempLayers', arguments);	
+		FurryMap.delayCall('clearTempLayers', arguments);
 	}
 });
 
@@ -2016,7 +2016,7 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 	layers: {},
 	lang: {},
 	clickHandlerActivated: false,
-	
+
 	initialize: function (div, lang, pos, dataurl, addregionurl) {
 		this.lon = pos[0];
 		this.lat = pos[1];
@@ -2026,13 +2026,13 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 		this.lang = lang;
 		this.initMap(div);
 	},
-	
+
 	initMap: function (div) {
-		OpenLayers.Lang.setCode('de');
-		
+		OpenLayers.Lang.setCode('en');
+
 		var lonLat = new OpenLayers.LonLat(this.lon, this.lat).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 		var zoom = this.zoom;
-		
+
 		this.map = new OpenLayers.Map(div, {
 			controls: FurryMap.SmallVersion?
 			[
@@ -2063,13 +2063,13 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 		}
 		/* Loading Satelite Images from OpenAerialMap */
 		/*var jpl_wms = new OpenLayers.Layer.WMS(this.lang.Satelite,
-			"http://openaerialmap.org/wms/", 
+			"http://openaerialmap.org/wms/",
 		  {layers: "world", projection: new OpenLayers.Projection("EPSG:4326")});*/
 		/*var jpl_wms = new FurryMap.Layer.OpenAerialMap(this.lang.Satellite,
-				"http://tile.openaerialmap.org/tiles/", 
+				"http://tile.openaerialmap.org/tiles/",
 			  {layername: "openaerialmap-900913", type: "jpg", buffer: 0});
 		jpl_wms.setVisibility(false);*/
-		
+
 		//var mymarker = this.lang["My Marker"];
 		//this.layers[mymarker] = new OpenLayers.Layer.Markers(mymarker + '<img src="'+ OpenLayers.Util.getImagesLocation() + "marker_red.png" + '"/>');
 		var size = new OpenLayers.Size(24, 24);
@@ -2084,12 +2084,12 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 		this.icons.yellow = new FurryMap.LightIcon(OpenLayers.Util.getImagesLocation() + "marker_yellow.png", size, offset);
 		this.icons.magenta = new FurryMap.LightIcon(OpenLayers.Util.getImagesLocation() + "marker_magenta.png", size, offset);
 		this.icons.con = new FurryMap.LightIcon(OpenLayers.Util.getImagesLocation() + "building.png", size16, offset16);
-		
+
 		this.clickControl = new FurryMap.Control.Click();
 		this.clickControl.fmap = this;
 		this.map.addControl(this.clickControl);
 		this.clickControl.activate();
-		
+
 		this.map.addLayers([mapnik_layer/*, jpl_wms*/]);
 		if (!FurryMap.SmallVersion) {
 			var overview1 = new OpenLayers.Control.OverviewMap({
@@ -2109,20 +2109,20 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			this.map.addControl(overview1);
 			overview1.maximizeControl();
 		}
-		
+
 		//var lonLat = new OpenLayers.LonLat(this.lon, this.lat).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
 		//this.map.setCenter(lonLat, this.zoom);
 		//this.map.addLayer(this.layers[mymarker]);
 		//this.setLayerIndex(mymarker, 50);
 	},
-	
+
 	clearLayer: function (layername) {
 		if (this.layers[layername]) {
 			this.map.removeLayer(this.layers[layername]);
 			this.layers[layername] = false;
 		}
 	},
-	
+
 	setLayerIndex: function (layer, index) {
 		if (this.layers[layer]) {
 			this.layers[layer].realIndex = index;
@@ -2140,17 +2140,17 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			}
 		}
 	},
-	
-	
+
+
 	/*addMarkers: function () {
 		this.addMarkers2.apply(this, arguments);
-		
+
 		var object = {'scope': this, 'arg': arguments};
 		var pe = new PeriodicalExecuter(function () {
 			this.scope.addMarkers2.apply(this.scope, this.arg);
 		}.bind(object), 5 * 60);
 	},
-	
+
 	addMarkers2: function (layername, url, iconcolor, idx) {
 		if (this.layers[layername] && this.layers[layername].location == url) {
 			this.layers[layername].loaded = false;
@@ -2175,7 +2175,7 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			this.setLayerIndex(layername, idx);
 		}
 	},*/
-	
+
 	reloadMarkers: function (layername) {
 		this.datapool.forceUpdate(null);
 		/*if (this.layers[layername]) {
@@ -2183,9 +2183,9 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			this.layers[layername].loadText();
 		}*/
 	},
-	
+
 	templayers: [],
-	
+
 	updateLayer: function (layername) {
 		if (!this.datapool.data[layername]) {
 			return;
@@ -2204,10 +2204,10 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 		}
 		this.layers[layername].update();
 	},
-	
+
 	addToDataPool: function (json) {
 		var options = {};
-		
+
 		var parser = new OpenLayers.Format.JSON(options);
 		var predata = parser.read(json);
 		var layers = this.datapool.parseData(predata);
@@ -2215,7 +2215,7 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			this.templayers.push(layers[i]);
 		}
 	},
-	
+
 	addMarkerTo: function (layername, lon, lat, zoom, iconcolor, idx, translation) {
 		if (!this.layers[layername]) {
 			this.layers[layername] = new OpenLayers.Layer.Markers(translation?translation:layername);
@@ -2224,15 +2224,15 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			this.templayers.push(layername);
 		}
 		var lonlat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
-		
+
 		var marker = new FurryMap.ZoomMarker(lonlat, this.icons[iconcolor].clone(), zoom);
 		this.layers[layername].addMarker(marker);
 	},
-	
+
 	/*createPoolLayer: function(predata) {
 		this.datapool.parseData(predata);
 	},*/
-	
+
 	/*addMarkerFromPool: function (layername, id) {
 		if (!this.datapool.data[layername]) {alert('no pool');
 			return;
@@ -2251,12 +2251,12 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			this.templayers.push(layername);
 		}
 		if (this.datapool.data['search'] && this.datapool.data['search'].features[id]) {
-			
+
 			this.datapool.data[layername].features[id] = this.datapool.data['search'].features[id];
 		}
 		this.layers[layername].update();
 	},*/
-	
+
 	center: function (lon, lat, zoom) {
 		if (zoom > 15) zoom = 15;
 		var lonlat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), new OpenLayers.Projection("EPSG:900913"));
@@ -2268,7 +2268,7 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 		this.map.panTo(lonlat);
 		//this.setMarker(lonlat);
 	},
-	
+
 	setMarker: function (lonlat, vanish) {
 		//var mymarker = this.lang["My Marker"];
 		//if (this.cmarker) {
@@ -2317,21 +2317,21 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			}
 		}
 	},
-	
+
 	distanceUrl: null,
 	distanceOrder: 'asc',
 	distanceLayout: 'marker',
-	
+
 	setDistanceUrl: function (url, order, layout) {
 		this.distanceUrl = url;
 		this.distanceOrder = order;
 		this.distanceLayout = layout;
 		this.dataage = 0;
 	},
-	
+
 	data: null,
 	dataage: 0,
-	
+
 	loadDistances: function () {
 		if (this.datapool.data.distance) {
 			this.data = [];
@@ -2341,7 +2341,7 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			this.calculateDistances();
 		}
 	},
-	
+
 	calculateDistances: function () {
 		var pi180 = Math.PI / 180;
 		if (window.subwindow) {
@@ -2352,7 +2352,7 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 		}
 		var cb1 = Math.cos(b1);
 		var sb1 = Math.sin(b1);
-		
+
 		for (var i = 0; i < this.data.length; i++) {
 			var feature = this.data[i];
 			var lonlat = new OpenLayers.LonLat(feature[0], feature[1]);
@@ -2373,7 +2373,7 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 		}
 		this.redrawList();
 	},
-	
+
 	redrawList: function () {
 		if (window.subwindow) {
 			with(window.subwindow) {
@@ -2409,7 +2409,7 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			}
 		}
 	},
-	
+
 	setClickHandler: function (bool) {
 		this.clickHandlerActivated = bool;
 		//if (!bool) {
@@ -2419,7 +2419,7 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 			//}
 		//}
 	},
-	
+
 	clearTempLayers: function () {
 		for (var tl in this.templayers) {
 			this.clearLayer(this.templayers[tl]);
@@ -2429,7 +2429,7 @@ OpenLayers.Util.extend(FurryMap.prototype, {
 
 FurryMap.Control = OpenLayers.Class();
 
-FurryMap.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
+FurryMap.Control.Click = OpenLayers.Class(OpenLayers.Control, {
 	defaultHandlerOptions: {
 		'single': true,
 		'double': false,
@@ -2440,18 +2440,18 @@ FurryMap.Control.Click = OpenLayers.Class(OpenLayers.Control, {
 
 	fmap: {},
 
-	
+
 	initialize: function (options) {
 		this.handlerOptions = OpenLayers.Util.extend({}, this.defaultHandlerOptions);
 		OpenLayers.Control.prototype.initialize.apply(
 			this, arguments
-		); 
+		);
 		this.handler = new OpenLayers.Handler.Click(this, {'click': this.trigger}, this.handlerOptions);
-		
-	}, 
+
+	},
 
 	trigger: function (e) {
-		
+
 		var lonlat = this.fmap.map.getLonLatFromViewPortPx(e.xy);
 		this.fmap.setMarker(lonlat);
 		//alert("You clicked near " + lonlat.lat + " N, " + lonlat.lon + " E");
@@ -2473,7 +2473,7 @@ OpenLayers.Util.extend(FurryMap, {
 	LatPrinter: function (lat) {
 		return FurryMap.DegPrinter(lat) + " N";
 	},
-	
+
 	Minimizer: function () {
 		var minimizer = $('bottom_minimizer');
 		if (minimizer) {
@@ -2500,7 +2500,7 @@ var PeriodicalExecuter = OpenLayers.Class({
 		this.callback = callback;
 		this.frequency = frequency;
 		this.currentlyExecuting = false;
-		
+
 		this.registerCallback();
 	},
 
@@ -2513,7 +2513,7 @@ var PeriodicalExecuter = OpenLayers.Class({
 	},
 
 	stop: function () {
-		if (!this.timer) { 
+		if (!this.timer) {
 			return;
 		}
 		clearInterval(this.timer);
@@ -2537,4 +2537,3 @@ OpenLayers.Util.extend(Object, {
 		return OpenLayers.Util.extend({}, object);
 	}
 });
-

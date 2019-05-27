@@ -3,7 +3,7 @@
 <head>
 
 <script type="text/javascript">
-if(screen.width>640) {	
+if(screen.width>640) {
 	if(top.location.pathname == self.location.pathname) {
 		location.replace(self.location.protocol+"//"+self.location.host+"/?goto="+self.location.pathname);
 	}
@@ -50,7 +50,7 @@ var Minimizer = function() {
 	}
 }
 </script>
-<style type="text/css"> 
+<style type="text/css">
 body {
 	background: url('/images/background.png') 320px 0px repeat-y;
 }
@@ -75,7 +75,7 @@ body {
 			<h3 style="padding: 9px 0px 0px 9px;"><div id="search_choice">Markers (Alphabetical)</div></h3>
 			<div id="result">
 			</div>
-			
+
 <!-- -->
 
 
@@ -99,8 +99,9 @@ body {
 			}
 					</script>
 
+
 <!-- -->
-														
+
 		</div>
 	</div>
 	<div id="fullcontent_top">
@@ -118,10 +119,10 @@ body {
 		<div id="top_content">
 			<form id="listForm" action="/en/main/list" method="post">
 				<select name="list_select" id="list_selection" style="width: 220px;">
-					<!--<option value="user_alpha">Furries (Alphabetical)</option>-->
-					<!--<option value="user_date">Furries (Join Date)</option>-->
+					<!--<option value="user_alpha">Furries (Alphabetical, Archive Limited)</option>-->
+					<!--<option value="user_date">Furries (Join Date, Dynamic Only)</option>-->
 					<option value="marker_alpha" selected="selected">Markers (Alphabetical)</option>
-					<!--<option value="marker_date">Markers (Date Edited)</option>-->
+					<!--<option value="marker_date">Markers (Date Edited, Dynamic Only)</option>-->
 					<option value="marker_measure">Markers (Radial search)</option>
 				</select>
 				<input type="hidden" name="list_order" id="list_order" value="desc"/>
@@ -156,7 +157,7 @@ body {
 	<div id="bottom_minimizer" class="minimizer_button">
 	</div>
 	<script type="text/javascript">
-		Minimizer();		
+		Minimizer();
 	</script>
 	<div id="bottom_innercontent" style="padding:9px;left:0px;right:0px">
 		Furrymap.net contains <br/>17520 Furries with 15720 markers.<br/>
