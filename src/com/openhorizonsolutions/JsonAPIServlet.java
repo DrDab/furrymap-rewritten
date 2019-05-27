@@ -54,9 +54,9 @@ public class JsonAPIServlet extends HttpServlet
 			archived_info.put("addToSearch", "true");
 			archived_info.put("addToDistance", "true");
 			archived_info.put("layerindex", "10");
-			archived_info.put("iconcolor", "blue");
+			archived_info.put("iconcolor", "cyan");
 			archived_info.put("updateUrl", "/en/marker/list/type/combined");
-			archived_info.put("layername", "Archived Furries (blue)");
+			archived_info.put("layername", "Archived Furries (cyan)");
 			archived.put("info", archived_info);
 
 			JSONObject archived_geojson = new JSONObject();
@@ -139,12 +139,12 @@ public class JsonAPIServlet extends HttpServlet
 			if (token == null)
 			{
 				// show nothing.
-				System.out.println("No Token");
+				//System.out.println("No Token");
 				own_features = new JSONArray();
 			}
 			else
 			{
-				System.out.println("Token: " + token);
+				//System.out.println("Token: " + token);
 				long userid = IOUtils.getIDFromAPIKey(token);
 				try 
 				{
