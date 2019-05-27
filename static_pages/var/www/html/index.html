@@ -1,8 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<link rel="alternate" type="application/rss+xml" title="FurryMap.net RSS Feed" href="https://furrymap.net/en/marker/rss" />
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="title" content="FurryMap.net" />
 <meta name="robots" content="noindex, nofollow" />
@@ -42,9 +40,47 @@
 	</div>
 
 	<script type="text/javascript">
+	// before loading this, we should put the access token of the user cookie into the url as a GET parameter.
+	// after concatenation, put in the 127.0.0.1/FurryMapblahlah url.
+	// ???
+	// profit!
+	function getCookie(cname) {
+	  var name = cname + "=";
+	  var decodedCookie = decodeURIComponent(document.cookie);
+	  var ca = decodedCookie.split(';');
+	  for(var i = 0; i <ca.length; i++) {
+	    var c = ca[i];
+	    while (c.charAt(0) == ' ') {
+	      c = c.substring(1);
+	    }
+	    if (c.indexOf(name) == 0) {
+	      return c.substring(name.length, c.length);
+	    }
+	  }
+	  return "";
+	}
+
+	/*
+	function setCookie(cname, cvalue, exdays) {
+  	var d = new Date();
+  	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  	var expires = "expires="+d.toUTCString();
+  	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	}
+	*/
+	//setCookie("token", "Hello", 1);
+
+	var token = getCookie("token");
+	//console.log("Token=" + token);
+	var markersUrl = "http://127.0.0.1:8080/FurryMapRewritten/en/marker/list/type/combined";
+	if (token != "")
+	{
+		markersUrl += "?token=" + token;
+	}
+
 		Event.observe(window, 'load', function() {
 			OpenLayers.ImgPath = '/images/openlayers/';
-			FurryMap.load('furrymap', {'Streets':"Streets",'Satellite':"Satellite"},[0,20,2],'http://127.0.0.1:8080/FurryMapRewritten/en/marker/list/type/combined','<a href="/en/marker/mylist" target="subwindow">'+"New Marker"+'</a>',"Jump to...");
+			FurryMap.load('furrymap', {'Streets':"Streets",'Satellite':"Satellite"},[0,20,2],markersUrl,'<a href="/en/marker/mylist" target="subwindow">'+"New Marker"+'</a>',"Jump to...");
 					});
 	</script>
 

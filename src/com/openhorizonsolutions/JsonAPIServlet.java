@@ -139,10 +139,12 @@ public class JsonAPIServlet extends HttpServlet
 			if (token == null)
 			{
 				// show nothing.
+				System.out.println("No Token");
 				own_features = new JSONArray();
 			}
 			else
 			{
+				System.out.println("Token: " + token);
 				long userid = IOUtils.getIDFromAPIKey(token);
 				try 
 				{
