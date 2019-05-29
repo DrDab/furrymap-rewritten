@@ -3,6 +3,7 @@
 <head>
 
 <script src="/js/Constants.js"></script>
+<script src="/js/IOLibs.js"></script>
 
 <script type="text/javascript">
 if(screen.width>640) {
@@ -165,7 +166,7 @@ body {
 
 									//console.log("markerid= " + markerid + " lat=" + latitude + " lon=" + longitude);
 
-									htmlToAdd += "(PLACEHOLDER DEBUG)markerid= " + markerid + " lat=" + latitude + " lon=" + longitude + "<br>";
+									htmlToAdd += "(PLACEHOLDER DEBUG)username= " + username + " lat=" + latitude + " lon=" + longitude + "<br>";
 		 					}
 							console.log("HTML updated: " + htmlToAdd);
 
