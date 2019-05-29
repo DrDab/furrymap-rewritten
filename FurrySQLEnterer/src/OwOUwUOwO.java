@@ -29,7 +29,7 @@ public class OwOUwUOwO
 		
 		String jsonData = getJSONDataFromFile("combined.json");
 		ArrayList<Furry> owo = getFurryList(jsonData);
-		String query = "INSERT INTO " + LOCATION_TABLE_NAME + " (locationid, accountid, username, description, profileurl, latitude, longitude, opacity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO " + LOCATION_TABLE_NAME + " (locationid, accountid, username, description, profileurl, latitude, longitude, opacity, archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
 		stmt.executeQuery("SET NAMES utf8mb4");
 		int i = 0;
@@ -43,6 +43,7 @@ public class OwOUwUOwO
 			stmt.setDouble(6, furry.getLatitude());
 			stmt.setDouble(7, furry.getLongitude());
 			stmt.setInt(8, furry.getOpacityFactor());
+			stmt.setInt(9, 1);
 			stmt.execute();
 			i++;
 			System.out.printf("%d of %d\n", i, owo.size());

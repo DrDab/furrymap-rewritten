@@ -6,5 +6,6 @@ CREATE TABLE locationdatabase (
   `profileurl` VARCHAR(255),
   `latitude` DOUBLE,
   `longitude` DOUBLE,
-  `opacity` INT NULL
+  `opacity` INT NULL,
+  `archived` INT NULL
   ) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
