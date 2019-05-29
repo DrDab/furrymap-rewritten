@@ -168,7 +168,18 @@ body {
 									htmlToAdd += "(PLACEHOLDER DEBUG)markerid= " + markerid + " lat=" + latitude + " lon=" + longitude + "<br>";
 		 					}
 							console.log("HTML updated: " + htmlToAdd);
-							document.getElementById("search_choice").innerHTML = $('list_selection').options[$('list_selection').selectedIndex].text;
+
+							var searchChoiceText = $('list_selection').options[$('list_selection').selectedIndex].text;
+							if ($('list_order').value == 'asc')
+							{
+								searchChoiceText += " (Ascending)";
+							}
+							else
+							{
+								searchChoiceText += " (Descending)";
+							}
+
+							document.getElementById("search_choice").innerHTML = searchChoiceText;
 							document.getElementById("result").innerHTML = htmlToAdd;
 	 				};
 				}
