@@ -285,7 +285,7 @@ public class IOUtils
 		return toReturn;
 	}
 	
-	public static JSONArray getJSONArrayOfSpecifiedFurryLocations(String listSelection, String listOrder, JSONObject otherParams) throws SQLException, NullPointerException
+	public static JSONArray getJSONArrayOfSpecifiedFurryLocations(String listSelection, String listOrder, JSONObject otherParams, int number) throws SQLException, NullPointerException
 	{
 		initConnection();
 		
@@ -296,8 +296,10 @@ public class IOUtils
 			// alphabetical ordered markers
 			query += " ORDER BY description " + (listOrder.equals("asc") ? "ASC" : "DESC");
 			query += ", username " + (listOrder.equals("asc") ? "ASC" : "DESC");
+			query += " LIMIT ?";
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
 			stmt.executeQuery("SET NAMES utf8mb4");
+			stmt.setInt(1, number);
 			ResultSet rs = stmt.executeQuery();
 			JSONArray toReturn = new JSONArray();
 			int id = 0;
@@ -338,6 +340,7 @@ public class IOUtils
 			// radius ordered markers
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
 			stmt.executeQuery("SET NAMES utf8mb4");
+			query += " LIMIT ?";
 			ResultSet rs = stmt.executeQuery();
 			JSONArray toReturn = new JSONArray();
 			ArrayList<FurryMarkerDistanceHandler> al = new ArrayList<FurryMarkerDistanceHandler>();

@@ -232,7 +232,7 @@ public class JsonAPIServlet extends HttpServlet
 				{
 					toPlug = new JSONObject(otherParams);
 				}
-				features = IOUtils.getJSONArrayOfSpecifiedFurryLocations(listSelection, listOrder, toPlug);
+				features = IOUtils.getJSONArrayOfSpecifiedFurryLocations(listSelection, listOrder, toPlug, 50);
 			}
 			catch (SQLException e) 
 			{

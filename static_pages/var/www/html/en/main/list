@@ -75,9 +75,7 @@ body {
 			<h3 style="padding: 9px 0px 0px 9px;"><div id="search_choice">Markers (Alphabetical)</div></h3>
 			<div id="result">
 			</div>
-
-<!-- -->
-
+<!-- -
 
 <div style="line-height: 19px; cursor:pointer" id="userlocation_19383">
 			<div style="padding:9px;">
@@ -97,10 +95,9 @@ body {
 					FurryMap.center(0, 2, 18);
 				});
 			}
-					</script>
+		</script>
 
-
-<!-- -->
+ -->
 
 		</div>
 	</div>
@@ -117,7 +114,7 @@ body {
 	</div>
 </div>
 		<div id="top_content">
-			<form id="listForm" action="/en/main/list" method="post">
+			<div id="listForm">
 				<select name="list_select" id="list_selection" style="width: 220px;">
 					<!--<option value="user_alpha">Furries (Alphabetical, Archive Limited)</option>-->
 					<!--<option value="user_date">Furries (Join Date, Dynamic Only)</option>-->
@@ -129,8 +126,55 @@ body {
 				<img src="/images/arrow_up.png" id="list_order_asc" alt="Ascending" title="Ascending" style="vertical-align: middle"/>
 				<img src="/images/arrow_down.png" id="list_order_desc" alt="Descending" title="Descending" style="vertical-align: middle"/>
 				<input type="hidden" name="list_start" id="list_start" value="A"/>
-			</form>
+			</div>
 			<script type="text/javascript">
+
+			function updateList()
+			{
+				console.log("List selection value: " + $('list_selection').value);
+				console.log("List order value: " + $('list_order').value);
+				console.log("Pulling JSON data...");
+				var xhttp = new XMLHttpRequest();
+ 				xhttp.onreadystatechange = function()
+				{
+		 			if (this.readyState == 4 && this.status == 200)
+					{
+							myObj = JSON.parse(this.responseText);
+							//console.log("JSON Data: " + this.responseText);
+							//document.getElementById("result").innerHTML = myObj.location.name;
+							// you can get all fields with myObj variable.
+							features = myObj.search_result.geojson.features;
+							var count = Object.keys(features).length;
+							console.log(count + " entries total");
+
+							var htmlToAdd = "";
+
+							for (var i = 0; i < count; i++)
+							{
+									var longitude = features[i][0];
+									var latitude = features[i][1];
+									var markerid = features[i][2].substring(1);
+									var markerdescription = features[i][3];
+									var opacity = features[i][4];
+									var username = features[i][5];
+									var profileUrl = features[i][6];
+									var accountid = features[i][7];
+									var archived = features[i][8];
+
+									//console.log("markerid= " + markerid + " lat=" + latitude + " lon=" + longitude);
+
+									htmlToAdd += "(PLACEHOLDER DEBUG)markerid= " + markerid + " lat=" + latitude + " lon=" + longitude + "<br>";
+		 					}
+							console.log("HTML updated: " + htmlToAdd);
+							document.getElementById("search_choice").innerHTML = $('list_selection').options[$('list_selection').selectedIndex].text;
+							document.getElementById("result").innerHTML = htmlToAdd;
+	 				};
+				}
+	 				xhttp.open("GET", "http://127.0.0.1:8080/FurryMapRewritten/en/marker/list/type/list_markers?list_selection=" + $('list_selection').value + "&list_order=" + $('list_order').value, true);
+	 				xhttp.send();
+			}
+
+
 				$('list_selection').onchange = function () {
 					var v = $('list_selection').value;
 					if(v == 'user_alpha' || v == 'marker_alpha' || v == 'marker_measure' || v == 'user_measure') {
@@ -138,17 +182,23 @@ body {
 					} else {
 						$('list_order').value = 'desc';
 					}
-					$('listForm').submit();
+					//$('listForm').submit();
+					updateList();
 				};
 				$('list_order_asc').onclick = function () {
 					$('list_order').value = 'asc';
-					$('listForm').submit();
+					//$('listForm').submit();
+					updateList();
 				};
 				$('list_order_desc').onclick = function () {
 					$('list_order').value = 'desc';
-					$('listForm').submit();
+					//$('listForm').submit();
+					updateList();
 				};
+
+				updateList();
 			</script>
+
 		</div>
 	</div>
 </div>
