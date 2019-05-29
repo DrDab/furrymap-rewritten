@@ -13,6 +13,7 @@
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <script type="text/javascript" src="/js/OpenLayersMini.js"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+<script src="/js/Constants.js"></script>
 </head>
 <body>
 	<!--[if IE lt 7]>
@@ -73,7 +74,7 @@
 
 	var token = getCookie("token");
 	//console.log("Token=" + token);
-	var markersUrl = "http://127.0.0.1:8080/FurryMapRewritten/en/marker/list/type/combined";
+	var markersUrl = API_SERVER_URL + "/FurryMapRewritten/en/marker/list/type/combined";
 	if (token != "")
 	{
 		markersUrl += "?token=" + token;

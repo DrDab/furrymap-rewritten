@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 
+<script src="/js/Constants.js"></script>
+
 <script type="text/javascript">
 if(screen.width>640) {
 	if(top.location.pathname == self.location.pathname) {
@@ -170,7 +172,7 @@ body {
 							document.getElementById("result").innerHTML = htmlToAdd;
 	 				};
 				}
-	 				xhttp.open("GET", "http://127.0.0.1:8080/FurryMapRewritten/en/marker/list/type/list_markers?list_selection=" + $('list_selection').value + "&list_order=" + $('list_order').value, true);
+	 				xhttp.open("GET", API_SERVER_URL + "/FurryMapRewritten/en/marker/list/type/list_markers?list_selection=" + $('list_selection').value + "&list_order=" + $('list_order').value, true);
 	 				xhttp.send();
 			}
 
