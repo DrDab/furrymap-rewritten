@@ -338,10 +338,8 @@ public class IOUtils
 		else if (listSelection.equals("marker_measure"))
 		{
 			// radius ordered markers
-			query += " LIMIT ?";
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
 			stmt.executeQuery("SET NAMES utf8mb4");
-			stmt.setInt(1, number);
 			ResultSet rs = stmt.executeQuery();
 			JSONArray toReturn = new JSONArray();
 			ArrayList<FurryMarkerDistanceHandler> al = new ArrayList<FurryMarkerDistanceHandler>();
@@ -378,6 +376,10 @@ public class IOUtils
 			int id = 0;
 			for (FurryMarkerDistanceHandler handler : al)
 			{
+				if (id >= number)
+				{
+					break;
+				}
 				JSONArray tmpLoc = new JSONArray();
 				FurryMarker furre = handler.getFurry();
 				tmpLoc.put(0, furre.getLongitude());
