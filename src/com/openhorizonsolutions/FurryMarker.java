@@ -10,6 +10,7 @@ public class FurryMarker implements Comparable<FurryMarker>
     private String profile;
     private long accountid;
     private int opacityfactor;
+    private boolean archived;
 
     /**
      * Initializes an instance of a Furry object.
@@ -22,7 +23,7 @@ public class FurryMarker implements Comparable<FurryMarker>
      * @param description (the FurryMap description of the furry)
      * @param profile (the FurryMap profile URL of the furry)
      */
-    public FurryMarker(double latitude, double longitude, long locationid, String userName, String description, String profile, long accountid, int opacityfactor)
+    public FurryMarker(double latitude, double longitude, long locationid, String userName, String description, String profile, long accountid, int opacityfactor, boolean isarchived)
     {
         this.latitude = latitude;
         this.longitude = longitude;
@@ -32,6 +33,12 @@ public class FurryMarker implements Comparable<FurryMarker>
         this.profile = profile;
         this.accountid = accountid;
         this.opacityfactor = opacityfactor;
+        this.archived = archived;
+    }
+    
+    public boolean isArchived()
+    {
+    	return archived;
     }
 
     public int getOpacityFactor()

@@ -166,9 +166,38 @@ body {
 
 									//console.log("markerid= " + markerid + " lat=" + latitude + " lon=" + longitude);
 
-									htmlToAdd += "(PLACEHOLDER DEBUG)username= " + username + " lat=" + latitude + " lon=" + longitude + "<br>";
+									//htmlToAdd += "(PLACEHOLDER DEBUG)username= " + username + " lat=" + latitude + " lon=" + longitude + "<br>";
+
+									//htmlToAdd += "<script type=\"text\/javascript\">\r\n\t\t\t\t\t\tfunction onClick" + markerid + "() {\r\nconsole.log(\"test\");\r\n\t\t\t\tFML.go(function() {\r\n\t\t\t\t\tFurryMap.center(" + longitude + "," + latitude + "," +  opacity + ");\r\n\t\t\t\t});\r\n\t\t\t}\r\n\t\t<\/script>";
+
+									var onClickCustomScript = "FML.go(function() {\r\n\t\t\t\t\tFurryMap.center(" + longitude + "," + latitude + "," +  opacity + ");\r\n\t\t\t\t});";
+
+									htmlToAdd += "<div style=\"line-height: 19px; cursor:pointer\" id=\"userlocation_" + markerid + "\" onclick=\"" + onClickCustomScript + "\">\r\n\t\t\t<div style=\"padding:9px;\">";
+									htmlToAdd += "<a href=\"" + profileUrl + "\" id=\"useravatar_" + markerid + "\" style=\"\">";
+
+									var usernamelabel = username;
+									if (archived == 1)
+									{
+										usernamelabel += " [ARCHIVED]"
+									}
+
+									htmlToAdd += "<img src=\"\/images\/avatar\/default.png\" style=\"border: 1px solid #ffffff; float: left; margin-right:9px;\" width=\"40\" height=\"40\"\/><\/a>";
+
+
+									//if (archived == 1)
+									//{
+									//	// need to change this.
+								  htmlToAdd += "<a href=\"" + profileUrl + "\">" + username + "<\/a>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<br\/>\r\n\t\t\t\t<small><span style=\"float: right\">&nbsp;";
+									//}
+									//else
+									//{
+									//	htmlToAdd += "<a href=\"" + profileUrl + "\" id=\"user_" + accountid + "\" style=\"display: none\">" + username + "<\/a>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<br\/>\r\n\t\t\t\t<small><span style=\"float: right\">&nbsp;";
+									//}
+
+
+									htmlToAdd += "<\/span>" + latitude + "°, " + longitude + "°<\/small>\r\n\t\t\t<\/div>\r\n\t\t\t<hr style=\"clear: both\"\/>\r\n\t\t<\/div>\r\n\t\t";
 		 					}
-							console.log("HTML updated: " + htmlToAdd);
+							//console.log("HTML updated: " + htmlToAdd);
 
 							var searchChoiceText = $('list_selection').options[$('list_selection').selectedIndex].text;
 							if ($('list_order').value == 'asc')
