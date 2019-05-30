@@ -122,7 +122,7 @@ body {
 					<!--<option value="user_alpha">Furries (Alphabetical, Archive Limited)</option>-->
 					<!--<option value="user_date">Furries (Join Date, Dynamic Only)</option>-->
 					<option value="marker_alpha" selected="selected">Markers (Alphabetical)</option>
-					<!--<option value="marker_date">Markers (Date Edited, Dynamic Only)</option>-->
+					<option value="marker_date">Markers (Date Edited)</option>
 					<option value="marker_measure">Markers (Radial search)</option>
 				</select>
 				<input type="hidden" name="list_order" id="list_order" value="desc"/>

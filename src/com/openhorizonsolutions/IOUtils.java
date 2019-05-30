@@ -332,14 +332,44 @@ public class IOUtils
 			}
 			return toReturn;
 		}
-		/*
-		 * remove ability to sort by date (for now)
 		else if (listSelection.equals("marker_date"))
 		{
 			// date ordered markers
-			query += " ORDER BY description " + (listOrder.equals("asc") ? "ASC" : "DESC");
+			query += " ORDER BY updatedate " + (listOrder.equals("asc") ? "ASC" : "DESC");
+			query += " LIMIT ?";
+			PreparedStatement stmt = sqlConnection.prepareStatement(query);
+			stmt.executeQuery("SET NAMES utf8mb4");
+			stmt.setInt(1, number);
+			ResultSet rs = stmt.executeQuery();
+			JSONArray toReturn = new JSONArray();
+			int id = 0;
+			while (rs.next())
+			{
+				JSONArray tmpLoc = new JSONArray();
+				long locationId = rs.getLong("locationid");
+				long accountId = rs.getLong("accountid");
+				String username = rs.getString("username");
+				String description = (rs.getString("description"));
+				String profileUrl = rs.getString("profileurl");
+				double latitude = rs.getDouble("latitude");
+				double longitude = rs.getDouble("longitude");
+				int opacity = rs.getInt("opacity");
+				boolean isArchived = rs.getInt("archived") == 1;
+				
+				tmpLoc.put(0, longitude);
+				tmpLoc.put(1, latitude);
+				tmpLoc.put(2, "m" + locationId);
+				tmpLoc.put(3, description);
+				tmpLoc.put(4, opacity);
+				tmpLoc.put(5, username);
+				tmpLoc.put(6, profileUrl);
+				tmpLoc.put(7, accountId);
+				tmpLoc.put(8, isArchived);
+				toReturn.put(id, tmpLoc);
+				id++;
+			}
+			return toReturn;
 		}
-		*/
 		else if (listSelection.equals("marker_measure"))
 		{
 			// radius ordered markers
