@@ -23,7 +23,7 @@ public class FurryMarker implements Comparable<FurryMarker>
      * @param description (the FurryMap description of the furry)
      * @param profile (the FurryMap profile URL of the furry)
      */
-    public FurryMarker(double latitude, double longitude, long locationid, String userName, String description, String profile, long accountid, int opacityfactor, boolean isarchived)
+    public FurryMarker(double latitude, double longitude, long locationid, String userName, String description, String profile, long accountid, int opacityfactor, boolean archived)
     {
         this.latitude = latitude;
         this.longitude = longitude;

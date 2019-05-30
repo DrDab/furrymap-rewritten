@@ -243,6 +243,8 @@ public class IOUtils
 			double latitude = rs.getDouble("latitude");
 			double longitude = rs.getDouble("longitude");
 			int opacity = rs.getInt("opacity");
+			boolean isArchived = rs.getInt("archived") == 1;
+			
 			tmpLoc.put(0, longitude);
 			tmpLoc.put(1, latitude);
 			tmpLoc.put(2, "m" + locationId);
@@ -251,6 +253,7 @@ public class IOUtils
 			tmpLoc.put(5, username);
 			tmpLoc.put(6, profileUrl);
 			tmpLoc.put(7, accountId);
+			tmpLoc.put(8, isArchived);
 			toReturn.put(id, tmpLoc);
 			id++;
 		}
@@ -393,7 +396,7 @@ public class IOUtils
 				tmpLoc.put(5, furre.getUserName());
 				tmpLoc.put(6, furre.getProfile());
 				tmpLoc.put(7, furre.getAccountId());
-				
+				tmpLoc.put(8, furre.isArchived());
 				toReturn.put(id, tmpLoc);
 				id++;
 			}
