@@ -226,7 +226,7 @@ public class IOUtils
 	public static JSONArray getJSONArrayOfArchivedFurryLocations() throws SQLException
 	{
 		initConnection();
-		String query = "SELECT * FROM " + LOCATION_TABLE_NAME;
+		String query = "SELECT * FROM " + LOCATION_TABLE_NAME + " WHERE archived = 1";
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
 		stmt.executeQuery("SET NAMES utf8mb4");
 		ResultSet rs = stmt.executeQuery();
@@ -263,7 +263,37 @@ public class IOUtils
 	public static JSONArray getJSONArrayOfDynamicFurryLocations() throws SQLException
 	{
 		initConnection();
+		String query = "SELECT * FROM " + LOCATION_TABLE_NAME + " WHERE archived = 0";
+		PreparedStatement stmt = sqlConnection.prepareStatement(query);
+		stmt.executeQuery("SET NAMES utf8mb4");
+		ResultSet rs = stmt.executeQuery();
 		JSONArray toReturn = new JSONArray();
+		int id = 0;
+		while (rs.next())
+		{
+			JSONArray tmpLoc = new JSONArray();
+			long locationId = rs.getLong("locationid");
+			long accountId = rs.getLong("accountid");
+			String username = rs.getString("username");
+			String description = (rs.getString("description"));
+			String profileUrl = rs.getString("profileurl");
+			double latitude = rs.getDouble("latitude");
+			double longitude = rs.getDouble("longitude");
+			int opacity = rs.getInt("opacity");
+			boolean isArchived = rs.getInt("archived") == 1;
+			
+			tmpLoc.put(0, longitude);
+			tmpLoc.put(1, latitude);
+			tmpLoc.put(2, "m" + locationId);
+			tmpLoc.put(3, description);
+			tmpLoc.put(4, opacity);
+			tmpLoc.put(5, username);
+			tmpLoc.put(6, profileUrl);
+			tmpLoc.put(7, accountId);
+			tmpLoc.put(8, isArchived);
+			toReturn.put(id, tmpLoc);
+			id++;
+		}
 		return toReturn;
 	}
 	
