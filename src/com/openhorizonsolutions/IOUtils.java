@@ -365,7 +365,7 @@ public class IOUtils
 		else if (listSelection.equals("marker_date"))
 		{
 			// date ordered markers
-			query += " ORDER BY updatedate " + (listOrder.equals("asc") ? "ASC" : "DESC");
+			query += " ORDER BY updatedate " + (listOrder.equals("asc") ? "DESC" : "ASC");
 			query += " LIMIT ?";
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
 			stmt.executeQuery("SET NAMES utf8mb4");
