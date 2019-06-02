@@ -1996,6 +1996,7 @@ OpenLayers.Util.extend(FurryMap, {
 
 FurryMap.SmallVersion = false;
 
+// look here!
 FurryMap.load = function (div, lang, pos, dataurl, addregionurl) {
 	FurryMap.loaded = false;
 	FurryMap.Events.triggerEvent('loadStart', {});

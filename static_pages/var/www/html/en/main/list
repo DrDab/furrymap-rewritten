@@ -164,6 +164,12 @@ body {
 									var accountid = features[i][7];
 									var archived = features[i][8];
 
+									var dateEpoch;
+									if (archived == 0)
+									{
+										dateEpoch = features[i][9];
+									}
+
 									var onClickCustomScript = "FML.go(function() {\r\n\t\t\t\t\tFurryMap.center(" + longitude + "," + latitude + "," +  opacity + ");\r\n\t\t\t\t});";
 
 									htmlToAdd += "<div style=\"line-height: 19px; cursor:pointer\" id=\"userlocation_" + markerid + "\" onclick=\"" + onClickCustomScript + "\">\r\n\t\t\t<div style=\"padding:9px;\">";
@@ -186,7 +192,22 @@ body {
 
 								  htmlToAdd += "<a href=\"" + profileUrl + "\">" + usernamelabel + "<\/a>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<br\/>\r\n\t\t\t\t<span style=\"float: right\">&nbsp;";
 
-									var markerBodyTxt = markerdescription + "<br><small>" + latitude + "°, " + longitude + "°";
+									var markerBodyTxt = "";
+									if (markerdescription.trim().length > 0)
+									{
+										markerBodyTxt += markerdescription + "<br>";
+									}
+									markerBodyTxt += "<small>" + latitude + "°, " + longitude + "°";
+
+
+									if (archived == 0)
+									{
+										// add date.
+										var date = new Date(dateEpoch);
+										markerBodyTxt += "<br>[" + date.toString() + "]";
+										//markerBodyTxt += "<br>[" + date.year + "-" + (date.month + 1) + "-" + date.day + "]";
+									}
+
 
 									htmlToAdd += "<\/span>" + markerBodyTxt + "<\/small>\r\n\t\t\t<\/div>\r\n\t\t\t<hr style=\"clear: both\"\/>\r\n\t\t<\/div>\r\n\t\t";
 		 					}

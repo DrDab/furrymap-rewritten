@@ -11,6 +11,7 @@ public class FurryMarker implements Comparable<FurryMarker>
     private long accountid;
     private int opacityfactor;
     private boolean archived;
+    private long updateDate;
 
     /**
      * Initializes an instance of a Furry object.
@@ -22,8 +23,31 @@ public class FurryMarker implements Comparable<FurryMarker>
      * @param userName (the FurryMap username of the furry)
      * @param description (the FurryMap description of the furry)
      * @param profile (the FurryMap profile URL of the furry)
+     * @param accountid (the id number of the account associated with the marker)
+     * @param opacityfactor (the opacity factor of the marker)
+     * @param archived (whether this is an archived marker)
      */
     public FurryMarker(double latitude, double longitude, long locationid, String userName, String description, String profile, long accountid, int opacityfactor, boolean archived)
+    {
+    	this(latitude, longitude, locationid, userName, description, profile, accountid, opacityfactor, archived, 0L);
+    }
+    
+    /**
+     * Initializes an instance of a Furry object.
+     * A Furry object stores and handles the latitude, longitude, FurryMap information, username, and description of a furry.
+     *
+     * @param latitude (the latitude of the furry in degrees)
+     * @param longitude (the longitude of the furry in degrees)
+     * @param id (the FurryMap ID of the furry)
+     * @param userName (the FurryMap username of the furry)
+     * @param description (the FurryMap description of the furry)
+     * @param profile (the FurryMap profile URL of the furry)
+     * @param accountid (the id number of the account associated with the marker)
+     * @param opacityfactor (the opacity factor of the marker)
+     * @param archived (whether this is an archived marker)
+     * @param updateDate (the date this marker was last updated)
+     */
+    public FurryMarker(double latitude, double longitude, long locationid, String userName, String description, String profile, long accountid, int opacityfactor, boolean archived, long updateDate)
     {
         this.latitude = latitude;
         this.longitude = longitude;
@@ -34,6 +58,7 @@ public class FurryMarker implements Comparable<FurryMarker>
         this.accountid = accountid;
         this.opacityfactor = opacityfactor;
         this.archived = archived;
+        this.updateDate = updateDate;
     }
     
     public boolean isArchived()

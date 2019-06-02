@@ -348,6 +348,11 @@ public class IOUtils
 				double longitude = rs.getDouble("longitude");
 				int opacity = rs.getInt("opacity");
 				boolean isArchived = rs.getInt("archived") == 1;
+				long creationDate = 0L;
+				if (!isArchived)
+				{
+					creationDate = rs.getLong("updatedate");
+				}
 				tmpLoc.put(0, longitude);
 				tmpLoc.put(1, latitude);
 				tmpLoc.put(2, "m" + locationId);
@@ -357,6 +362,11 @@ public class IOUtils
 				tmpLoc.put(6, profileUrl);
 				tmpLoc.put(7, accountId);
 				tmpLoc.put(8, isArchived);
+				if (!isArchived)
+				{
+					tmpLoc.put(9, creationDate);
+				}
+				
 				toReturn.put(id, tmpLoc);
 				id++;
 			}
@@ -385,6 +395,11 @@ public class IOUtils
 				double longitude = rs.getDouble("longitude");
 				int opacity = rs.getInt("opacity");
 				boolean isArchived = rs.getInt("archived") == 1;
+				long creationDate = 0L;
+				if (!isArchived)
+				{
+					creationDate = rs.getLong("updatedate");
+				}
 				
 				tmpLoc.put(0, longitude);
 				tmpLoc.put(1, latitude);
@@ -395,6 +410,10 @@ public class IOUtils
 				tmpLoc.put(6, profileUrl);
 				tmpLoc.put(7, accountId);
 				tmpLoc.put(8, isArchived);
+				if (!isArchived)
+				{
+					tmpLoc.put(9, creationDate);
+				}
 				toReturn.put(id, tmpLoc);
 				id++;
 			}
@@ -419,7 +438,18 @@ public class IOUtils
 				double longitude = rs.getDouble("longitude");
 				int opacity = rs.getInt("opacity");
 				boolean isArchived = rs.getInt("archived") == 1;
-				FurryMarker furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived);
+				
+				FurryMarker furre;
+				
+				if (isArchived)
+				{
+					furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived);
+				}
+				else
+				{
+					long creationDate = rs.getLong("updatedate");
+					furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived, creationDate);
+				}
 				
 				double searchLat = 0.0;
 				double searchLng = 0.0;
