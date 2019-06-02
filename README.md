@@ -2,12 +2,9 @@
 A WIP project to revive FurryMap.net after it borked
 
 # But why?
-See below:
+In May of 2019, furrymap.net was indefinitely shut down by it's original operator, with the site presenting the farewell page shown below:
 
 <html>
-<head>
-<title>furrymap.net</title>
-</head>
 <body style="font-family: sans-serif">
 <h3>
 Goodbye and thanks for your support during all these years!
@@ -43,6 +40,7 @@ You can send an email to webmaster @ this domain or write me on <a href="https:/
 </body>
 </html>
 
+This project aims to recreate the experience of furrymap.net for future users.
 
 # Notes
 Opacity is the maximum zoom level that your marker will be visible at. (0 - 18, 0 = lowest zoom level, 18 = highest zoom level)
