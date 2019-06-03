@@ -61,6 +61,11 @@ public class FurryMarker implements Comparable<FurryMarker>
         this.updateDate = updateDate;
     }
     
+    public long getUpdateDate()
+    {
+    	return updateDate;
+    }
+    
     public boolean isArchived()
     {
     	return archived;

@@ -26,16 +26,6 @@ public class IOUtils
 
 	private static HashMap<String, Long> apiKeyList;
 
-	public static final String CONNECTION_ADDRESS = "jdbc:mysql://localhost/FurryMapSchema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=UTF-8";
-	public static final String USER_TABLE_NAME = "userdatabase";
-	public static final String LOCATION_TABLE_NAME = "locationdatabase";
-	public static final String SQL_LOGIN = "root";
-	public static final String SQL_PASSWORD = "";
-
-	// crypto stuff.
-	public static final String MD5_SALT_PART_1 = "8hqerroijqoifn8143u213589214t12ojori21j4oije621yifferyifffafojsaofjosaifjosajfdoi";
-	public static final String MD5_SALT_PART_2 = "arj18r2rghhworjoafaosjfoh213rf134523512rjafkjroqjr8213ot125!$@@furryfurriesfurriesfurry";
-
 	public static void initConnection() throws SQLException 
 	{
 		boolean needReinit = false;
@@ -52,7 +42,7 @@ public class IOUtils
 		}
 		if (needReinit) 
 		{
-			String connString = CONNECTION_ADDRESS;
+			String connString = ServerInfo.CONNECTION_ADDRESS;
 			try 
 			{
 				Class.forName("com.mysql.jdbc.Driver");
@@ -62,7 +52,7 @@ public class IOUtils
 				cnfe.printStackTrace();
 			}
 
-			sqlConnection = DriverManager.getConnection(connString, SQL_LOGIN, SQL_PASSWORD);
+			sqlConnection = DriverManager.getConnection(connString, ServerInfo.SQL_LOGIN, ServerInfo.SQL_PASSWORD);
 		}
 	}
 
@@ -127,7 +117,7 @@ public class IOUtils
 
 		synchronized (sqlConnection)
 		{
-			String query = "UPDATE " + USER_TABLE_NAME + " SET " + parameter + " = ? WHERE id = ?";
+			String query = "UPDATE " + ServerInfo.USER_TABLE_NAME + " SET " + parameter + " = ? WHERE id = ?";
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
 			stmt.setString(1, newInfo);
 			stmt.setLong(2, id);
@@ -172,9 +162,9 @@ public class IOUtils
 		}
 
 		String saltedInput = "";
-		saltedInput += MD5_SALT_PART_1;
+		saltedInput += ServerInfo.MD5_SALT_PART_1;
 		saltedInput += input;
-		saltedInput += MD5_SALT_PART_2;
+		saltedInput += ServerInfo.MD5_SALT_PART_2;
 
 		try
 		{
@@ -193,7 +183,7 @@ public class IOUtils
 	public static long getNextUserId() throws SQLException 
 	{
 		initConnection();
-		String query = "SELECT * FROM " + USER_TABLE_NAME + " ORDER BY id DESC";
+		String query = "SELECT * FROM " + ServerInfo.USER_TABLE_NAME + " ORDER BY id DESC";
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
 		rs.first();
@@ -204,7 +194,7 @@ public class IOUtils
 	public static long getNextLocationId() throws SQLException 
 	{
 		initConnection();
-		String query = "SELECT * FROM " + LOCATION_TABLE_NAME + " ORDER BY locationid DESC";
+		String query = "SELECT * FROM " + ServerInfo.LOCATION_TABLE_NAME + " ORDER BY locationid DESC";
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
 		rs.first();
@@ -226,7 +216,7 @@ public class IOUtils
 	public static JSONArray getJSONArrayOfArchivedFurryLocations() throws SQLException
 	{
 		initConnection();
-		String query = "SELECT * FROM " + LOCATION_TABLE_NAME + " WHERE archived = 1";
+		String query = "SELECT * FROM " + ServerInfo.LOCATION_TABLE_NAME + " WHERE archived = 1";
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
 		stmt.executeQuery("SET NAMES utf8mb4");
 		ResultSet rs = stmt.executeQuery();
@@ -263,7 +253,7 @@ public class IOUtils
 	public static JSONArray getJSONArrayOfDynamicFurryLocations() throws SQLException
 	{
 		initConnection();
-		String query = "SELECT * FROM " + LOCATION_TABLE_NAME + " WHERE archived = 0";
+		String query = "SELECT * FROM " + ServerInfo.LOCATION_TABLE_NAME + " WHERE archived = 0";
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
 		stmt.executeQuery("SET NAMES utf8mb4");
 		ResultSet rs = stmt.executeQuery();
@@ -322,13 +312,16 @@ public class IOUtils
 	{
 		initConnection();
 		
-		String query = "SELECT * FROM " + LOCATION_TABLE_NAME;
+		String query = "SELECT * FROM " + ServerInfo.LOCATION_TABLE_NAME;
 		
 		if (listSelection.equals("marker_alpha"))
 		{
 			// alphabetical ordered markers
-			query += " ORDER BY description " + (listOrder.equals("asc") ? "ASC" : "DESC");
-			query += ", username " + (listOrder.equals("asc") ? "ASC" : "DESC");
+			if (!ServerInfo.SHOW_ARCHIVED)
+			{
+				query += " WHERE archived = 0";
+			} 
+			query += " ORDER BY username " + (listOrder.equals("asc") ? "ASC" : "DESC");
 			query += " LIMIT ?";
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
 			stmt.executeQuery("SET NAMES utf8mb4");
@@ -348,6 +341,7 @@ public class IOUtils
 				double longitude = rs.getDouble("longitude");
 				int opacity = rs.getInt("opacity");
 				boolean isArchived = rs.getInt("archived") == 1;
+				
 				long creationDate = 0L;
 				if (!isArchived)
 				{
@@ -375,6 +369,10 @@ public class IOUtils
 		else if (listSelection.equals("marker_date"))
 		{
 			// date ordered markers
+			if (!ServerInfo.SHOW_ARCHIVED)
+			{
+				query += " WHERE archived = 0";
+			} 
 			query += " ORDER BY updatedate " + (listOrder.equals("asc") ? "ASC" : "DESC");
 			query += " LIMIT ?";
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
@@ -395,12 +393,14 @@ public class IOUtils
 				double longitude = rs.getDouble("longitude");
 				int opacity = rs.getInt("opacity");
 				boolean isArchived = rs.getInt("archived") == 1;
+				
+				boolean passCondition = isArchived ? ServerInfo.SHOW_ARCHIVED : true;
+				
 				long creationDate = 0L;
 				if (!isArchived)
 				{
 					creationDate = rs.getLong("updatedate");
 				}
-				
 				tmpLoc.put(0, longitude);
 				tmpLoc.put(1, latitude);
 				tmpLoc.put(2, "m" + locationId);
@@ -414,6 +414,7 @@ public class IOUtils
 				{
 					tmpLoc.put(9, creationDate);
 				}
+				
 				toReturn.put(id, tmpLoc);
 				id++;
 			}
@@ -439,28 +440,33 @@ public class IOUtils
 				int opacity = rs.getInt("opacity");
 				boolean isArchived = rs.getInt("archived") == 1;
 				
-				FurryMarker furre;
+				boolean passCondition = isArchived ? ServerInfo.SHOW_ARCHIVED : true;
 				
-				if (isArchived)
+				if (passCondition)
 				{
-					furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived);
+					FurryMarker furre;
+					
+					if (isArchived)
+					{
+						furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived);
+					}
+					else
+					{
+						long creationDate = rs.getLong("updatedate");
+						furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived, creationDate);
+					}
+					
+					double searchLat = 0.0;
+					double searchLng = 0.0;
+					
+					if (otherParams != null)
+					{
+						searchLat = otherParams.getDouble("latitude");
+						searchLng = otherParams.getDouble("longitude");
+					}
+					else
+					al.add(new FurryMarkerDistanceHandler(furre, furre.distanceFromCoords(searchLat, searchLng)));
 				}
-				else
-				{
-					long creationDate = rs.getLong("updatedate");
-					furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived, creationDate);
-				}
-				
-				double searchLat = 0.0;
-				double searchLng = 0.0;
-				
-				if (otherParams != null)
-				{
-					searchLat = otherParams.getDouble("latitude");
-					searchLng = otherParams.getDouble("longitude");
-				}
-				else
-				al.add(new FurryMarkerDistanceHandler(furre, furre.distanceFromCoords(searchLat, searchLng)));
 			}
 			
 			Collections.sort(al);
@@ -487,6 +493,7 @@ public class IOUtils
 				tmpLoc.put(6, furre.getProfile());
 				tmpLoc.put(7, furre.getAccountId());
 				tmpLoc.put(8, furre.isArchived());
+				tmpLoc.put(9, furre.getUpdateDate());
 				toReturn.put(id, tmpLoc);
 				id++;
 			}

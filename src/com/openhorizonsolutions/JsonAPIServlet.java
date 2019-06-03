@@ -46,39 +46,42 @@ public class JsonAPIServlet extends HttpServlet
 		if (type.equals("combined") || type.equals("all")) 
 		{
 			// first add in the existing archived markers.
-			JSONObject archived = new JSONObject();
-			archived.put("id", "archived");
-
-			JSONObject archived_info = new JSONObject();
-			archived_info.put("isLayer", "true");
-			archived_info.put("addToSearch", "true");
-			archived_info.put("addToDistance", "true");
-			archived_info.put("layerindex", "10");
-			archived_info.put("iconcolor", "cyan");
-			archived_info.put("updateUrl", "/en/marker/list/type/combined");
-			archived_info.put("layername", "Archived Furries (cyan)");
-			archived.put("info", archived_info);
-
-			JSONObject archived_geojson = new JSONObject();
-			archived_geojson.put("type", "FeatureCollection");
-
-			JSONArray archived_features;
-			try 
+			if (ServerInfo.SHOW_ARCHIVED)
 			{
-				archived_features = IOUtils.getJSONArrayOfArchivedFurryLocations();
-			}
-			catch (SQLException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				archived_features = new JSONArray();
-			}
-			
-			archived_geojson.put("features", archived_features);
-			archived.put("geojson", archived_geojson);
+				JSONObject archived = new JSONObject();
+				archived.put("id", "archived");
 
-			headNode.put("archived", archived);
-			
+				JSONObject archived_info = new JSONObject();
+				archived_info.put("isLayer", "true");
+				archived_info.put("addToSearch", "true");
+				archived_info.put("addToDistance", "true");
+				archived_info.put("layerindex", "10");
+				archived_info.put("iconcolor", "cyan");
+				archived_info.put("updateUrl", "/en/marker/list/type/combined");
+				archived_info.put("layername", "Archived Furries (cyan)");
+				archived.put("info", archived_info);
+
+				JSONObject archived_geojson = new JSONObject();
+				archived_geojson.put("type", "FeatureCollection");
+
+				JSONArray archived_features;
+				try 
+				{
+					archived_features = IOUtils.getJSONArrayOfArchivedFurryLocations();
+				}
+				catch (SQLException e) 
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					archived_features = new JSONArray();
+				}
+				
+				archived_geojson.put("features", archived_features);
+				archived.put("geojson", archived_geojson);
+
+				headNode.put("archived", archived);
+
+			}
 			// now, add in the new furries.
 			
 			JSONObject dynamic = new JSONObject();
