@@ -259,7 +259,7 @@ public class JsonAPIServlet extends HttpServlet
 		}
 		else 
 		{
-			responseJSONString += "What the fuck?";
+			responseJSONString += headNode;
 		}
 		response.getWriter().append(responseJSONString);
 	}

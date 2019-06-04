@@ -204,8 +204,23 @@ body {
 									{
 										// add date.
 										var date = new Date(dateEpoch);
-										markerBodyTxt += "<br>[" + date.toString() + "]";
-										//markerBodyTxt += "<br>[" + date.year + "-" + (date.month + 1) + "-" + date.day + "]";
+
+										var dateStr = "";
+										dateStr += date.getFullYear();
+										dateStr += "-";
+										if (date.getMonth() < 9)
+										{
+											dateStr += "0"
+										}
+										dateStr += date.getMonth() + 1;
+										dateStr += "-";
+										if (date.getDay() < 10)
+										{
+											dateStr += "0";
+										}
+										dateStr += date.getDay();
+										markerBodyTxt += "<br>[" + dateStr + "]";
+										//markerBodyTxt += "<br>[" + date.year() + "-" + (date.month() + 1) + "-" + date.day() + "]";
 									}
 
 

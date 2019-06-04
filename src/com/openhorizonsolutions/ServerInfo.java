@@ -4,7 +4,7 @@ public class ServerInfo
 {
 	public static final int START_USER_ID_NUMBER = 100000;
 	public static final int START_LOCATION_ID_NUMBER = 100000;
-	public static final boolean SHOW_ARCHIVED = false;
+	public static final boolean SHOW_ARCHIVED = true;
 	
 	public static final String CONNECTION_ADDRESS = "jdbc:mysql://localhost/FurryMapSchema?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&characterEncoding=UTF-8";
 	public static final String USER_TABLE_NAME = "userdatabase";
