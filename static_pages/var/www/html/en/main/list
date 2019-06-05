@@ -203,25 +203,7 @@ body {
 									if (archived == 0)
 									{
 										// add date.
-										var date = new Date(dateEpoch);
-
-										var dateStr = "";
-										dateStr += date.getFullYear();
-										dateStr += "-";
-										var month = date.getMonth();
-										if (month < 9)
-										{
-											dateStr += "0"
-										}
-										dateStr += month + 1;
-										dateStr += "-";
-										var dayOfMonth = date.getDate();
-										if (dayOfMonth < 10)
-										{
-											dateStr += "0";
-										}
-										dateStr += dayOfMonth;
-										markerBodyTxt += "<br>[" + dateStr + "]";
+										markerBodyTxt += "<br>" + getDateFormattedString(dateEpoch) + "";
 										//markerBodyTxt += "<br>[" + date.year() + "-" + (date.month() + 1) + "-" + date.day() + "]";
 									}
 
