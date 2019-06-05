@@ -44,3 +44,4 @@ This project aims to recreate the experience of furrymap.net for future users.
 
 # Notes
 Opacity is the maximum zoom level that your marker will be visible at. (0 - 18, 0 = lowest zoom level, 18 = highest zoom level)
+The variable 'accountid' in 'locationdatabase' is actually the id of the profile pic (0 if none)
