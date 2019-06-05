@@ -208,17 +208,19 @@ body {
 										var dateStr = "";
 										dateStr += date.getFullYear();
 										dateStr += "-";
-										if (date.getMonth() < 9)
+										var month = date.getMonth();
+										if (month < 9)
 										{
 											dateStr += "0"
 										}
-										dateStr += date.getMonth() + 1;
+										dateStr += month + 1;
 										dateStr += "-";
-										if (date.getDay() < 10)
+										var dayOfMonth = date.getDate();
+										if (dayOfMonth < 10)
 										{
 											dateStr += "0";
 										}
-										dateStr += date.getDay();
+										dateStr += dayOfMonth;
 										markerBodyTxt += "<br>[" + dateStr + "]";
 										//markerBodyTxt += "<br>[" + date.year() + "-" + (date.month() + 1) + "-" + date.day() + "]";
 									}
