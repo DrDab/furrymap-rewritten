@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -29,25 +30,73 @@ public class OwOUwUOwO
 		
 		String jsonData = getJSONDataFromFile("combined.json");
 		ArrayList<Furry> owo = getFurryList(jsonData);
-		String query = "INSERT INTO " + LOCATION_TABLE_NAME + " (locationid, accountid, username, description, profileurl, latitude, longitude, opacity, archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		
+		String query = "INSERT INTO " + LOCATION_TABLE_NAME + " (locationid, accountid, description, latitude, longitude, opacity, archived) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
+		
+		String query2 = "INSERT INTO " + USER_TABLE_NAME + " (id, username, email, description, gender, language, countryflag, profilepicid, archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement stmt2 = sqlConnection.prepareStatement(query2);
+		
 		stmt.executeQuery("SET NAMES utf8mb4");
 		int i = 0;
 		for (Furry furry : owo)
 		{
+			// add the marker.
 			stmt.setLong(1, Long.parseLong(furry.getID().substring(1)));
-			stmt.setLong(2, furry.getAccountId());
-			stmt.setString(3, furry.getUserName());
-			stmt.setString(4, furry.getDescription());
-			stmt.setString(5, furry.getProfile());
-			stmt.setDouble(6, furry.getLatitude());
-			stmt.setDouble(7, furry.getLongitude());
-			stmt.setInt(8, furry.getOpacityFactor());
-			stmt.setInt(9, 1);
+			long userProfileStatus = hasUserProfile(furry.getUserName());
+			stmt.setLong(2, userProfileStatus == -1L ? i : userProfileStatus); // add the account id.
+			stmt.setString(3, furry.getDescription());
+			stmt.setDouble(4, furry.getLatitude());
+			stmt.setDouble(5, furry.getLongitude());
+			stmt.setInt(6, furry.getOpacityFactor());
+			stmt.setInt(7, 1);
 			stmt.execute();
+			
+			// add the user. CHECK IF USER EXISTS FIRST.
+			if (userProfileStatus == -1L)
+			{
+				stmt2.setLong(1, (long)i);
+				stmt2.setString(2, furry.getUserName());
+				stmt2.setString(3, "archived"); // no email
+				stmt2.setString(4, furry.getDescription());
+				stmt2.setInt(5, 0); // gender unknown (0 = unknown, 1 = male, 2 = female, 3 = other)
+				stmt2.setString(6, "archived"); // language unknown
+				stmt2.setString(7, "archived"); // country flag unknown
+				stmt2.setString(8, "archived"); // pfp is archived
+				stmt2.setInt(9, 1);
+				stmt2.execute();
+				System.out.println("Creating new account");
+			}
+			else
+			{
+				System.out.println("Using existing account " + furry.getUserName());
+			}
+			
 			i++;
 			System.out.printf("%d of %d\n", i, owo.size());
 		}	
+	}
+	
+	public static long hasUserProfile(String username) throws SQLException
+	{
+		initConnection();
+		String query = "SELECT * FROM userdatabase WHERE username = ?";
+		PreparedStatement stmt = sqlConnection.prepareStatement(query);
+		stmt.setString(1, username);
+		ResultSet rs = stmt.executeQuery();
+		return getRowCount(rs) == 0 ? -1L : rs.getLong("id");
+	}
+	
+	private static long getRowCount(ResultSet rs) throws SQLException
+	{
+		long i = 0L;
+		while (rs.next())
+		{
+			i++;
+		}
+		rs.first();
+		return i;
 	}
 	
 	public static void initConnection() throws SQLException 
