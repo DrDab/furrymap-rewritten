@@ -232,7 +232,7 @@ public class IOUtils
 			// resolve the username from the accountid.
 			AccountInfo accountInfo = acctMap.getAccount(accountId);
 			String username = accountInfo.getUsername();
-			String description = accountInfo.getDescription();
+			String description = rs.getString("description");
 			String profileUrl = "/profile/" + username;
 			double latitude = rs.getDouble("latitude");
 			double longitude = rs.getDouble("longitude");
@@ -265,7 +265,7 @@ public class IOUtils
 			{
 				AccountInfo accountInfo = acctMap.getAccount(accountId);
 				String username = accountInfo.getUsername();
-				String description = accountInfo.getDescription();
+				String description = rs.getString("description");
 				String profileUrl = "/profile/" + username;
 				double latitude = rs.getDouble("latitude");
 				double longitude = rs.getDouble("longitude");
@@ -469,7 +469,7 @@ public class IOUtils
 				{
 					AccountInfo accountInfo = acctMap.getAccount(accountId);
 					String username = accountInfo.getUsername();
-					String description = accountInfo.getDescription();
+					String description = rs.getString("description");
 					String profileUrl = "/profile/" + username;
 					double latitude = rs.getDouble("latitude");
 					double longitude = rs.getDouble("longitude");
@@ -527,7 +527,7 @@ public class IOUtils
 				if (acctMap.acctExists(accountId))
 				{
 					String username = accountInfo.getUsername();
-					String description = accountInfo.getDescription();
+					String description = rs.getString("description");
 					String profileUrl = "/profile/" + username;
 					double latitude = rs.getDouble("latitude");
 					double longitude = rs.getDouble("longitude");
@@ -583,7 +583,7 @@ public class IOUtils
 				{
 					AccountInfo accountInfo = acctMap.getAccount(accountId);
 					String username = accountInfo.getUsername();
-					String description = accountInfo.getDescription();
+					String description = rs.getString("description");
 					String profileUrl = "/profile/" + username;
 					double latitude = rs.getDouble("latitude");
 					double longitude = rs.getDouble("longitude");
