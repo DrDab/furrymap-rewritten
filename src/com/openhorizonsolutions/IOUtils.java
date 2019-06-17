@@ -272,7 +272,7 @@ public class IOUtils
 				int opacity = rs.getInt("opacity");
 				//boolean isArchived = rs.getInt("archived") == 1;
 				
-				toReturn.add(new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, true));
+				toReturn.add(new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, false));
 			}
 		}
 		return toReturn;
@@ -474,7 +474,7 @@ public class IOUtils
 					double latitude = rs.getDouble("latitude");
 					double longitude = rs.getDouble("longitude");
 					int opacity = rs.getInt("opacity");
-					boolean isArchived = rs.getInt("archived") == 1;
+					boolean isArchived = rs.getInt("archived") == 1 || accountInfo.isArchived();
 					
 					long creationDate = 0L;
 					if (!isArchived)
@@ -503,7 +503,6 @@ public class IOUtils
 		}
 		else if (listSelection.equals("marker_date"))
 		{
-			System.out.println("Yiff!");
 			// date ordered markers
 			if (!ServerInfo.SHOW_ARCHIVED)
 			{
@@ -533,7 +532,7 @@ public class IOUtils
 					double latitude = rs.getDouble("latitude");
 					double longitude = rs.getDouble("longitude");
 					int opacity = rs.getInt("opacity");
-					boolean isArchived = rs.getInt("archived") == 1;
+					boolean isArchived = rs.getInt("archived") == 1 || accountInfo.isArchived();
 					
 					boolean passCondition = isArchived ? ServerInfo.SHOW_ARCHIVED : true;
 					
@@ -589,7 +588,7 @@ public class IOUtils
 					double latitude = rs.getDouble("latitude");
 					double longitude = rs.getDouble("longitude");
 					int opacity = rs.getInt("opacity");
-					boolean isArchived = rs.getInt("archived") == 1;
+					boolean isArchived = rs.getInt("archived") == 1 || accountInfo.isArchived();;
 					
 					boolean passCondition = isArchived ? ServerInfo.SHOW_ARCHIVED : true;
 					
