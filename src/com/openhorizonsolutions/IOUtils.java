@@ -213,26 +213,88 @@ public class IOUtils
 		return i;
 	}
 	
-	public static JSONArray getJSONArrayOfArchivedFurryLocations() throws SQLException
+	public static ArrayList<FurryMarker> getArchivedMarkers() throws SQLException
 	{
 		initConnection();
 		String query = "SELECT * FROM " + ServerInfo.LOCATION_TABLE_NAME + " WHERE archived = 1";
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
 		stmt.executeQuery("SET NAMES utf8mb4");
 		ResultSet rs = stmt.executeQuery();
-		JSONArray toReturn = new JSONArray();
+		ArrayList<FurryMarker> toReturn = new ArrayList<FurryMarker>();
+		AccountMap acctMap = getAccountMapOfAllAccts();
+		
 		int id = 0;
 		while (rs.next())
 		{
 			JSONArray tmpLoc = new JSONArray();
 			long locationId = rs.getLong("locationid");
 			long accountId = rs.getLong("accountid");
-			String username = rs.getString("username");
-			String description = (rs.getString("description"));
-			String profileUrl = rs.getString("profileurl");
+			// resolve the username from the accountid.
+			AccountInfo accountInfo = acctMap.getAccount(accountId);
+			String username = accountInfo.getUsername();
+			String description = accountInfo.getDescription();
+			String profileUrl = "/profile/" + username;
 			double latitude = rs.getDouble("latitude");
 			double longitude = rs.getDouble("longitude");
 			int opacity = rs.getInt("opacity");
+			//boolean isArchived = rs.getInt("archived") == 1;
+			
+			toReturn.add(new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, true));
+			id++;
+		}
+		return toReturn;
+	}
+	
+	public static ArrayList<FurryMarker> getDynamicMarkers() throws SQLException
+	{
+		initConnection();
+		String query = "SELECT * FROM " + ServerInfo.LOCATION_TABLE_NAME + " WHERE archived = 0";
+		PreparedStatement stmt = sqlConnection.prepareStatement(query);
+		stmt.executeQuery("SET NAMES utf8mb4");
+		ResultSet rs = stmt.executeQuery();
+		ArrayList<FurryMarker> toReturn = new ArrayList<FurryMarker>();
+		AccountMap acctMap = getAccountMapOfAllAccts();
+		
+		while (rs.next())
+		{
+			JSONArray tmpLoc = new JSONArray();
+			long locationId = rs.getLong("locationid");
+			long accountId = rs.getLong("accountid");
+			// resolve the username from the accountid.
+			if (acctMap.acctExists(accountId))
+			{
+				AccountInfo accountInfo = acctMap.getAccount(accountId);
+				String username = accountInfo.getUsername();
+				String description = accountInfo.getDescription();
+				String profileUrl = "/profile/" + username;
+				double latitude = rs.getDouble("latitude");
+				double longitude = rs.getDouble("longitude");
+				int opacity = rs.getInt("opacity");
+				//boolean isArchived = rs.getInt("archived") == 1;
+				
+				toReturn.add(new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, true));
+			}
+		}
+		return toReturn;
+	}
+	
+	public static JSONArray markerListToJSONArray(ArrayList<FurryMarker> markers)
+	{
+		int id = 0;
+		JSONArray toReturn = new JSONArray();
+		for (FurryMarker marker : markers)
+		{
+			JSONArray tmpLoc = new JSONArray();
+			long locationId = marker.getLocationID();
+			long accountId = marker.getAccountId();
+			// resolve the username from the accountid.
+			
+			String username = marker.getUserName();
+			String description = marker.getDescription();
+			String profileUrl = "/profile/" + username;
+			double latitude = marker.getLatitude();
+			double longitude = marker.getLongitude();
+			int opacity = marker.getOpacityFactor();
 			//boolean isArchived = rs.getInt("archived") == 1;
 			
 			tmpLoc.put(0, longitude);
@@ -250,27 +312,25 @@ public class IOUtils
 		return toReturn;
 	}
 	
-	public static JSONArray getJSONArrayOfDynamicFurryLocations() throws SQLException
+	public static JSONArray markerListToJSONArrayExtended(ArrayList<FurryMarker> markers)
 	{
-		initConnection();
-		String query = "SELECT * FROM " + ServerInfo.LOCATION_TABLE_NAME + " WHERE archived = 0";
-		PreparedStatement stmt = sqlConnection.prepareStatement(query);
-		stmt.executeQuery("SET NAMES utf8mb4");
-		ResultSet rs = stmt.executeQuery();
-		JSONArray toReturn = new JSONArray();
 		int id = 0;
-		while (rs.next())
+		JSONArray toReturn = new JSONArray();
+		for (FurryMarker marker : markers)
 		{
 			JSONArray tmpLoc = new JSONArray();
-			long locationId = rs.getLong("locationid");
-			long accountId = rs.getLong("accountid");
-			String username = rs.getString("username");
-			String description = (rs.getString("description"));
-			String profileUrl = rs.getString("profileurl");
-			double latitude = rs.getDouble("latitude");
-			double longitude = rs.getDouble("longitude");
-			int opacity = rs.getInt("opacity");
-			//boolean isArchived = rs.getInt("archived") == 1;
+			long locationId = marker.getLocationID();
+			long accountId = marker.getAccountId();
+			// resolve the username from the accountid.
+			
+			String username = marker.getUserName();
+			String description = marker.getDescription();
+			String profileUrl = "/profile/" + username;
+			double latitude = marker.getLatitude();
+			double longitude = marker.getLongitude();
+			int opacity = marker.getOpacityFactor();
+			boolean isArchived = marker.isArchived();
+			long updateDate = marker.getUpdateDate();
 			
 			tmpLoc.put(0, longitude);
 			tmpLoc.put(1, latitude);
@@ -280,12 +340,73 @@ public class IOUtils
 			tmpLoc.put(5, username);
 			tmpLoc.put(6, profileUrl);
 			tmpLoc.put(7, accountId);
-			//tmpLoc.put(8, isArchived);
+			tmpLoc.put(8, isArchived);
+			tmpLoc.put(9, updateDate);
 			toReturn.put(id, tmpLoc);
 			id++;
 		}
 		return toReturn;
 	}
+	
+	public static AccountMap getAccountMapOfAllAccts() throws SQLException
+	{
+		AccountMap am = new AccountMap();
+		String query = "SELECT * FROM " + ServerInfo.USER_TABLE_NAME;
+		PreparedStatement stmt = sqlConnection.prepareStatement(query);
+		stmt.executeQuery("SET NAMES utf8mb4");
+		ResultSet rs = stmt.executeQuery();
+		while (rs.next()) 
+		{
+			long uid = rs.getLong("id");
+			String username = rs.getString("username");
+			String email = rs.getString("email");
+			String passwordHash = rs.getString("password");
+			String description = rs.getString("description");
+			int gender = rs.getInt("gender");
+			String language = rs.getString("language");
+			String countryflag = rs.getString("countryflag");
+			String pfpStr = rs.getString("profilepicid");
+			long pfpId = 0L;
+			if (!(pfpStr.equals("archived") || pfpStr.equals("default")))
+			{
+				pfpId = Long.parseLong(pfpStr);
+			}
+			boolean archived = rs.getInt("archived") == 1;
+			am.addAccount(new AccountInfo(uid, username, email, passwordHash, description, gender, language, countryflag, pfpId, archived));
+		}
+		
+		return am;
+	}
+	
+	public static AccountInfo getAccountInfoById(long id) throws SQLException
+	{
+		String query = "SELECT * FROM " + ServerInfo.USER_TABLE_NAME + " WHERE id = " + id;
+		PreparedStatement stmt = sqlConnection.prepareStatement(query);
+		stmt.executeQuery("SET NAMES utf8mb4");
+		ResultSet rs = stmt.executeQuery();
+		if (getRowCount(rs) == 0)
+		{
+			return null;
+		}
+		
+		long uid = rs.getLong("id");
+		String username = rs.getString("username");
+		String email = rs.getString("email");
+		String passwordHash = rs.getString("password");
+		String description = rs.getString("description");
+		int gender = rs.getInt("gender");
+		String language = rs.getString("language");
+		String countryflag = rs.getString("countryflag");
+		String pfpStr = rs.getString("profilepicid");
+		long pfpId = 0L;
+		if (!(pfpStr.equals("archived") || pfpStr.equals("default")))
+		{
+			pfpId = Long.parseLong(pfpStr);
+		}
+		boolean archived = rs.getInt("archived") == 1;
+		return new AccountInfo(uid, username, email, passwordHash, description, gender, language, countryflag, pfpId, archived);
+	}
+	
 	
 	public static JSONArray getUsersOwnMarkers(long uid) throws SQLException
 	{
@@ -311,6 +432,7 @@ public class IOUtils
 	public static JSONArray getJSONArrayOfSpecifiedFurryLocations(String listSelection, String listOrder, JSONObject otherParams, int number) throws SQLException, NullPointerException
 	{
 		initConnection();
+		AccountMap acctMap = getAccountMapOfAllAccts();
 		
 		String query = "SELECT * FROM " + ServerInfo.LOCATION_TABLE_NAME;
 		
@@ -321,49 +443,62 @@ public class IOUtils
 			{
 				query += " WHERE archived = 0";
 			} 
-			query += " ORDER BY username " + (listOrder.equals("asc") ? "ASC" : "DESC");
+			query += " ORDER BY description " + (listOrder.equals("asc") ? "ASC" : "DESC");
 			query += " LIMIT ?";
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
 			stmt.executeQuery("SET NAMES utf8mb4");
 			stmt.setInt(1, number);
 			ResultSet rs = stmt.executeQuery();
 			JSONArray toReturn = new JSONArray();
+			
 			int id = 0;
+			
 			while (rs.next())
 			{
+				if (id >= number)
+				{
+					break;
+				}
+				
 				JSONArray tmpLoc = new JSONArray();
 				long locationId = rs.getLong("locationid");
 				long accountId = rs.getLong("accountid");
-				String username = rs.getString("username");
-				String description = (rs.getString("description"));
-				String profileUrl = rs.getString("profileurl");
-				double latitude = rs.getDouble("latitude");
-				double longitude = rs.getDouble("longitude");
-				int opacity = rs.getInt("opacity");
-				boolean isArchived = rs.getInt("archived") == 1;
+				// resolve the username from the accountid.
 				
-				long creationDate = 0L;
-				if (!isArchived)
+				if (acctMap.acctExists(accountId))
 				{
-					creationDate = rs.getLong("updatedate");
+					AccountInfo accountInfo = acctMap.getAccount(accountId);
+					String username = accountInfo.getUsername();
+					String description = accountInfo.getDescription();
+					String profileUrl = "/profile/" + username;
+					double latitude = rs.getDouble("latitude");
+					double longitude = rs.getDouble("longitude");
+					int opacity = rs.getInt("opacity");
+					boolean isArchived = rs.getInt("archived") == 1;
+					
+					long creationDate = 0L;
+					if (!isArchived)
+					{
+						creationDate = rs.getLong("updatedate");
+					}
+					tmpLoc.put(0, longitude);
+					tmpLoc.put(1, latitude);
+					tmpLoc.put(2, "m" + locationId);
+					tmpLoc.put(3, description);
+					tmpLoc.put(4, opacity);
+					tmpLoc.put(5, username);
+					tmpLoc.put(6, profileUrl);
+					tmpLoc.put(7, accountId);
+					tmpLoc.put(8, isArchived);
+					if (!isArchived)
+					{
+						tmpLoc.put(9, creationDate);
+					}
+					
+					toReturn.put(id, tmpLoc);
+					id++;
 				}
-				tmpLoc.put(0, longitude);
-				tmpLoc.put(1, latitude);
-				tmpLoc.put(2, "m" + locationId);
-				tmpLoc.put(3, description);
-				tmpLoc.put(4, opacity);
-				tmpLoc.put(5, username);
-				tmpLoc.put(6, profileUrl);
-				tmpLoc.put(7, accountId);
-				tmpLoc.put(8, isArchived);
-				if (!isArchived)
-				{
-					tmpLoc.put(9, creationDate);
-				}
-				
-				toReturn.put(id, tmpLoc);
-				id++;
-			}
+			}			
 			return toReturn;
 		}
 		else if (listSelection.equals("marker_date"))
@@ -386,37 +521,46 @@ public class IOUtils
 				JSONArray tmpLoc = new JSONArray();
 				long locationId = rs.getLong("locationid");
 				long accountId = rs.getLong("accountid");
-				String username = rs.getString("username");
-				String description = (rs.getString("description"));
-				String profileUrl = rs.getString("profileurl");
-				double latitude = rs.getDouble("latitude");
-				double longitude = rs.getDouble("longitude");
-				int opacity = rs.getInt("opacity");
-				boolean isArchived = rs.getInt("archived") == 1;
+				// resolve the username from the accountid.
 				
-				boolean passCondition = isArchived ? ServerInfo.SHOW_ARCHIVED : true;
-				
-				long creationDate = 0L;
-				if (!isArchived)
+				AccountInfo accountInfo = acctMap.getAccount(accountId);
+				if (acctMap.acctExists(accountId))
 				{
-					creationDate = rs.getLong("updatedate");
-				}
-				tmpLoc.put(0, longitude);
-				tmpLoc.put(1, latitude);
-				tmpLoc.put(2, "m" + locationId);
-				tmpLoc.put(3, description);
-				tmpLoc.put(4, opacity);
-				tmpLoc.put(5, username);
-				tmpLoc.put(6, profileUrl);
-				tmpLoc.put(7, accountId);
-				tmpLoc.put(8, isArchived);
-				if (!isArchived)
-				{
-					tmpLoc.put(9, creationDate);
-				}
-				
-				toReturn.put(id, tmpLoc);
-				id++;
+					String username = accountInfo.getUsername();
+					String description = accountInfo.getDescription();
+					String profileUrl = "/profile/" + username;
+					double latitude = rs.getDouble("latitude");
+					double longitude = rs.getDouble("longitude");
+					int opacity = rs.getInt("opacity");
+					boolean isArchived = rs.getInt("archived") == 1;
+					
+					boolean passCondition = isArchived ? ServerInfo.SHOW_ARCHIVED : true;
+					
+					if (passCondition)
+					{
+						long creationDate = 0L;
+						if (!isArchived)
+						{
+							creationDate = rs.getLong("updatedate");
+						}
+						tmpLoc.put(0, longitude);
+						tmpLoc.put(1, latitude);
+						tmpLoc.put(2, "m" + locationId);
+						tmpLoc.put(3, description);
+						tmpLoc.put(4, opacity);
+						tmpLoc.put(5, username);
+						tmpLoc.put(6, profileUrl);
+						tmpLoc.put(7, accountId);
+						tmpLoc.put(8, isArchived);
+						if (!isArchived)
+						{
+							tmpLoc.put(9, creationDate);
+						}
+						
+						toReturn.put(id, tmpLoc);
+						id++;
+					}
+				}	
 			}
 			return toReturn;
 		}
@@ -430,42 +574,49 @@ public class IOUtils
 			ArrayList<FurryMarkerDistanceHandler> al = new ArrayList<FurryMarkerDistanceHandler>();
 			while (rs.next())
 			{
+				JSONArray tmpLoc = new JSONArray();
 				long locationId = rs.getLong("locationid");
 				long accountId = rs.getLong("accountid");
-				String username = rs.getString("username");
-				String description = (rs.getString("description"));
-				String profileUrl = rs.getString("profileurl");
-				double latitude = rs.getDouble("latitude");
-				double longitude = rs.getDouble("longitude");
-				int opacity = rs.getInt("opacity");
-				boolean isArchived = rs.getInt("archived") == 1;
+				// resolve the username from the accountid.
 				
-				boolean passCondition = isArchived ? ServerInfo.SHOW_ARCHIVED : true;
-				
-				if (passCondition)
+				if (acctMap.acctExists(accountId))
 				{
-					FurryMarker furre;
+					AccountInfo accountInfo = acctMap.getAccount(accountId);
+					String username = accountInfo.getUsername();
+					String description = accountInfo.getDescription();
+					String profileUrl = "/profile/" + username;
+					double latitude = rs.getDouble("latitude");
+					double longitude = rs.getDouble("longitude");
+					int opacity = rs.getInt("opacity");
+					boolean isArchived = rs.getInt("archived") == 1;
 					
-					if (isArchived)
-					{
-						furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived);
-					}
-					else
-					{
-						long creationDate = rs.getLong("updatedate");
-						furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived, creationDate);
-					}
+					boolean passCondition = isArchived ? ServerInfo.SHOW_ARCHIVED : true;
 					
-					double searchLat = 0.0;
-					double searchLng = 0.0;
-					
-					if (otherParams != null)
+					if (passCondition)
 					{
-						searchLat = otherParams.getDouble("latitude");
-						searchLng = otherParams.getDouble("longitude");
+						FurryMarker furre;
+						
+						if (isArchived)
+						{
+							furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived);
+						}
+						else
+						{
+							long creationDate = rs.getLong("updatedate");
+							furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived, creationDate);
+						}
+						
+						double searchLat = 0.0;
+						double searchLng = 0.0;
+						
+						if (otherParams != null)
+						{
+							searchLat = otherParams.getDouble("latitude");
+							searchLng = otherParams.getDouble("longitude");
+						}
+						else
+						al.add(new FurryMarkerDistanceHandler(furre, furre.distanceFromCoords(searchLat, searchLng)));
 					}
-					else
-					al.add(new FurryMarkerDistanceHandler(furre, furre.distanceFromCoords(searchLat, searchLng)));
 				}
 			}
 			

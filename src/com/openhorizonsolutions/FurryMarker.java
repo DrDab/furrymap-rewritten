@@ -8,7 +8,7 @@ public class FurryMarker implements Comparable<FurryMarker>
     private String userName;
     private String description;
     private String profile;
-    private long accountid;
+    private long profilePicId;
     private int opacityfactor;
     private boolean archived;
     private long updateDate;
@@ -55,7 +55,7 @@ public class FurryMarker implements Comparable<FurryMarker>
         this.userName = userName;
         this.description = description;
         this.profile = profile;
-        this.accountid = accountid;
+        this.profilePicId = accountid;
         this.opacityfactor = opacityfactor;
         this.archived = archived;
         this.updateDate = updateDate;
@@ -78,7 +78,7 @@ public class FurryMarker implements Comparable<FurryMarker>
     
     public long getAccountId()
     {
-    	return accountid;
+    	return profilePicId;
     }
     
     @Override

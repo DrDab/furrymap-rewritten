@@ -67,7 +67,7 @@ public class JsonAPIServlet extends HttpServlet
 				JSONArray archived_features;
 				try 
 				{
-					archived_features = IOUtils.getJSONArrayOfArchivedFurryLocations();
+					archived_features = IOUtils.markerListToJSONArray(IOUtils.getArchivedMarkers());
 				}
 				catch (SQLException e) 
 				{
@@ -103,7 +103,7 @@ public class JsonAPIServlet extends HttpServlet
 			JSONArray dynamic_features;
 			try 
 			{
-				dynamic_features = IOUtils.getJSONArrayOfDynamicFurryLocations();
+				dynamic_features = IOUtils.markerListToJSONArray(IOUtils.getDynamicMarkers());
 			}
 			catch (SQLException e) 
 			{
