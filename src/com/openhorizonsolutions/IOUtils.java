@@ -300,7 +300,7 @@ public class IOUtils
 			tmpLoc.put(0, longitude);
 			tmpLoc.put(1, latitude);
 			tmpLoc.put(2, "m" + locationId);
-			tmpLoc.put(3, description);
+			tmpLoc.put(3, description == null ? "" : description);
 			tmpLoc.put(4, opacity);
 			tmpLoc.put(5, username);
 			tmpLoc.put(6, profileUrl);
@@ -335,7 +335,7 @@ public class IOUtils
 			tmpLoc.put(0, longitude);
 			tmpLoc.put(1, latitude);
 			tmpLoc.put(2, "m" + locationId);
-			tmpLoc.put(3, description);
+			tmpLoc.put(3, description == null ? "" : description);
 			tmpLoc.put(4, opacity);
 			tmpLoc.put(5, username);
 			tmpLoc.put(6, profileUrl);
@@ -503,6 +503,7 @@ public class IOUtils
 		}
 		else if (listSelection.equals("marker_date"))
 		{
+			System.out.println("Yiff!");
 			// date ordered markers
 			if (!ServerInfo.SHOW_ARCHIVED)
 			{
@@ -546,7 +547,7 @@ public class IOUtils
 						tmpLoc.put(0, longitude);
 						tmpLoc.put(1, latitude);
 						tmpLoc.put(2, "m" + locationId);
-						tmpLoc.put(3, description);
+						tmpLoc.put(3, description == null ? "" : description);
 						tmpLoc.put(4, opacity);
 						tmpLoc.put(5, username);
 						tmpLoc.put(6, profileUrl);
