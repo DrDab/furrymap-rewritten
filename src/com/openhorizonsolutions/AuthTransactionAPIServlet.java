@@ -38,7 +38,86 @@ public class AuthTransactionAPIServlet extends HttpServlet
 		String responseJSONString = "";
 		JSONObject headNode = new JSONObject();
 		
-		headNode.put("test", "It works!");
+		String mode = request.getParameter("mode");
+		String token = request.getParameter("token");
+		
+		if (mode == null)
+		{
+			putStatus(headNode, false, "Mode cannot be empty.");
+		}
+		else
+		{
+			if (mode.equals("login"))
+			{
+				try
+				{
+					String username = request.getParameter("username");
+					String password = request.getParameter("password");
+					boolean isOkToPass = true;
+					
+					if (username == null || password == null)
+					{
+						putStatus(headNode, false, "Username or password cannot be empty.");
+						isOkToPass = false;
+					}
+					
+					if (isOkToPass)
+					{
+						if (username.trim().equals("") || password.trim().equals(""))
+						{
+							putStatus(headNode, false, "Username or password cannot be empty.");
+							isOkToPass = false;
+						}
+					}
+					
+					if (isOkToPass)
+					{
+						AuthTransactionResult check = IOUtils.doLogin(username, password);
+						if (check.isSuccess)
+						{
+							headNode.put("token", check.loginKey);
+							putStatus(headNode, true);
+						}
+						else
+						{
+							putStatus(headNode, false, "Login failed.");
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					putStatus(headNode, false, e.getMessage());
+				}
+			}
+			else if (mode.equals("logout"))
+			{
+				if (token == null)
+				{
+					putStatus(headNode, false, "Logout failed. Token is missing.");
+				}
+				else
+				{
+					// dispose of the current login token.
+					// return a success message.
+				}
+			}
+			else if (mode.equals("create_account"))
+			{
+				
+			}
+			else if (mode.equals("update_account"))
+			{
+				
+			}
+			else if (mode.equals("delete_account"))
+			{
+				
+			}
+			else
+			{
+				
+			}
+		}
 		
 		responseJSONString += headNode;
 		response.getWriter().append(responseJSONString);
@@ -51,6 +130,24 @@ public class AuthTransactionAPIServlet extends HttpServlet
 	{
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+	
+	public void putStatus(JSONObject head, boolean successful)
+	{
+		putStatus(head, successful, null);
+	}
+	
+	public void putStatus(JSONObject head, boolean successful, String reason)
+	{
+		if (successful)
+		{
+			head.put("status", "success");
+		}
+		else
+		{
+			head.put("status", "failed");
+			head.put("reason", reason);
+		}
 	}
 
 }
