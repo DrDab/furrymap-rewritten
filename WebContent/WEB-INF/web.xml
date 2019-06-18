@@ -10,11 +10,19 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
-    <servlet-name>JsonAPIServlet</servlet-name>
-    <servlet-class>com.openhorizonsolutions.JsonAPIServlet</servlet-class>
+    <servlet-name>GeoJsonAPIServlet</servlet-name>
+    <servlet-class>com.openhorizonsolutions.GeoJsonAPIServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AuthTransactionAPIServlet</servlet-name>
+    <servlet-class>com.openhorizonsolutions.AuthTransactionAPIServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>JsonAPIServlet</servlet-name>
+    <servlet-name>GeoJsonAPIServlet</servlet-name>
     <url-pattern>/en/marker/list/type/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AuthTransactionAPIServlet</servlet-name>
+    <url-pattern>/authapi/*</url-pattern>
   </servlet-mapping>
 </web-app>

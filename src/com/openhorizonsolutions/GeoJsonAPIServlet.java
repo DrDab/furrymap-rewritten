@@ -17,11 +17,11 @@ import org.json.JSONObject;
  * Servlet implementation class TestServlet
  */
 @WebServlet("/JsonAPIServlet")
-public class JsonAPIServlet extends HttpServlet
+public class GeoJsonAPIServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 
-	public JsonAPIServlet() 
+	public GeoJsonAPIServlet() 
 	{
 		super();
 		// TODO Auto-generated constructor stub

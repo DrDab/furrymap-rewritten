@@ -52,7 +52,7 @@ var Minimizer = function() {
 </script>
 <style type="text/css">
 body {
-	background: url('/web/20190311014702im_/https://www.furrymap.net/images/background.png') 320px 0px repeat-y;
+	background: url('/images/background.png') 320px 0px repeat-y;
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -66,7 +66,6 @@ body {
 
 <link rel="shortcut icon" href="/favicon.ico"/>
 <script src="https://www.google.com/recaptcha/api.js"></script>
-<script type="text/javascript" src="/js/js.php?files=OpenLayersMini.js,OSMMini.js,furrymapMin.js"></script>
 <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css"/>
 </head>
 <body>
@@ -102,17 +101,30 @@ body {
 	<script type="text/javascript">
 		Minimizer();
 	</script>
+
+	<script type="text/javascript">
+		function doLogin()
+		{
+			console.log("Login initialized");
+			var username = $('signin_username').value;
+			var password = $('signin_password').value;
+			console.log("Submitted username: " + username);
+			console.log("Submitted password: " + password);
+		}
+	</script>
+
 	<div id="bottom_innercontent" style="padding:9px;left:0px;right:0px">
 		<form id="login_form" action="/en/login" method="post">
 						<label for="login_username" class="fixedwidth2">Loginname</label>
 			<input type="text" name="signin[username]" id="signin_username"/><br style="clear: left"/>
 						<label for="login_password" class="fixedwidth2">Password</label>
 			<input type="password" name="signin[password]" id="signin_password"/><br style="clear: left"/>
-			<div style="float: right"><input type="submit" value="Login"/>
+			<div style="float: right"><button type="button" onclick="doLogin()">Login</button>
 			</div>
 						<input type="checkbox" name="signin[remember]" checked="checked" id="signin_remember"/>			<label for="login_remember">Remember me</label>
 			<br style="clear: left"/>
-			<input type="hidden" name="signin[_csrf_token]" value="529ef79bc660ece38b0e74e1ee3dc902" id="signin__csrf_token"/>		</form>
+			<input type="hidden" name="signin[_csrf_token]" value="529ef79bc660ece38b0e74e1ee3dc902" id="signin__csrf_token"/>
+		</form>
 			<br/>
 			<a href="/en/requestpassword" id="password_link" target="_top">Forgot your password?</a> | <a href="/en/useragreement" id="register_link" target="_top">Register new account?</a>
 			<br/>

@@ -652,4 +652,83 @@ public class IOUtils
 		
 		return new JSONArray();
 	}
+	
+	// Login code!
+	// This is untested.
+	
+	public static void createTestAccount() throws SQLException
+	{
+		initConnection();
+		String query = "INSERT INTO " + ServerInfo.USER_TABLE_NAME + " (id, username, password, email, description, gender, language, archived) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement stmt = sqlConnection.prepareStatement(query);
+		stmt.setLong(1, 1);
+		stmt.setString(2, "sampleuser");
+		stmt.setString(3, hashMD5("password"));
+		stmt.setString(4, "sampleemail@genericmailadress.ru");
+		stmt.setString(5, "This is a test account. It works!");
+		stmt.setInt(6, 0);
+		stmt.setString(7, "en-US");
+		stmt.setInt(8, 0);
+		stmt.execute();
+	}
+	
+	public static AuthTransactionResult createNewAccount(String username, String password, String email) throws SQLException
+	{
+		initConnection();
+		synchronized (sqlConnection)
+		{
+			long nextID = getNextUserId();
+			//check if an account with these details exists already, AND IS NOT ARCHIVED.
+			String checkQuery = "SELECT * FROM " + ServerInfo.USER_TABLE_NAME + " WHERE (email = ? OR username = ?) AND archived = 0";
+			PreparedStatement checkPs = sqlConnection.prepareStatement(checkQuery);
+			checkPs.setString(1, email);
+			checkPs.setString(2, username);
+			ResultSet rs = checkPs.executeQuery();
+			
+			if (getRowCount(rs) >= 1)
+			{
+				return new AuthTransactionResult("Account with the following details already exists!");
+			}
+			
+			String insertionQuery = "INSERT INTO " + ServerInfo.USER_TABLE_NAME + " (id, username, password, email) VALUES (?, ?, ?, ?)";
+			PreparedStatement stmt = sqlConnection.prepareStatement(insertionQuery);
+			stmt.setLong(1, nextID);
+			stmt.setString(2, username);
+			stmt.setString(3, hashMD5(password));
+			stmt.setString(4, email);
+			stmt.execute();
+			
+			String tokenToReturn = generateAPIKeyForAccount(nextID);
+			return new AuthTransactionResult(true, tokenToReturn, "Creation successful.");
+		}
+	}
+	
+	public static AuthTransactionResult doLogin(String username, String password) throws SQLException 
+	{
+		initConnection();
+		String query = "SELECT * FROM " + ServerInfo.USER_TABLE_NAME + " WHERE (username = ? AND password = ?) AND archived = 0";
+		PreparedStatement stmt = sqlConnection.prepareStatement(query);
+		stmt.setString(1, username);
+		stmt.setString(2, hashMD5(password));
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		if (rs == null)
+		{
+			return new AuthTransactionResult(false, null);
+		}
+		else
+		{
+			if (getRowCount(rs) == 1)
+			{
+				long id = rs.getLong("id");
+				String tokenToReturn = generateAPIKeyForAccount(id);
+				return new AuthTransactionResult(true, tokenToReturn);
+			} 
+			else 
+			{
+				return new AuthTransactionResult(false, null);
+			}
+		}
+	}
 }
