@@ -239,7 +239,7 @@ public class IOUtils
 			int opacity = rs.getInt("opacity");
 			//boolean isArchived = rs.getInt("archived") == 1;
 			
-			toReturn.add(new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, true));
+			toReturn.add(new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountInfo.getProfilePicId(), opacity, true));
 			id++;
 		}
 		return toReturn;
@@ -271,8 +271,7 @@ public class IOUtils
 				double longitude = rs.getDouble("longitude");
 				int opacity = rs.getInt("opacity");
 				//boolean isArchived = rs.getInt("archived") == 1;
-				
-				toReturn.add(new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, false));
+				toReturn.add(new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountInfo.getProfilePicId(), opacity, false));
 			}
 		}
 		return toReturn;
@@ -488,7 +487,7 @@ public class IOUtils
 					tmpLoc.put(4, opacity);
 					tmpLoc.put(5, username);
 					tmpLoc.put(6, profileUrl);
-					tmpLoc.put(7, accountId);
+					tmpLoc.put(7, accountInfo.getProfilePicId());
 					tmpLoc.put(8, isArchived);
 					if (!isArchived)
 					{
@@ -550,7 +549,7 @@ public class IOUtils
 						tmpLoc.put(4, opacity);
 						tmpLoc.put(5, username);
 						tmpLoc.put(6, profileUrl);
-						tmpLoc.put(7, accountId);
+						tmpLoc.put(7, accountInfo.getProfilePicId());
 						tmpLoc.put(8, isArchived);
 						if (!isArchived)
 						{
@@ -598,12 +597,12 @@ public class IOUtils
 						
 						if (isArchived)
 						{
-							furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived);
+							furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountInfo.getProfilePicId(), opacity, isArchived);
 						}
 						else
 						{
 							long creationDate = rs.getLong("updatedate");
-							furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountId, opacity, isArchived, creationDate);
+							furre = new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountInfo.getProfilePicId(), opacity, isArchived, creationDate);
 						}
 						
 						double searchLat = 0.0;

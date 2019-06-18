@@ -181,7 +181,7 @@ body {
 										usernamelabel += " [ARCHIVED]"
 									}
 
-									if (archived == 1)
+									if (archived == 1 || accountid == 0)
 									{
 											htmlToAdd += "<img src=\"\/images\/avatar\/default.png\" style=\"border: 1px solid #ffffff; float: left; margin-right:9px;\" width=\"40\" height=\"40\"\/><\/a>";
 									}
