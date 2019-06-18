@@ -186,6 +186,10 @@ public class IOUtils
 		String query = "SELECT * FROM " + ServerInfo.USER_TABLE_NAME + " ORDER BY id DESC";
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
+		if (!rs.next())
+		{
+			return ServerInfo.START_USER_ID_NUMBER;
+		}
 		rs.first();
 		long id = rs.getLong("id");
 		return (id < ServerInfo.START_USER_ID_NUMBER) ? ServerInfo.START_USER_ID_NUMBER : id + 1;
@@ -197,6 +201,10 @@ public class IOUtils
 		String query = "SELECT * FROM " + ServerInfo.LOCATION_TABLE_NAME + " ORDER BY locationid DESC";
 		PreparedStatement stmt = sqlConnection.prepareStatement(query);
 		ResultSet rs = stmt.executeQuery();
+		if (!rs.next())
+		{
+			return ServerInfo.START_LOCATION_ID_NUMBER;
+		}
 		rs.first();
 		long id = rs.getLong("id");
 		return (id < ServerInfo.START_LOCATION_ID_NUMBER) ? ServerInfo.START_LOCATION_ID_NUMBER : id + 1;
@@ -223,10 +231,8 @@ public class IOUtils
 		ArrayList<FurryMarker> toReturn = new ArrayList<FurryMarker>();
 		AccountMap acctMap = getAccountMapOfAllAccts();
 		
-		int id = 0;
 		while (rs.next())
 		{
-			JSONArray tmpLoc = new JSONArray();
 			long locationId = rs.getLong("locationid");
 			long accountId = rs.getLong("accountid");
 			// resolve the username from the accountid.
@@ -240,7 +246,6 @@ public class IOUtils
 			//boolean isArchived = rs.getInt("archived") == 1;
 			
 			toReturn.add(new FurryMarker(latitude, longitude, locationId, username, description, profileUrl, accountInfo.getProfilePicId(), opacity, true));
-			id++;
 		}
 		return toReturn;
 	}
@@ -257,7 +262,6 @@ public class IOUtils
 		
 		while (rs.next())
 		{
-			JSONArray tmpLoc = new JSONArray();
 			long locationId = rs.getLong("locationid");
 			long accountId = rs.getLong("accountid");
 			// resolve the username from the accountid.
@@ -573,7 +577,6 @@ public class IOUtils
 			ArrayList<FurryMarkerDistanceHandler> al = new ArrayList<FurryMarkerDistanceHandler>();
 			while (rs.next())
 			{
-				JSONArray tmpLoc = new JSONArray();
 				long locationId = rs.getLong("locationid");
 				long accountId = rs.getLong("accountid");
 				// resolve the username from the accountid.

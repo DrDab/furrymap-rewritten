@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
+import com.interlakeresearch.aibabyserver.AuthTransactionResult;
+import com.interlakeresearch.aibabyserver.SQLUtils;
+
 /**
  * Servlet implementation class AuthTransactionAPIServlet
  */
@@ -103,7 +106,53 @@ public class AuthTransactionAPIServlet extends HttpServlet
 			}
 			else if (mode.equals("create_account"))
 			{
-				
+				try
+				{
+					// we will need to dynamically generate an ordered ID for this user.
+					// we also need to check if userName already exists, email already exists or phone number already exists.
+					// if the information is fine, send back an access token.
+					String userName = request.getParameter("username");
+					String email = request.getParameter("email");
+					/*
+					String phoneNumber = request.getParameter("phone");
+					long dateOfBirth = Long.parseLong(request.getParameter("dob"));
+					*/
+					String password = request.getParameter("password");
+					// boolean privacyPermissions = Boolean.parseBoolean(request.getParameter("privacy"));
+					
+					boolean isOkToPass = true;
+					
+					if (userName == null || email == null || password == null)
+					{
+						putStatus(headNode, false, "Credentials supplied cannot be empty.");
+						isOkToPass = false;
+					}
+					
+					if (isOkToPass)
+					{
+						if (userName.trim().equals("") || email.trim().equals("") || password.trim().equals(""))
+						{
+							putStatus(headNode, false, "Credentials supplied cannot be empty.");
+							isOkToPass = false;
+						}
+					}
+					
+					if (isOkToPass)
+					{
+						AuthTransactionResult result = IOUtils.createNewAccount(userName.trim(), password, email.trim());
+						
+						putStatus(headNode, result.isSuccess, result.result);
+						
+						if (result.isSuccess)
+						{
+							headNode.put("token", result.loginKey);
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					putStatus(headNode, false, e.getMessage());
+				}
 			}
 			else if (mode.equals("update_account"))
 			{
