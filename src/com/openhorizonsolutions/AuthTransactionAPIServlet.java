@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import com.interlakeresearch.aibabyserver.AuthTransactionResult;
-import com.interlakeresearch.aibabyserver.SQLUtils;
-
 /**
  * Servlet implementation class AuthTransactionAPIServlet
  */
