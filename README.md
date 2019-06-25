@@ -40,8 +40,7 @@ You can send an email to webmaster @ this domain or write me on <a href="https:/
 </body>
 </html>
 
-This project aims to recreate the experience of furrymap.net for future users.
+This project aims to recreate the experience of furrymap.net for future users. FurryMap.net is of major historical significance to the furry fandom and the various oddities of Web 2.0. Preserving this site will ensure that future generations of explorers and furries will be able to re-experience the joys and oddities of the Web 2.0 age.
 
-# Notes
-Opacity is the maximum zoom level that your marker will be visible at. (0 - 18, 0 = lowest zoom level, 18 = highest zoom level)
-The variable 'accountid' in 'locationdatabase' is actually the id of the profile pic (0 if none)
+# License
+The original frontend code is copyright of Kimura, FurryMap.net's original creator. All rights are reserved to the author of the frontend code. The backend code of the site that I (DrDab) wrote is licensed under the GNU General Public License 3.0.
