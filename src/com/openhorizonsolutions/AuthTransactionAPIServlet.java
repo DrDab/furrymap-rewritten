@@ -110,12 +110,7 @@ public class AuthTransactionAPIServlet extends HttpServlet
 					// if the information is fine, send back an access token.
 					String userName = request.getParameter("username");
 					String email = request.getParameter("email");
-					/*
-					String phoneNumber = request.getParameter("phone");
-					long dateOfBirth = Long.parseLong(request.getParameter("dob"));
-					*/
 					String password = request.getParameter("password");
-					// boolean privacyPermissions = Boolean.parseBoolean(request.getParameter("privacy"));
 					
 					boolean isOkToPass = true;
 					

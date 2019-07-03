@@ -690,7 +690,14 @@ public class IOUtils
 			
 			if (getRowCount(rs) >= 1)
 			{
-				return new AuthTransactionResult("Account with the following details already exists!");
+				if (rs.getString("username").equals(username))
+				{
+					return new AuthTransactionResult("SAME_USERNAME_EXISTS");
+				}
+				if (rs.getString("email").equals(email))
+				{
+					return new AuthTransactionResult("SAME_EMAIL_EXISTS");
+				}
 			}
 			
 			String insertionQuery = "INSERT INTO " + ServerInfo.USER_TABLE_NAME + " (id, username, password, email) VALUES (?, ?, ?, ?)";

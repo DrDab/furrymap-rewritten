@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+
+<script src="/js/Constants.js"></script>
+<script src="/js/IOLibs.js"></script>
+<script type="text/javascript">
+var $ = function(name) {
+	return document.getElementById(name);
+}
+</script>
+
+
+<title>Account Registration</title>
+
+<body>
+  <div id="main_registration_window">
+
+  <strong>Account Registration</strong>
+  <br>
+  <br>
+  To register an account, please fill in the details below.
+  <br>
+  <br>
+  By registering an account, you agree to follow the <a href="/en/useragreement" target="_blank">user agreement</a>.
+  <br>
+  <br>
+  <form name="registerForm" action="/en/register_new" method="post">
+    Username: <input type="text" id="usernamebox" required="required" name="register[username]">
+    <br>
+    <br>
+    Password: <input type="password" id="passwordbox" required="required" name="register[password]">
+    <br>
+    <br>
+    Email: <input type="text" id="emailbox" required="required" name="register[email]">
+    <br>
+    <br>
+    <button onclick="doRegister()" type="button" value="Submit">Submit</button>
+  </form>
+
+  <script type="text/javascript">
+    function doRegister()
+    {
+      console.log("Registration attempted.");
+      var reg_username = $('usernamebox').value.trim();
+      var reg_password = $('passwordbox').value.trim();
+      var reg_email = $('emailbox').value.trim();
+
+      if (reg_username.length == 0)
+      {
+        alert("Username cannot be empty.");
+        return;
+      }
+
+      if (reg_password.length == 0)
+      {
+        alert("Password cannot be empty.");
+        return;
+      }
+
+      if (reg_password.length < 8)
+      {
+        alert("Password is too short. (Needs at least 8 characters)");
+        return;
+      }
+
+      if (reg_email.length == 0)
+      {
+        alert("E-mail cannot be empty.");
+        return;
+      }
+
+      console.log(reg_username + " " + reg_password + " " + reg_email);
+    }
+  </script>
+</div>
+</body>
+
+</html>

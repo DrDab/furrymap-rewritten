@@ -122,8 +122,8 @@ body {
 	</script>
 	<div id="bottom_innercontent" style="padding:9px;left:0px;right:0px">
 		Furrymap.net contains <br/>[PLACEHOLDER] Furries with [PLACEHOLDER] markers. (XXXX archived, XXXX live)<br/>
-				<a href="/en/useragreement" id="register_link" target="_top">Join today!</a>
 			</div>
+			<a href="/en/register_new" id="register_link" target="_top">Join today!</a>
 </div>
 <div id="bottombar">
 	<div id="bottom_button1" class="button green">
