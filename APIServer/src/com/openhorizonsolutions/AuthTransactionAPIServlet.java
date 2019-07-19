@@ -1,6 +1,8 @@
 package com.openhorizonsolutions;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -86,7 +88,7 @@ public class AuthTransactionAPIServlet extends HttpServlet
 				}
 				catch (Exception e)
 				{
-					putStatus(headNode, false, e.getMessage());
+					putStatus(headNode, false, "ERR_INTERNAL_EXCEPTION: " + e.getMessage());
 				}
 			}
 			else if (mode.equals("logout"))
@@ -149,7 +151,7 @@ public class AuthTransactionAPIServlet extends HttpServlet
 				}
 				catch (Exception e)
 				{
-					putStatus(headNode, false, e.getMessage());
+					putStatus(headNode, false, "ERR_INTERNAL_EXCEPTION: " + e.getMessage());
 				}
 			}
 			else if (mode.equals("update_account"))
@@ -160,9 +162,66 @@ public class AuthTransactionAPIServlet extends HttpServlet
 			{
 				
 			}
+			else if (mode.equals("check_token"))
+			{
+				if (token == null)
+				{
+					putStatus(headNode, false, "ERR_TOKEN_EMPTY");
+				}
+				else
+				{
+					long userId = IOUtils.getIDFromAPIKey(token);
+					if (userId == -1L)
+					{
+						putStatus(headNode, false, "ERR_TOKEN_INVALID");
+					}
+					else
+					{
+						putStatus(headNode, true);
+					}
+				}
+			}
+			else if (mode.equals("get_current_account_info"))
+			{
+				if (token == null)
+				{
+					putStatus(headNode, false, "ERR_TOKEN_EMPTY");
+				}
+				else
+				{
+					long userId = IOUtils.getIDFromAPIKey(token);
+					if (userId == -1L)
+					{
+						putStatus(headNode, false, "ERR_TOKEN_INVALID");
+					}
+					else
+					{
+						try 
+						{
+							putStatus(headNode, true);
+							AccountInfo acctInfo = IOUtils.getAccountInfoById(userId);
+							JSONObject accountObj = new JSONObject();
+							accountObj.put("id", acctInfo.getId());
+							accountObj.put("username", acctInfo.getUsername());
+							accountObj.put("email", acctInfo.getEmail());
+							accountObj.put("description", acctInfo.getDescription());
+							accountObj.put("gender", acctInfo.getGender());
+							accountObj.put("pfpid", acctInfo.getProfilePicId());
+							headNode.put("account", accountObj);
+						} 
+						catch (Exception e) 
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							putStatus(headNode, false, "ERR_INTERNAL_EXCEPTION: " + e.getMessage());
+						}
+						
+					}
+				}
+			}
 			else
 			{
-				
+				putStatus(headNode, false, "ERR_UNKNOWN_MODE");
 			}
 		}
 		
@@ -186,15 +245,17 @@ public class AuthTransactionAPIServlet extends HttpServlet
 	
 	public void putStatus(JSONObject head, boolean successful, String reason)
 	{
+		JSONObject status = new JSONObject();
 		if (successful)
 		{
-			head.put("status", "success");
+			status.put("status", "success");
 		}
 		else
 		{
-			head.put("status", "failed");
-			head.put("reason", reason);
+			status.put("status", "failed");
+			status.put("reason", reason);
 		}
+		head.put("status", status);
 	}
 
 }

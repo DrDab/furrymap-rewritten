@@ -370,9 +370,12 @@ public class IOUtils
 			String countryflag = rs.getString("countryflag");
 			String pfpStr = rs.getString("profilepicid");
 			long pfpId = 0L;
-			if (!(pfpStr.equals("archived") || pfpStr.equals("default")))
+			if (pfpStr != null)
 			{
-				pfpId = Long.parseLong(pfpStr);
+				if (!(pfpStr.equals("archived") || pfpStr.equals("default")))
+				{
+					pfpId = Long.parseLong(pfpStr);
+				}
 			}
 			boolean archived = rs.getInt("archived") == 1;
 			am.addAccount(new AccountInfo(uid, username, email, passwordHash, description, gender, language, countryflag, pfpId, archived));
@@ -402,9 +405,12 @@ public class IOUtils
 		String countryflag = rs.getString("countryflag");
 		String pfpStr = rs.getString("profilepicid");
 		long pfpId = 0L;
-		if (!(pfpStr.equals("archived") || pfpStr.equals("default")))
+		if (pfpStr != null)
 		{
-			pfpId = Long.parseLong(pfpStr);
+			if (!(pfpStr.equals("archived") || pfpStr.equals("default")))
+			{
+				pfpId = Long.parseLong(pfpStr);
+			}
 		}
 		boolean archived = rs.getInt("archived") == 1;
 		return new AccountInfo(uid, username, email, passwordHash, description, gender, language, countryflag, pfpId, archived);
