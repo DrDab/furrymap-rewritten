@@ -43,7 +43,7 @@ public class AuthTransactionAPIServlet extends HttpServlet
 		
 		if (mode == null)
 		{
-			putStatus(headNode, false, "Mode cannot be empty.");
+			putStatus(headNode, false, "MODE_EMPTY");
 		}
 		else
 		{
@@ -57,7 +57,7 @@ public class AuthTransactionAPIServlet extends HttpServlet
 					
 					if (username == null || password == null)
 					{
-						putStatus(headNode, false, "Username or password cannot be empty.");
+						putStatus(headNode, false, "ERR_CREDENTIALS_EMPTY");
 						isOkToPass = false;
 					}
 					
@@ -65,7 +65,7 @@ public class AuthTransactionAPIServlet extends HttpServlet
 					{
 						if (username.trim().equals("") || password.trim().equals(""))
 						{
-							putStatus(headNode, false, "Username or password cannot be empty.");
+							putStatus(headNode, false, "ERR_CREDENTIALS_EMPTY");
 							isOkToPass = false;
 						}
 					}
@@ -80,7 +80,7 @@ public class AuthTransactionAPIServlet extends HttpServlet
 						}
 						else
 						{
-							putStatus(headNode, false, "Login failed.");
+							putStatus(headNode, false, "ERR_LOGIN_FAILED");
 						}
 					}
 				}
@@ -116,7 +116,7 @@ public class AuthTransactionAPIServlet extends HttpServlet
 					
 					if (userName == null || email == null || password == null)
 					{
-						putStatus(headNode, false, "Credentials supplied cannot be empty.");
+						putStatus(headNode, false, "ERR_CREDENTIALS_EMPTY");
 						isOkToPass = false;
 					}
 					
@@ -124,7 +124,13 @@ public class AuthTransactionAPIServlet extends HttpServlet
 					{
 						if (userName.trim().equals("") || email.trim().equals("") || password.trim().equals(""))
 						{
-							putStatus(headNode, false, "Credentials supplied cannot be empty.");
+							putStatus(headNode, false, "ERR_CREDENTIALS_EMPTY");
+							isOkToPass = false;
+						}
+						
+						if (password.length() < ServerInfo.MINIMUM_PASSWORD_LENGTH)
+						{
+							putStatus(headNode, false, "ERR_PASSWORD_TOO_SHORT");
 							isOkToPass = false;
 						}
 					}

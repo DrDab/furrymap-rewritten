@@ -700,12 +700,13 @@ public class IOUtils
 				}
 			}
 			
-			String insertionQuery = "INSERT INTO " + ServerInfo.USER_TABLE_NAME + " (id, username, password, email) VALUES (?, ?, ?, ?)";
+			String insertionQuery = "INSERT INTO " + ServerInfo.USER_TABLE_NAME + " (id, username, password, email, archived) VALUES (?, ?, ?, ?, ?)";
 			PreparedStatement stmt = sqlConnection.prepareStatement(insertionQuery);
 			stmt.setLong(1, nextID);
 			stmt.setString(2, username);
 			stmt.setString(3, hashMD5(password));
 			stmt.setString(4, email);
+			stmt.setInt(5, 0);
 			stmt.execute();
 			
 			String tokenToReturn = generateAPIKeyForAccount(nextID);
