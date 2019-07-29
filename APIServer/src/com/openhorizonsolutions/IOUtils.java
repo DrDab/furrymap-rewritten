@@ -108,7 +108,8 @@ public class IOUtils
 		}
 	}
 
-	public static void updateAccountStringInfo(long id, String parameter, String newInfo) throws SQLException
+	// TODO: replace with hashmap implementation later.
+	public static void updateAccountStringInfo(long id, String parameter, Object newInfo) throws SQLException
 	{
 		if (parameter.equals("id"))
 		{
@@ -119,7 +120,7 @@ public class IOUtils
 		{
 			String query = "UPDATE " + ServerInfo.USER_TABLE_NAME + " SET " + parameter + " = ? WHERE id = ?";
 			PreparedStatement stmt = sqlConnection.prepareStatement(query);
-			stmt.setString(1, newInfo);
+			stmt.setObject(1, newInfo);
 			stmt.setLong(2, id);
 			stmt.execute();
 		}
@@ -178,6 +179,36 @@ public class IOUtils
 		}
 
 		return md5;
+	}
+	
+	public static boolean checkUsernameExists(String username) throws SQLException
+	{
+		//check if an account with these details exists already, AND IS NOT ARCHIVED.
+		String checkQuery = "SELECT * FROM " + ServerInfo.USER_TABLE_NAME + " WHERE (username = ?) AND archived = 0";
+		PreparedStatement checkPs = sqlConnection.prepareStatement(checkQuery);
+		checkPs.setString(1, username);
+		ResultSet rs = checkPs.executeQuery();
+		
+		if (getRowCount(rs) >= 1)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean checkEmailExists(String email) throws SQLException
+	{
+		//check if an account with these details exists already, AND IS NOT ARCHIVED.
+		String checkQuery = "SELECT * FROM " + ServerInfo.USER_TABLE_NAME + " WHERE (email = ?) AND archived = 0";
+		PreparedStatement checkPs = sqlConnection.prepareStatement(checkQuery);
+		checkPs.setString(1, email);
+		ResultSet rs = checkPs.executeQuery();
+		
+		if (getRowCount(rs) >= 1)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	public static long getNextUserId() throws SQLException 
@@ -688,22 +719,17 @@ public class IOUtils
 		{
 			long nextID = getNextUserId();
 			//check if an account with these details exists already, AND IS NOT ARCHIVED.
-			String checkQuery = "SELECT * FROM " + ServerInfo.USER_TABLE_NAME + " WHERE (email = ? OR username = ?) AND archived = 0";
-			PreparedStatement checkPs = sqlConnection.prepareStatement(checkQuery);
-			checkPs.setString(1, email);
-			checkPs.setString(2, username);
-			ResultSet rs = checkPs.executeQuery();
+			boolean usernameExists = checkUsernameExists(username);
+			boolean emailExists = checkEmailExists(email);
 			
-			if (getRowCount(rs) >= 1)
+			if (usernameExists)
 			{
-				if (rs.getString("username").equals(username))
-				{
-					return new AuthTransactionResult("SAME_USERNAME_EXISTS");
-				}
-				if (rs.getString("email").equals(email))
-				{
-					return new AuthTransactionResult("SAME_EMAIL_EXISTS");
-				}
+				return new AuthTransactionResult("SAME_USERNAME_EXISTS");
+			}
+			
+			if (emailExists)
+			{
+				return new AuthTransactionResult("SAME_EMAIL_EXISTS");
 			}
 			
 			String insertionQuery = "INSERT INTO " + ServerInfo.USER_TABLE_NAME + " (id, username, password, email, archived) VALUES (?, ?, ?, ?, ?)";
@@ -716,7 +742,7 @@ public class IOUtils
 			stmt.execute();
 			
 			String tokenToReturn = generateAPIKeyForAccount(nextID);
-			return new AuthTransactionResult(true, tokenToReturn, "Creation successful.");
+			return new AuthTransactionResult(true, tokenToReturn, "CREATION_SUCCESSFUL");
 		}
 	}
 	
