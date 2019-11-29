@@ -96,6 +96,7 @@ public class AuthTransactionAPIServlet extends HttpServlet
 					{
 						// dispose of the current login token.
 						// return a success message.
+						
 					}
 				}
 				else if (mode.equals("create_account"))
